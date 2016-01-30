@@ -13,20 +13,20 @@
 #include <SoftwareSerial.h>
 #include <Debouncer.h>
 
-#include "Display.h"
+#include "display/Display.h"
 #include "ProgramState.h"
-#include "DrawOnDisplayTask.h"
-#include "SwitchScreenHandler.h"
-#include "AirPressureMeasureTask.h"
-#include "LightIntensityMeasureTask.h"
-#include "TempMeasureTask.h"
-#include "BackLightTask.h"
-#include "BackLightHandler.h"
+#include "display/DrawOnDisplayTask.h"
+#include "display/SwitchScreenHandler.h"
+#include "sensors/AirPressureMeasureTask.h"
+#include "sensors/LightIntensityMeasureTask.h"
+#include "sensors/TempMeasureTask.h"
+#include "display/BackLightTask.h"
+#include "display/BackLightHandler.h"
 #include "ProgramSettings.h"
-#include "TimeScreen.h"
-#include "TimeReading.h"
-#include "SensorReadingScreen.h"
-#include "Time.h"
+#include "time/TimeScreen.h"
+#include "time/TimeReading.h"
+#include "sensors/SensorReadingScreen.h"
+#include "time/Time.h"
 
 #define DEFAULT_SCREEN 0
 

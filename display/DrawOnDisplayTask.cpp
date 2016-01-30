@@ -6,7 +6,7 @@
  */
 
 #include "DrawOnDisplayTask.h"
-#include "SensorReading.h"
+#include "../sensors/SensorReading.h"
 #include "LcdNewLiner.h"
 
 DrawOnDisplayTask::DrawOnDisplayTask(unsigned long periodMs,

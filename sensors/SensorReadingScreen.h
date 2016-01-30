@@ -8,9 +8,9 @@
 #ifndef SENSORREADINGSCREEN_H_
 #define SENSORREADINGSCREEN_H_
 
-#include "ToDraw.h"
+#include "../display/ToDraw.h"
 #include "SensorReading.h"
-#include "Time.h"
+#include "../time/Time.h"
 
 class SensorReadingScreen: public ToDraw {
 private:

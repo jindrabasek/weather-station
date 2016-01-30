@@ -8,7 +8,7 @@
 #ifndef TIMESCREEN_H_
 #define TIMESCREEN_H_
 
-#include "ToDraw.h"
+#include "../display/ToDraw.h"
 
 class TimeScreen: public ToDraw {
 public:

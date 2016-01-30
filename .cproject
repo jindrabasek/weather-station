@@ -74,7 +74,11 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="not used/*|Libraries/*/?xamples|Libraries/*/?xtras|Libraries/BH1750FVI/BH1750_serial|Libraries/BH1750FVI/BH1750_LCD|Libraries/BH1750FVI/BH1750_Led" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
+						<entry excluding="menu|time|sensors|display|not used/*|Libraries/*/?xamples|Libraries/*/?xtras|Libraries/BH1750FVI/BH1750_serial|Libraries/BH1750FVI/BH1750_LCD|Libraries/BH1750FVI/BH1750_Led" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="display"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="menu"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="sensors"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="time"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

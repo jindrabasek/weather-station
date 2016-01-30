@@ -10,7 +10,7 @@
 
 #include <WireRtcLib.h>
 
-#include "PeripheryReading.h"
+#include "../PeripheryReading.h"
 
 class TimeReading: public PeripheryReading {
 private:

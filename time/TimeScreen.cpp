@@ -7,7 +7,7 @@
 
 #include "TimeScreen.h"
 #include "TimeReading.h"
-#include "ProgramState.h"
+#include "../ProgramState.h"
 
 void TimeScreen::draw(LCD & display) {
 	char buffer[11];

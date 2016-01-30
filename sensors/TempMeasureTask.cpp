@@ -7,8 +7,7 @@
 
 #include "TempMeasureTask.h"
 
-#include "ProgramState.h"
-#include "defines.h"
+#include "../ProgramState.h"
 
 TempMeasureTask::TempMeasureTask(uint8_t pin, unsigned long periodMs) :
 		Task(periodMs), dht(pin), pin(pin) {
@@ -33,10 +32,5 @@ void TempMeasureTask::run() {
 		latestReading = TempReading(dhtState == DHT_ERROR, state.getTimeStamp(true));
 	}
 
-#ifdef PRINT_TO_STREAM_SUPPORT
-#ifdef DEBUG_PRINT_SENSOR_VALUES
-	latestReading.printToStream(&Serial);
-#endif
-#endif
 }
 

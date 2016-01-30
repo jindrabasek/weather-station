@@ -7,8 +7,7 @@
 
 #include "LightIntensityMeasureTask.h"
 
-#include "ProgramState.h"
-#include "defines.h"
+#include "../ProgramState.h"
 
 LightIntensityMeasureTask::LightIntensityMeasureTask(
 		unsigned long periodMs) :
@@ -38,10 +37,5 @@ void LightIntensityMeasureTask::run() {
 		    latestReading = LightIntensityReading(intensity, state.getTimeStamp(true));
 		}
 	}
-#ifdef PRINT_TO_STREAM_SUPPORT
-#ifdef DEBUG_PRINT_SENSOR_VALUES
-	latestReading.printToStream(&Serial);
-#endif
-#endif
 }
 

@@ -6,8 +6,8 @@
  */
 
 #include "SensorReadingScreen.h"
-#include "ProgramState.h"
-#include "LcdNewLiner.h"
+#include "../ProgramState.h"
+#include "../display/LcdNewLiner.h"
 
 SensorReadingScreen::SensorReadingScreen(SensorReading & toDraw) :
 		toDraw(toDraw) {

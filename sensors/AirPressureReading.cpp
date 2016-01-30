@@ -7,6 +7,8 @@
 
 #include "AirPressureReading.h"
 #include <math.h>
+#include <Print.h>
+#include <WString.h>
 
 AirPressureReading::AirPressureReading(float pressure, float pressureAtSeaLevel,
 		float temperature, unsigned long timeStamp) :

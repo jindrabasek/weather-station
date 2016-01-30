@@ -8,7 +8,7 @@
 #ifndef LCDNEWLINER_H_
 #define LCDNEWLINER_H_
 
-#include "NewLiner.h"
+#include "../NewLiner.h"
 
 #include <LCD.h>
 #include <WString.h>

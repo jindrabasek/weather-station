@@ -7,8 +7,7 @@
 
 #include "AirPressureMeasureTask.h"
 
-#include "ProgramState.h"
-#include "defines.h"
+#include "../ProgramState.h"
 
 AirPressureMeasureTask::AirPressureMeasureTask(unsigned long periodMs) :
 		Task(periodMs) {
@@ -42,10 +41,5 @@ void AirPressureMeasureTask::run() {
 				state.getTimeStamp(true));
 
 	}
-#ifdef PRINT_TO_STREAM_SUPPORT
-#ifdef DEBUG_PRINT_SENSOR_VALUES
-	latestReading.printToStream(&Serial);
-#endif
-#endif
 }
 

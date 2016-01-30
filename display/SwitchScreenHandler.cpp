@@ -6,7 +6,7 @@
  */
 
 #include "SwitchScreenHandler.h"
-#include "ProgramState.h"
+#include "../ProgramState.h"
 
 SwitchScreenHandler::SwitchScreenHandler(int8_t switchFor) :
 		switchFor(switchFor){

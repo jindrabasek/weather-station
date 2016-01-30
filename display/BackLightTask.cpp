@@ -6,7 +6,7 @@
  */
 
 #include "BackLightTask.h"
-#include "ProgramState.h"
+#include "../ProgramState.h"
 
 BackLightTask::BackLightTask(LCD & display) :
 		Task(0, false), display(display) {
