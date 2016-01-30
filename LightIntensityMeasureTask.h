@@ -13,18 +13,16 @@
 
 #include "LightIntensityReading.h"
 
-class ProgramState;
 
 class LightIntensityMeasureTask: public Task {
 private:
 	LightIntensityReading latestReading;
 	BH1750FVI bh;
-	ProgramState & state;
 
 //-----------------------------------------------------------------------------
 
 public:
-	LightIntensityMeasureTask(unsigned long periodMs, ProgramState & state);
+	LightIntensityMeasureTask(unsigned long periodMs);
 	virtual void run();
 
 	LightIntensityReading& getLatestReading() {

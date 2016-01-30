@@ -11,17 +11,14 @@
 #include <Task.h>
 #include <LCD.h>
 
-class ProgramState;
-
 class BackLightTask: public Task {
 private:
 	LCD & display;
-	ProgramState & programState;
 
 //-----------------------------------------------------------------------------
 
 public:
-	BackLightTask(LCD & display, ProgramState & programState);
+	BackLightTask(LCD & display);
 	virtual void run();
 };
 

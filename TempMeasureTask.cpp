@@ -10,9 +10,8 @@
 #include "ProgramState.h"
 #include "defines.h"
 
-TempMeasureTask::TempMeasureTask(uint8_t pin, unsigned long periodMs,
-		ProgramState & state) :
-		Task(periodMs), dht(pin), pin(pin), state(state) {
+TempMeasureTask::TempMeasureTask(uint8_t pin, unsigned long periodMs) :
+		Task(periodMs), dht(pin), pin(pin) {
 }
 
 void TempMeasureTask::run() {
@@ -29,9 +28,9 @@ void TempMeasureTask::run() {
 			hic = dht.computeHeatIndex(t, h);
 		}
 
-		latestReading = TempReading(h, t, hic, state.getTimeStamp());
+		latestReading = TempReading(h, t, hic, state.getTimeStamp(true));
 	} else {
-		latestReading = TempReading(dhtState == DHT_ERROR, state.getTimeStamp());
+		latestReading = TempReading(dhtState == DHT_ERROR, state.getTimeStamp(true));
 	}
 
 #ifdef PRINT_TO_STREAM_SUPPORT

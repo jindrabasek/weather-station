@@ -13,18 +13,16 @@
 
 #include "AirPressureReading.h"
 
-class ProgramState;
 
 class AirPressureMeasureTask: public Task {
 private:
 	AirPressureReading latestReading;
 	Adafruit_BMP085 bmp;
-	ProgramState & state;
 
 //-----------------------------------------------------------------------------
 
 public:
-	AirPressureMeasureTask(unsigned long periodMs, ProgramState & state);
+	AirPressureMeasureTask(unsigned long periodMs);
 	virtual void run();
 
 	AirPressureReading& getLatestReading() {

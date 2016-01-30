@@ -23,9 +23,9 @@ public:
 	int16_t getIntensity() const {
 		return intensity;
 	}
+	void printValues(Print & out, NewLiner & newLine) const;
 
 protected:
-	void printValues(Print & out, NewLiner & newLine) const;
 	const __FlashStringHelper * getErrText() const;
 	const __FlashStringHelper * getNotYetMeasuredText() const;
 	const __FlashStringHelper * getHeaderText() const;

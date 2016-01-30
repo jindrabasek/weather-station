@@ -6,9 +6,11 @@
  */
 
 #include "SensorReadingScreen.h"
+#include "ProgramState.h"
+#include "LcdNewLiner.h"
 
-SensorReadingScreen::SensorReadingScreen(SensorReading & toDraw, TimeTask & time) :
-		toDraw(toDraw), time(time) {
+SensorReadingScreen::SensorReadingScreen(SensorReading & toDraw) :
+		toDraw(toDraw) {
 
 }
 
@@ -16,9 +18,10 @@ void SensorReadingScreen::draw(LCD & display) {
 	display.setCursor(0, 0);
 	display.print(toDraw.getHeaderText());
 	char buffer[9];
-	time.getTime(true).timeToStr(buffer);
+	state.getTime(true).timeToStr(buffer);
 	display.setCursor(12, 0);
 	display.print(buffer);
-	toDraw.printToDisplay(display);
+	LcdNewLiner newLiner(display);
+	toDraw.printTo(display, newLiner);
 }
 

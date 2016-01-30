@@ -11,8 +11,8 @@
 #include "defines.h"
 
 LightIntensityMeasureTask::LightIntensityMeasureTask(
-		unsigned long periodMs, ProgramState & state) :
-		Task(periodMs), state(state){
+		unsigned long periodMs) :
+		Task(periodMs){
 }
 
 void LightIntensityMeasureTask::run() {
@@ -26,16 +26,16 @@ void LightIntensityMeasureTask::run() {
 	}
 
 	if (err){
-		latestReading = LightIntensityReading(true, state.getTimeStamp());
+		latestReading = LightIntensityReading(true, state.getTimeStamp(true));
 	}else {
 		digitalWrite(13, HIGH);
 		int16_t intensity = bh.GetLightIntensity();
 		digitalWrite(13, LOW);
 
 		if (intensity < 0) {
-			latestReading = LightIntensityReading(true, state.getTimeStamp());
+			latestReading = LightIntensityReading(true, state.getTimeStamp(true));
 		} else {
-		    latestReading = LightIntensityReading(intensity, state.getTimeStamp());
+		    latestReading = LightIntensityReading(intensity, state.getTimeStamp(true));
 		}
 	}
 #ifdef PRINT_TO_STREAM_SUPPORT

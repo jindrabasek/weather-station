@@ -23,10 +23,10 @@
 #include "BackLightTask.h"
 #include "BackLightHandler.h"
 #include "ProgramSettings.h"
-#include "TimeTask.h"
 #include "TimeScreen.h"
 #include "TimeReading.h"
 #include "SensorReadingScreen.h"
+#include "Time.h"
 
 #define DEFAULT_SCREEN 0
 
@@ -55,7 +55,7 @@ private:
 
 	Display disp;
 
-	TimeTask timeTask;
+	Time time;
 	TempMeasureTask measureTempTask;
 	AirPressureMeasureTask measureAirPressureTask;
 	LightIntensityMeasureTask measureLightIntensityTask;
@@ -93,21 +93,18 @@ private:
 
 public:
 	ProgramState() :
-			timeTask(500),
-			measureTempTask(DHT_PIN, 2000, *this),
-			measureAirPressureTask(1000, *this),
-			measureLightIntensityTask(1000, *this),
+			measureTempTask(DHT_PIN, 2000),
+			measureAirPressureTask(1000),
+			measureLightIntensityTask(1000),
 
-			timeScreen(timeTask.getTime()),
-			tempScreen(measureTempTask.getLatestReading(), timeTask),
-			airPressureScreen(measureAirPressureTask.getLatestReading(), timeTask),
-			lightIntensityScreen(measureLightIntensityTask.getLatestReading(), timeTask),
+			tempScreen(measureTempTask.getLatestReading()),
+			airPressureScreen(measureAirPressureTask.getLatestReading()),
+			lightIntensityScreen(measureLightIntensityTask.getLatestReading()),
 
-			backLightTask(disp.getLcd(), *this),
+			backLightTask(disp.getLcd()),
 			drawOnDisplayTask(500, disp.getLcd(), displayScreens[DEFAULT_SCREEN]),
-			nextScreen(1, *this),
-			prevScreen(-1, *this),
-			backLightHandler(*this),
+			nextScreen(1),
+			prevScreen(-1),
 
 			leftButton(LEFT_PIN, MODE_CLOSE_ON_PUSH, &prevScreen),
 			rightButton(RIGHT_PIN, MODE_CLOSE_ON_PUSH, &nextScreen),
@@ -120,7 +117,6 @@ public:
 	}
 
 	void init() {
-		SoftTimer.add(&timeTask);
 		SoftTimer.add(&measureTempTask);
 		SoftTimer.add(&measureAirPressureTask);
 		SoftTimer.add(&measureLightIntensityTask);
@@ -181,21 +177,19 @@ public:
 		return backLightTask;
 	}
 
-	TimeReading & getTime() {
-		return timeTask.getTime();
+	TimeReading & getTime(bool updateFirst = false) {
+		return time.getTime(updateFirst);
 	}
 
-	unsigned long getTimeStamp() {
-		return timeTask.getTime().getTimeStamp();
-	}
-
-	TimeTask& getTimeTask() {
-		return timeTask;
+	unsigned long getTimeStamp(bool updateFirst = false) {
+		return time.getTime(updateFirst).getTimeStamp();
 	}
 
 	ProgramSettings& getSettings() {
 		return settings;
 	}
 };
+
+extern ProgramState state;
 
 #endif /* PROGRAMSTATE_H_ */

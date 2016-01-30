@@ -9,16 +9,15 @@
 #define SENSORREADINGSCREEN_H_
 
 #include "ToDraw.h"
-#include "TimeTask.h"
 #include "SensorReading.h"
+#include "Time.h"
 
 class SensorReadingScreen: public ToDraw {
 private:
 	SensorReading & toDraw;
-	TimeTask & time;
 
 public:
-	SensorReadingScreen(SensorReading & toDraw, TimeTask & time);
+	SensorReadingScreen(SensorReading & toDraw);
 	virtual void draw(LCD & display);
 };
 

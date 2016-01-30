@@ -10,9 +10,8 @@
 #include "ProgramState.h"
 #include "defines.h"
 
-AirPressureMeasureTask::AirPressureMeasureTask(unsigned long periodMs,
-		ProgramState & state) :
-		Task(periodMs), state(state) {
+AirPressureMeasureTask::AirPressureMeasureTask(unsigned long periodMs) :
+		Task(periodMs) {
 }
 
 void AirPressureMeasureTask::run() {
@@ -24,7 +23,7 @@ void AirPressureMeasureTask::run() {
 
 	if (err) {
 		AirPressureReading errReading(true);
-		latestReading = AirPressureReading(true, state.getTimeStamp());
+		latestReading = AirPressureReading(true, state.getTimeStamp(true));
 	} else {
 
 		digitalWrite(13, HIGH);
@@ -40,7 +39,7 @@ void AirPressureMeasureTask::run() {
 		digitalWrite(13, LOW);
 
 		latestReading = AirPressureReading(pressure, pressureSea, temperature,
-				state.getTimeStamp());
+				state.getTimeStamp(true));
 
 	}
 #ifdef PRINT_TO_STREAM_SUPPORT

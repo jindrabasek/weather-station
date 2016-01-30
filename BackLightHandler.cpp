@@ -8,10 +8,6 @@
 #include "BackLightHandler.h"
 #include "ProgramState.h"
 
-BackLightHandler::BackLightHandler(ProgramState & state) :
-		state(state) {
-}
-
 void BackLightHandler::onPressed() {
 	state.setBackLight(!state.isBackLight());
 	state.getBackLightTask().startAtEarliestOportunity();

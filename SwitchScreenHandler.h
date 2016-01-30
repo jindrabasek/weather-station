@@ -11,17 +11,14 @@
 #include <ButtonHandler.h>
 #include "DrawOnDisplayTask.h"
 
-class ProgramState;
-
 class SwitchScreenHandler: public ButtonHandler {
 private:
 	const int8_t switchFor;
-	ProgramState & state;
 
 //-----------------------------------------------------------------------------
 
 public:
-	SwitchScreenHandler(int8_t switchFor, ProgramState & state);
+	SwitchScreenHandler(int8_t switchFor);
 	void onPressed();
 };
 

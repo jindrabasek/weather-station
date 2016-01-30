@@ -35,8 +35,9 @@ public:
 	float getTemperatureCelsius() const {
 		return temperatureCelsius;
 	}
-protected:
 	void printValues(Print & out, NewLiner & newLine) const;
+
+protected:
 	const __FlashStringHelper * getErrText() const;
 	const __FlashStringHelper * getNotYetMeasuredText() const;
 	const __FlashStringHelper * getHeaderText() const;

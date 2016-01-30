@@ -13,19 +13,16 @@
 
 #include "TempReading.h"
 
-class ProgramState;
-
 class TempMeasureTask: public Task {
 private:
 	TempReading latestReading;
 	DHT dht;
 	uint8_t pin;
-	ProgramState & state;
 
 //-----------------------------------------------------------------------------
 
 public:
-	TempMeasureTask(uint8_t pin, unsigned long periodMs, ProgramState & state);
+	TempMeasureTask(uint8_t pin, unsigned long periodMs);
 
 	virtual void run();
 

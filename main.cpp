@@ -8,8 +8,6 @@
 #include "ProgramState.h"
 #include "BaseFunctions.h"
 
-static ProgramState state;
-
 //The setup function is called once at startup of the sketch
 void setup() {
 	Serial.begin(9600);

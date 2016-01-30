@@ -7,6 +7,7 @@
 
 #include "DrawOnDisplayTask.h"
 #include "SensorReading.h"
+#include "LcdNewLiner.h"
 
 DrawOnDisplayTask::DrawOnDisplayTask(unsigned long periodMs,
 		LCD & display, ToDraw * toDraw) :
@@ -16,7 +17,7 @@ DrawOnDisplayTask::DrawOnDisplayTask(unsigned long periodMs,
 void DrawOnDisplayTask::run() {
 	if (clear){
 		clear = false;
-		SensorReading::LcdNewLiner lcdClear(display);
+		LcdNewLiner lcdClear(display);
 		for (byte i = 0; i < 4; i++){
 			lcdClear.newLine(i);
 			lcdClear.clearLine();

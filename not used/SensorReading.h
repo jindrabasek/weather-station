@@ -8,12 +8,30 @@
 #ifndef SENSORREADING_H_
 #define SENSORREADING_H_
 
-#include <Print.h>
-#include <WString.h>
+#include <Arduino.h>
+#include <LCD.h>
+#include "defines.h"
 #include "PeripheryReading.h"
-#include "NewLiner.h"
 
 class SensorReading: public PeripheryReading {
+public:
+
+
+#ifdef PRINT_TO_STREAM_SUPPORT
+	class StreamNewLiner: public NewLiner {
+		Stream & stream;
+	public:
+		StreamNewLiner(Stream & out) :
+		stream(out) {
+		}
+		virtual void newLine(int lineNumber) {
+			stream.println();
+		}
+	};
+#endif
+
+
+//-----------------------------------------------------------------------------
 
 private:
 	unsigned long timeStamp;
@@ -24,6 +42,12 @@ public:
 	SensorReading(ReadState readState, unsigned long timeStamp);
 	virtual ~SensorReading() {
 	}
+
+#ifdef PRINT_TO_STREAM_SUPPORT
+	void printToStream(Stream & out) const;
+#endif
+
+	void printToDisplay(LCD & out) const;
 
 	unsigned long getTimeStamp() const {
 		return timeStamp;

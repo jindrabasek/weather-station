@@ -10,16 +10,11 @@
 
 #include <ButtonHandler.h>
 
-class ProgramState;
-
 class BackLightHandler : public ButtonHandler {
-private:
-	ProgramState & state;
 
 //-----------------------------------------------------------------------------
 
 public:
-	BackLightHandler(ProgramState & state);
 	void onPressed();
 };
 

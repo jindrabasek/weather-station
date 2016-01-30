@@ -8,12 +8,12 @@
 #include "BackLightTask.h"
 #include "ProgramState.h"
 
-BackLightTask::BackLightTask(LCD & display, ProgramState & programState) :
-		Task(0, false), display(display), programState(programState) {
+BackLightTask::BackLightTask(LCD & display) :
+		Task(0, false), display(display) {
 }
 
 void BackLightTask::run() {
-	if (programState.isBackLight()){
+	if (state.isBackLight()){
 		display.backlight();
 	} else {
 		display.noBacklight();

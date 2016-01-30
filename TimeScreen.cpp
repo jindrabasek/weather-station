@@ -6,14 +6,13 @@
  */
 
 #include "TimeScreen.h"
-
-TimeScreen::TimeScreen(TimeReading & actualTime) : actualTime(actualTime) {
-
-}
-
+#include "TimeReading.h"
+#include "ProgramState.h"
 
 void TimeScreen::draw(LCD & display) {
 	char buffer[11];
+
+	TimeReading & actualTime = state.getTime(true);
 
 	if (actualTime.getReadState() == READ_OK) {
 		snprintf_P(buffer, 9, (const char *) F("%02d:%02d:%02d"), actualTime.getTime()->hour,
