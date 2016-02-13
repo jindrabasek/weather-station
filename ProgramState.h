@@ -27,29 +27,33 @@
 #include "time/TimeReading.h"
 #include "sensors/SensorReadingScreen.h"
 #include "time/Time.h"
-
-#define DEFAULT_SCREEN 0
-
-#define DHT_PIN 7
-
-#define ON_BOARD_LED_PIN 13
-
-#define LEFT_PIN 11
-#define RIGHT_PIN 10
-#define UP_PIN 12
-#define DOWN_PIN 9
-#define BACKLIGHT_PIN 5
-#define ENTER_PIN 6
-#define ESC_PIN 8
-
-#define COUNT_OF_SCREENS 4
-
-#define SOFTWARE_SERIAL_RX_PIN 2
-#define SOFTWARE_SERIAL_TX_PIN 3
+#include "menu/ProgramMenu.h"
 
 class ToDraw;
 
 class ProgramState {
+public:
+	static const int DEFAULT_SCREEN = 0;
+
+	static const int DHT_PIN = 7;
+
+	static const int ON_BOARD_LED_PIN = 13;
+
+	static const int LEFT_PIN = 11;
+	static const int RIGHT_PIN = 10;
+	static const int UP_PIN = 12;
+	static const int DOWN_PIN = 13; //9;
+	static const int BACKLIGHT_PIN = 50; //5;
+	static const int ENTER_PIN = 51; //6;
+	static const int ESC_PIN = 52; //8;
+
+	static const int COUNT_OF_SCREENS = 4;
+
+	static const int SOFTWARE_SERIAL_RX_PIN = 2;
+	static const int SOFTWARE_SERIAL_TX_PIN = 3;
+
+//-----------------------------------------------------------------------------
+
 private:
 	ProgramSettings settings;
 
@@ -75,6 +79,8 @@ private:
 	BackLightTask backLightTask;
 	DrawOnDisplayTask drawOnDisplayTask;
 
+	ProgramMenu menu;
+
 	SwitchScreenHandler nextScreen;
 	SwitchScreenHandler prevScreen;
 	BackLightHandler backLightHandler;
@@ -82,6 +88,9 @@ private:
 	Debouncer leftButton;
 	Debouncer rightButton;
 	Debouncer backLightButton;
+	Debouncer upButton;
+	Debouncer downButton;
+	Debouncer enterButton;
 
 	SoftwareSerial mySerial;
 
@@ -92,46 +101,9 @@ private:
 //-----------------------------------------------------------------------------
 
 public:
-	ProgramState() :
-			measureTempTask(DHT_PIN, 2000),
-			measureAirPressureTask(1000),
-			measureLightIntensityTask(1000),
-
-			tempScreen(measureTempTask.getLatestReading()),
-			airPressureScreen(measureAirPressureTask.getLatestReading()),
-			lightIntensityScreen(measureLightIntensityTask.getLatestReading()),
-
-			backLightTask(disp.getLcd()),
-			drawOnDisplayTask(500, disp.getLcd(), displayScreens[DEFAULT_SCREEN]),
-			nextScreen(1),
-			prevScreen(-1),
-
-			leftButton(LEFT_PIN, MODE_CLOSE_ON_PUSH, &prevScreen),
-			rightButton(RIGHT_PIN, MODE_CLOSE_ON_PUSH, &nextScreen),
-			backLightButton(BACKLIGHT_PIN, MODE_CLOSE_ON_PUSH, &backLightHandler),
-
-			mySerial(SOFTWARE_SERIAL_RX_PIN, SOFTWARE_SERIAL_TX_PIN),
-
-			currentScreen(DEFAULT_SCREEN),
-			backLight(true) {
-	}
-
-	void init() {
-		SoftTimer.add(&measureTempTask);
-		SoftTimer.add(&measureAirPressureTask);
-		SoftTimer.add(&measureLightIntensityTask);
-		SoftTimer.add(&drawOnDisplayTask);
-		SoftTimer.add(&backLightTask);
-		noInterrupts();
-		PciManager.registerListener(&leftButton);
-		PciManager.registerListener(&rightButton);
-		PciManager.registerListener(&backLightButton);
-		interrupts();
-
-		mySerial.begin(9600);
-
-		disp.doSetup();
-	}
+	ProgramState(const ProgramState& that) = delete;
+	void operator=(const ProgramState& that) = delete;
+	static ProgramState& instance();
 
 	volatile byte getCurrentScreen() const {
 		return currentScreen;
@@ -188,8 +160,82 @@ public:
 	ProgramSettings& getSettings() {
 		return settings;
 	}
-};
 
-extern ProgramState state;
+	Debouncer& getBackLightButton() {
+		return backLightButton;
+	}
+
+	Debouncer& getDownButton() {
+		return downButton;
+	}
+
+	Debouncer& getEnterButton() {
+		return enterButton;
+	}
+
+	Debouncer& getLeftButton() {
+		return leftButton;
+	}
+
+	Debouncer& getRightButton() {
+		return rightButton;
+	}
+
+	Debouncer& getUpButton() {
+		return upButton;
+	}
+
+private:
+	ProgramState() :
+			measureTempTask(DHT_PIN, 2000),
+			measureAirPressureTask(1000),
+			measureLightIntensityTask(1000),
+
+			tempScreen(measureTempTask.getLatestReading()),
+			airPressureScreen(measureAirPressureTask.getLatestReading()),
+			lightIntensityScreen(measureLightIntensityTask.getLatestReading()),
+
+			backLightTask(disp.getLcd()),
+			drawOnDisplayTask(500, disp.getLcd(), displayScreens[DEFAULT_SCREEN]),
+
+			menu(disp.getLcd()),
+
+			nextScreen(1),
+			prevScreen(-1),
+
+			leftButton(LEFT_PIN, MODE_CLOSE_ON_PUSH, &prevScreen),
+			rightButton(RIGHT_PIN, MODE_CLOSE_ON_PUSH, &nextScreen),
+			backLightButton(BACKLIGHT_PIN, MODE_CLOSE_ON_PUSH, &backLightHandler),
+			upButton(UP_PIN, MODE_CLOSE_ON_PUSH, &ButtonHandler::voidButtonHandler()),
+			downButton(DOWN_PIN, MODE_CLOSE_ON_PUSH, &ButtonHandler::voidButtonHandler()),
+			enterButton(ENTER_PIN, MODE_CLOSE_ON_PUSH, &ButtonHandler::voidButtonHandler()),//&menu.getEnterMenuHandler()),
+
+			mySerial(SOFTWARE_SERIAL_RX_PIN, SOFTWARE_SERIAL_TX_PIN),
+
+			currentScreen(DEFAULT_SCREEN),
+			backLight(true) {
+
+		SoftTimer & timer = SoftTimer::instance();
+		timer.add(&measureTempTask);
+		timer.add(&measureAirPressureTask);
+		timer.add(&measureLightIntensityTask);
+		timer.add(&drawOnDisplayTask);
+		timer.add(&backLightTask);
+
+		PciManager & pciManager = PciManager::instance();
+		pciManager.registerListener(&leftButton);
+		pciManager.registerListener(&rightButton);
+		pciManager.registerListener(&backLightButton);
+		pciManager.registerListener(&upButton);
+		pciManager.registerListener(&downButton);
+		pciManager.registerListener(&enterButton);
+
+		mySerial.begin(9600);
+
+		disp.doSetup();
+
+		pciManager.setEnabled(true);
+	}
+};
 
 #endif /* PROGRAMSTATE_H_ */

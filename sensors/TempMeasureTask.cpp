@@ -16,6 +16,7 @@ TempMeasureTask::TempMeasureTask(uint8_t pin, unsigned long periodMs) :
 void TempMeasureTask::run() {
 	DhtReadState dhtState = dht.read();
 
+	ProgramState & state = ProgramState::instance();
 	if (dhtState == DHT_GOOD) {
 		float h = dht.readHumidity();
 		// Read temperature as Celsius (the default)

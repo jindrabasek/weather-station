@@ -13,13 +13,14 @@ SwitchScreenHandler::SwitchScreenHandler(int8_t switchFor) :
 }
 
 void SwitchScreenHandler::onPressed() {
+	ProgramState & state = ProgramState::instance();
 
 	state.setCurrentScreen(
 			(switchFor < 0) ?
 					(state.getCurrentScreen() == 0 ?
-							(COUNT_OF_SCREENS + switchFor) :
+							(ProgramState::COUNT_OF_SCREENS + switchFor) :
 							state.getCurrentScreen() + switchFor) :
-					(state.getCurrentScreen() + switchFor) % COUNT_OF_SCREENS);
+					(state.getCurrentScreen() + switchFor) % ProgramState::COUNT_OF_SCREENS);
 	state.getDrawOnDisplayTask().setToDraw(
 			state.getDisplayScreens()[state.getCurrentScreen()], true);
 	state.getDrawOnDisplayTask().startAtEarliestOportunity();

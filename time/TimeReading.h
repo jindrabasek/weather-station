@@ -14,14 +14,14 @@
 
 class TimeReading: public PeripheryReading {
 private:
-	WireRtcLib::tm * time;
+	WireRtcLib::tm time;
 	unsigned long timeStamp;
 
 public:
-	TimeReading(WireRtcLib::tm * time);
-	TimeReading(bool error = false);
+	TimeReading(WireRtcLib::tm time);
+	TimeReading();
 
-	WireRtcLib::tm * getTime() {
+	WireRtcLib::tm getTime() const {
 		return time;
 	}
 

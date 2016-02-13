@@ -38,6 +38,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/NewliquidCrystal/utility}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/SoftwareSerialMod}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/WireRtcLib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/OMMenuMgr}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/EEPROM}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/OMEEPROM}&quot;"/>
 								</option>
@@ -60,6 +61,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/NewliquidCrystal/utility}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/SoftwareSerialMod}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/WireRtcLib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/OMMenuMgr}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/EEPROM}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/OMEEPROM}&quot;"/>
 								</option>
@@ -74,7 +76,8 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="menu|time|sensors|display|not used/*|Libraries/*/?xamples|Libraries/*/?xtras|Libraries/BH1750FVI/BH1750_serial|Libraries/BH1750FVI/BH1750_LCD|Libraries/BH1750FVI/BH1750_Led" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
+						<entry excluding="controls|menu|time|sensors|display|not used/*|Libraries/*/?xamples|Libraries/*/?xtras|Libraries/BH1750FVI/BH1750_serial|Libraries/BH1750FVI/BH1750_LCD|Libraries/BH1750FVI/BH1750_Led" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="controls"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="display"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="menu"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="sensors"/>

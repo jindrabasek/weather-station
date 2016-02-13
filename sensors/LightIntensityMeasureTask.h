@@ -23,12 +23,15 @@ private:
 
 public:
 	LightIntensityMeasureTask(unsigned long periodMs);
+
+	LightIntensityMeasureTask(const LightIntensityMeasureTask& that) = delete;
+	void operator=(const LightIntensityMeasureTask& that) = delete;
+
 	virtual void run();
 
 	LightIntensityReading& getLatestReading() {
 		return latestReading;
 	}
-
 };
 
 

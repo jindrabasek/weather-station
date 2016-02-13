@@ -13,7 +13,7 @@ BackLightTask::BackLightTask(LCD & display) :
 }
 
 void BackLightTask::run() {
-	if (state.isBackLight()){
+	if (ProgramState::instance().isBackLight()){
 		display.backlight();
 	} else {
 		display.noBacklight();

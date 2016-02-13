@@ -23,6 +23,10 @@ private:
 
 public:
 	AirPressureMeasureTask(unsigned long periodMs);
+
+	AirPressureMeasureTask(const AirPressureMeasureTask& that) = delete;
+	void operator=(const AirPressureMeasureTask& that) = delete;
+
 	virtual void run();
 
 	AirPressureReading& getLatestReading() {

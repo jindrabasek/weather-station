@@ -23,6 +23,10 @@ private:
 
 public:
 	DrawOnDisplayTask(unsigned long periodMs, LCD & display, ToDraw * toDraw);
+
+	DrawOnDisplayTask(const DrawOnDisplayTask& that) = delete;
+	void operator=(const DrawOnDisplayTask& that) = delete;
+
 	virtual void run();
 
 	void setToDraw(ToDraw * toDraw, bool clearFirst = false) {

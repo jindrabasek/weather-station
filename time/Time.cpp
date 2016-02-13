@@ -8,7 +8,7 @@
 #include "Time.h"
 
 TimeReading& Time::getTime(bool updateFirst) {
-	if (updateFirst){
+	if (updateFirst) {
 		readTimeFromRtc();
 	}
 	return actualTime;
@@ -25,12 +25,10 @@ void Time::readTimeFromRtc() {
 		}
 
 		timeAge = millis();
-		WireRtcLib::tm* t = rtc.getTime();
-		if (t->error) {
-			actualTime = TimeReading(true);
-		} else {
-			actualTime = TimeReading(t);
-		}
+		actualTime = TimeReading(rtc.getTime());
 	}
 }
 
+Time::Time() :
+		timeAge(0) {
+}

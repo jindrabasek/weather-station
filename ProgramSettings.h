@@ -14,10 +14,13 @@ private:
 
 public:
 	ProgramSettings();
+	ProgramSettings(const ProgramSettings& that) = delete;
+	void operator=(const ProgramSettings& that) = delete;
 
 	float getAltitude() const {
 		return altitude;
 	}
+
 };
 
 #endif /* PROGRAMSETTINGS_H_ */

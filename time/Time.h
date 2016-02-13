@@ -21,6 +21,11 @@ private:
 	WireRtcLib rtc;
 
 public:
+	Time();
+
+	Time(const Time& that) = delete;
+	void operator=(const Time& that) = delete;
+
 	TimeReading& getTime(bool updateFirst = false);
 
 private:

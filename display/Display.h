@@ -25,9 +25,13 @@ public:
 	void doSetup();
 	Display();
 
+	Display(const Display& that) = delete;
+	void operator=(const Display& that) = delete;
+
 	LiquidCrystal_I2C& getLcd() {
 		return lcd;
 	}
+
 };
 
 #endif /* DISPLAY_H_ */

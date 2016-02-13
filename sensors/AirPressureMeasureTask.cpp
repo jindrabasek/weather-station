@@ -20,6 +20,7 @@ void AirPressureMeasureTask::run() {
 		err = !bmp.begin();
 	}
 
+	ProgramState & state = ProgramState::instance();
 	if (err) {
 		AirPressureReading errReading(true);
 		latestReading = AirPressureReading(true, state.getTimeStamp(true));

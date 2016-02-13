@@ -24,6 +24,7 @@ void LightIntensityMeasureTask::run() {
 		}
 	}
 
+	ProgramState & state = ProgramState::instance();
 	if (err){
 		latestReading = LightIntensityReading(true, state.getTimeStamp(true));
 	}else {

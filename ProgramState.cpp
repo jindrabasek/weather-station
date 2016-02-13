@@ -7,6 +7,8 @@
 
 #include "ProgramState.h"
 
-ProgramState state;
 
-
+ProgramState& ProgramState::instance() {
+	static ProgramState state;
+	return state;
+}

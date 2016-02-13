@@ -19,7 +19,12 @@ private:
 
 public:
 	BackLightTask(LCD & display);
+
+	BackLightTask(const BackLightTask& that) = delete;
+	void operator=(const BackLightTask& that) = delete;
+
 	virtual void run();
+
 };
 
 #endif /* BACKLIGHTTASK_H_ */

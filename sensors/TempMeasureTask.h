@@ -24,6 +24,9 @@ private:
 public:
 	TempMeasureTask(uint8_t pin, unsigned long periodMs);
 
+	TempMeasureTask(const TempMeasureTask& that) = delete;
+	void operator=(const TempMeasureTask& that) = delete;
+
 	virtual void run();
 
 	TempReading& getLatestReading() {

@@ -6,7 +6,6 @@
 #include <SoftwareSerial.h>
 
 #include "ProgramState.h"
-#include "BaseFunctions.h"
 
 //The setup function is called once at startup of the sketch
 void setup() {
@@ -14,14 +13,13 @@ void setup() {
 
 	Serial.println(F("Init start"));
 
-	state.init();
+	ProgramState::instance();
 
-	Serial.println(freeRam());
 	Serial.println(F("Init complete"));
 }
 
 void loop() {
-	SoftTimer.run();
+	SoftTimer::instance().run();
 }
 
 // ******* Define PCI interrupt handlers on my own
@@ -29,21 +27,21 @@ void loop() {
 #ifdef PCINT0_vect
 ISR(PCINT0_vect) {
 	SoftwareSerial::handle_interrupt();
-	PciManager.callListeners(0);
+	PciManager::instance().callListeners(0);
 }
 #endif
 
 #ifdef PCINT1_vect
 ISR(PCINT1_vect) {
 	SoftwareSerial::handle_interrupt();
-	PciManager.callListeners(1);
+	PciManager::instance().callListeners(1);
 }
 #endif
 
 #ifdef PCINT2_vect
 ISR(PCINT2_vect) {
 	SoftwareSerial::handle_interrupt();
-	PciManager.callListeners(2);
+	PciManager::instance().callListeners(2);
 }
 #endif
 
@@ -51,6 +49,6 @@ ISR(PCINT2_vect) {
 ISR(PCINT3_vect)
 {
 	SoftwareSerial::handle_interrupt();
-	PciManager.callListeners(3);
+	PciManager::instance().callListeners(3);
 }
 #endif
