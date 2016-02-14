@@ -11,8 +11,6 @@
 void setup() {
 	Serial.begin(9600);
 
-	Serial.println(F("Init start"));
-
 	ProgramState::instance();
 
 	Serial.println(F("Init complete"));

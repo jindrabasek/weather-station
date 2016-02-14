@@ -28,6 +28,7 @@
 #include "sensors/SensorReadingScreen.h"
 #include "time/Time.h"
 #include "menu/ProgramMenu.h"
+#include "controls/SerialVirtButtonsTask.h"
 
 class ToDraw;
 
@@ -91,6 +92,9 @@ private:
 	Debouncer upButton;
 	Debouncer downButton;
 	Debouncer enterButton;
+	Debouncer escButton;
+
+	SerialVirtButtonsTask serialVirtButtonsTask;
 
 	SoftwareSerial mySerial;
 
@@ -185,6 +189,10 @@ public:
 		return upButton;
 	}
 
+	Debouncer& getEscButton() {
+		return escButton;
+	}
+
 private:
 	ProgramState() :
 			measureTempTask(DHT_PIN, 2000),
@@ -209,6 +217,9 @@ private:
 			upButton(UP_PIN, MODE_CLOSE_ON_PUSH, &ButtonHandler::voidButtonHandler()),
 			downButton(DOWN_PIN, MODE_CLOSE_ON_PUSH, &ButtonHandler::voidButtonHandler()),
 			enterButton(ENTER_PIN, MODE_CLOSE_ON_PUSH, &ButtonHandler::voidButtonHandler()),//&menu.getEnterMenuHandler()),
+			escButton(ESC_PIN, MODE_CLOSE_ON_PUSH, &ButtonHandler::voidButtonHandler()),
+
+			serialVirtButtonsTask(100),
 
 			mySerial(SOFTWARE_SERIAL_RX_PIN, SOFTWARE_SERIAL_TX_PIN),
 
@@ -221,6 +232,7 @@ private:
 		timer.add(&measureLightIntensityTask);
 		timer.add(&drawOnDisplayTask);
 		timer.add(&backLightTask);
+		timer.add(&serialVirtButtonsTask);
 
 		PciManager & pciManager = PciManager::instance();
 		pciManager.registerListener(&leftButton);
@@ -229,6 +241,7 @@ private:
 		pciManager.registerListener(&upButton);
 		pciManager.registerListener(&downButton);
 		pciManager.registerListener(&enterButton);
+		pciManager.registerListener(&escButton);
 
 		mySerial.begin(9600);
 
