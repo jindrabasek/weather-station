@@ -193,6 +193,10 @@ public:
 		return escButton;
 	}
 
+	ProgramMenu& getMenu() {
+		return menu;
+	}
+
 private:
 	ProgramState() :
 			measureTempTask(DHT_PIN, 2000),
@@ -216,7 +220,7 @@ private:
 			backLightButton(BACKLIGHT_PIN, MODE_CLOSE_ON_PUSH, &backLightHandler),
 			upButton(UP_PIN, MODE_CLOSE_ON_PUSH, &ButtonHandler::voidButtonHandler()),
 			downButton(DOWN_PIN, MODE_CLOSE_ON_PUSH, &ButtonHandler::voidButtonHandler()),
-			enterButton(ENTER_PIN, MODE_CLOSE_ON_PUSH, &ButtonHandler::voidButtonHandler()),//&menu.getEnterMenuHandler()),
+			enterButton(ENTER_PIN, MODE_CLOSE_ON_PUSH, &menu.getEnterMenuHandler()),
 			escButton(ESC_PIN, MODE_CLOSE_ON_PUSH, &ButtonHandler::voidButtonHandler()),
 
 			serialVirtButtonsTask(100),

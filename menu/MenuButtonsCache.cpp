@@ -15,7 +15,7 @@ MenuButtonsCache::MenuButtonsCache() :
 
 void MenuButtonsCache::putPress(Button button){
 	if (size < MENU_KEY_STROKES_CACHE_SIZE) {
-		buttonsCache[end];
+		buttonsCache[end] = button;
 		size++;
 		end = (end + 1) % MENU_KEY_STROKES_CACHE_SIZE;
 	}
@@ -33,7 +33,7 @@ Button MenuButtonsCache::getPress(){
 }
 
 bool MenuButtonsCache::isEmpty() {
-	return size > 0;
+	return size == 0;
 }
 
 void MenuButtonsCache::clear() {

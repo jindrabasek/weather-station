@@ -48,5 +48,8 @@ void SerialVirtButtonsTask::run() {
 				break;
 			}
 		}
+
+		Serial.print(F("Key received: "));
+		Serial.println(input);
 	}
 }

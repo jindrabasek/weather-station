@@ -34,14 +34,7 @@ public:
 	ProgramMenu(const ProgramMenu& that) = delete;
 	void operator=(const ProgramMenu& that) = delete;
 
-	ProgramMenu(LCD & lcd) :
-		lcd (lcd),
-		menuScreen(buttonsCache, menu),
-		enterMenuHandler(buttonsCache, menuScreen, buttonsBackup),
-		menuDraw(lcd),
-		menuExit(lcd, enterMenuHandler, buttonsBackup),
-		menu(NULL, menuDraw, menuExit){
-	}
+	ProgramMenu(LCD & lcd);
 
 	MenuButtonsCache& getButtonsCache() {
 		return buttonsCache;
@@ -49,6 +42,14 @@ public:
 
 	EnterMenuHandler& getEnterMenuHandler() {
 		return enterMenuHandler;
+	}
+
+	LcdMenuDraw& getMenuDraw() {
+		return menuDraw;
+	}
+
+	LcdExitMenu& getMenuExit() {
+		return menuExit;
 	}
 };
 

@@ -28,9 +28,7 @@ void LightIntensityMeasureTask::run() {
 	if (err){
 		latestReading = LightIntensityReading(true, state.getTimeStamp(true));
 	}else {
-		digitalWrite(13, HIGH);
 		int16_t intensity = bh.GetLightIntensity();
-		digitalWrite(13, LOW);
 
 		if (intensity < 0) {
 			latestReading = LightIntensityReading(true, state.getTimeStamp(true));

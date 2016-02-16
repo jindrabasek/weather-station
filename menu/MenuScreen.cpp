@@ -22,7 +22,7 @@ void MenuScreen::draw(LCD& display) {
 		button = buttonsCache.getPress();
 	}
 
-	menu.handleMenu(button);
+	menu.handleMenu(button, ProgramState::instance().getMenu().getMenuDraw(), ProgramState::instance().getMenu().getMenuExit());
 
 	{
 		PciManagerLock lock;
