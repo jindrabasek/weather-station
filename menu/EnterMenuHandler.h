@@ -23,7 +23,6 @@ private:
 	MenuButtonHandler up;
 	MenuButtonHandler down;
 	MenuButtonHandler back;
-	MenuButtonHandler forward;
 	MenuButtonHandler enter;
 
 public:

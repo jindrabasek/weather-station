@@ -26,11 +26,13 @@ void MenuScreen::draw(LCD& display) {
 
 	{
 		PciManagerLock lock;
-		bool empty = buttonsCache.isEmpty();
-		if (empty) {
-			state.getDrawOnDisplayTask().setEnabled(false);
-		} else {
-			state.getDrawOnDisplayTask().startAtEarliestOportunity();
+		if (menu.isInMenu()) {
+			bool empty = buttonsCache.isEmpty();
+			if (empty) {
+				state.getDrawOnDisplayTask().setEnabled(false);
+			} else {
+				state.getDrawOnDisplayTask().startAtEarliestOportunity();
+			}
 		}
 	}
 }

@@ -17,6 +17,7 @@ private:
 	ButtonHandler * volatile upButtonPrev;
 	ButtonHandler * volatile downButtonPrev;
 	ButtonHandler * volatile enterButtonPrev;
+	ButtonHandler * volatile escButtonPrev;
 public:
 	ButtonsBackup();
 	void backupHandlers();

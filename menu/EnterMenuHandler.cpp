@@ -17,7 +17,6 @@ EnterMenuHandler::EnterMenuHandler(MenuButtonsCache& buttonsCache, MenuScreen & 
 	up(Button::BUTTON_INCREASE, buttonsCache),
 	down(Button::BUTTON_DECREASE, buttonsCache),
 	back(Button::BUTTON_BACK, buttonsCache),
-	forward(Button::BUTTON_FORWARD, buttonsCache),
 	enter(Button::BUTTON_SELECT, buttonsCache){
 }
 
@@ -29,11 +28,13 @@ void EnterMenuHandler::onPressed() {
 		menuScreen.getMenu().setInMenu(true);
 	}
 
+	ButtonHandler * voidHandler = &ButtonHandler::voidButtonHandler();
 	state.getUpButton().setHandler(&up);
 	state.getDownButton().setHandler(&down);
-	state.getLeftButton().setHandler(&back);
-	state.getRightButton().setHandler(&forward);
+	state.getLeftButton().setHandler(voidHandler);
+	state.getRightButton().setHandler(voidHandler);
 	state.getEnterButton().setHandler(&enter);
+	state.getEscButton().setHandler(&back);
 
 	buttonsCache.clear();
 

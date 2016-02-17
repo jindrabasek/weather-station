@@ -32,6 +32,7 @@ void LcdExitMenu::exitMenu(bool fullExit) {
 		state.getLeftButton().setHandler(voidHandler);
 		state.getRightButton().setHandler(voidHandler);
 		state.getEnterButton().setHandler(enterMenuHandler);
+		state.getEscButton().setHandler(voidHandler);
 		lcd.clear();
 		state.getDrawOnDisplayTask().setEnabled(false);
 	}

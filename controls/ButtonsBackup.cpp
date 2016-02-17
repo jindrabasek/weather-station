@@ -11,7 +11,7 @@
 ButtonsBackup::ButtonsBackup() :
 		leftButtonPrev(NULL), rightButtonPrev(
 		NULL), upButtonPrev(NULL), downButtonPrev(NULL), enterButtonPrev(
-		NULL) {
+		NULL), escButtonPrev(NULL) {
 
 }
 
@@ -23,7 +23,7 @@ void ButtonsBackup::backupHandlers() {
 	leftButtonPrev = state.getLeftButton().getHandler();
 	rightButtonPrev = state.getRightButton().getHandler();
 	enterButtonPrev = state.getEnterButton().getHandler();
-
+	escButtonPrev = state.getEscButton().getHandler();
 }
 
 void ButtonsBackup::restoreHandlers() {
@@ -34,4 +34,5 @@ void ButtonsBackup::restoreHandlers() {
 	state.getLeftButton().setHandler(leftButtonPrev);
 	state.getRightButton().setHandler(rightButtonPrev);
 	state.getEnterButton().setHandler(enterButtonPrev);
+	state.getEscButton().setHandler(escButtonPrev);
 }
