@@ -36,11 +36,12 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/BH1750FVI}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/NewliquidCrystal}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/NewliquidCrystal/utility}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/SoftwareSerialMod}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/WireRtcLib}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/OMMenuMgr}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/EEPROM}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/OMEEPROM}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/WiFiEsp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/WiFiEsp/src}&quot;"/>
 								</option>
 								<inputType id="it.baeyens.arduino.compiler.cpp.sketch.input.1130398107" name="CPP source files" superClass="it.baeyens.arduino.compiler.cpp.sketch.input"/>
 							</tool>
@@ -59,11 +60,12 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/BH1750FVI}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/NewliquidCrystal}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/NewliquidCrystal/utility}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/SoftwareSerialMod}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/WireRtcLib}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/OMMenuMgr}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/EEPROM}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/OMEEPROM}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/WiFiEsp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/Libraries/WiFiEsp/src}&quot;"/>
 								</option>
 								<inputType id="it.baeyens.arduino.compiler.c.sketch.input.972830952" name="C Source Files" superClass="it.baeyens.arduino.compiler.c.sketch.input"/>
 							</tool>

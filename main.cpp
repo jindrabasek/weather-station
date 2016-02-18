@@ -3,7 +3,7 @@
 
 #include <SoftTimer.h>
 #include <PciManager.h>
-#include <SoftwareSerial.h>
+//#include <SoftwareSerial.h>
 
 #include "ProgramState.h"
 
@@ -24,21 +24,21 @@ void loop() {
 // to allow multiple handlers to be registered
 #ifdef PCINT0_vect
 ISR(PCINT0_vect) {
-	SoftwareSerial::handle_interrupt();
+	//SoftwareSerial::handle_interrupt();
 	PciManager::instance().callListeners(0);
 }
 #endif
 
 #ifdef PCINT1_vect
 ISR(PCINT1_vect) {
-	SoftwareSerial::handle_interrupt();
+	//SoftwareSerial::handle_interrupt();
 	PciManager::instance().callListeners(1);
 }
 #endif
 
 #ifdef PCINT2_vect
 ISR(PCINT2_vect) {
-	SoftwareSerial::handle_interrupt();
+	//SoftwareSerial::handle_interrupt();
 	PciManager::instance().callListeners(2);
 }
 #endif
@@ -46,7 +46,7 @@ ISR(PCINT2_vect) {
 #ifdef PCINT3_vect
 ISR(PCINT3_vect)
 {
-	SoftwareSerial::handle_interrupt();
+	//SoftwareSerial::handle_interrupt();
 	PciManager::instance().callListeners(3);
 }
 #endif

@@ -6,13 +6,13 @@
  */
 
 #include "ProgramMenu.h"
+#include <MenuValueHolder.h>
 
-
-byte foo = 0;
-byte sel = 0;
-unsigned int bar = 1;
-long baz  = 0;
-float bak = 0.0;
+MenuValueHolder<byte> fooHolder;
+MenuValueHolder<byte> selHolder;
+MenuValueHolder<unsigned int> barHolder;
+MenuValueHolder<long> bazHolder;
+MenuValueHolder<float> bakHolder;
 
   // Create a list of states and values for a select input
 MENU_SELECT_ITEM  sel_ign = { 2, {"Ignore"} };
@@ -24,15 +24,15 @@ MENU_SELECT_LIST  state_list[] = { &sel_ign, &sel_on, &sel_off };
   // the special target for our state input
 
                              // TARGET VAR   LENGTH                          TARGET SELECT LIST
-MENU_SELECT state_select = { &sel,           MENU_SELECT_SIZE(state_list),   MENU_TARGET(&state_list) };
+MENU_SELECT state_select = { &selHolder,           MENU_SELECT_SIZE(state_list),   MENU_TARGET(&state_list) };
 
   // values to use
 
                     //    TYPE            MAX    MIN    TARGET
-MENU_VALUE foo_value = { TYPE_BYTE,       100,   0,     MENU_TARGET(&foo), 0 };
-MENU_VALUE bar_value = { TYPE_UINT,       10000, 100,   MENU_TARGET(&bar), 0 };
-MENU_VALUE baz_value = { TYPE_LONG,       10000, 1,     MENU_TARGET(&baz), 0 };
-MENU_VALUE bak_value = { TYPE_FLOAT_1000, 0,     0,     MENU_TARGET(&bak), 0 };
+MENU_VALUE foo_value = { TYPE_BYTE,       100,   0,     MENU_TARGET(&fooHolder), 0 };
+MENU_VALUE bar_value = { TYPE_UINT,       10000, 100,   MENU_TARGET(&barHolder), 0 };
+MENU_VALUE baz_value = { TYPE_LONG,       10000, 1,     MENU_TARGET(&bazHolder), 0 };
+MENU_VALUE bak_value = { TYPE_FLOAT_1000, 0,     0,     MENU_TARGET(&bakHolder), 0 };
 MENU_VALUE sel_value = { TYPE_SELECT,     0,     0,     MENU_TARGET(&state_select), 0 };
 
                     //        LABEL           TYPE        LENGTH    TARGET
@@ -56,4 +56,9 @@ ProgramMenu::ProgramMenu(LCD & lcd) :
 	menuExit(lcd, enterMenuHandler, buttonsBackup),
 	menu(&menu_root){
 
+	fooHolder.setValuePtr(&foo);
+	selHolder.setValuePtr(&sel);
+	barHolder.setValuePtr(&bar);
+	bazHolder.setValuePtr(&baz);
+	bakHolder.setValuePtr(&bak);
 }

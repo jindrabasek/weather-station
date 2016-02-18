@@ -30,6 +30,14 @@ private:
 
 	OMMenuMgr menu;
 
+
+	byte foo = 0;
+	byte sel = 0;
+	unsigned int bar = 100;
+	long baz  = 1;
+	float bak = 0.0;
+
+
 public:
 	ProgramMenu(const ProgramMenu& that) = delete;
 	void operator=(const ProgramMenu& that) = delete;

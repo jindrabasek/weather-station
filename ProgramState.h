@@ -10,7 +10,7 @@
 
 #include <SoftTimer.h>
 #include <PciManager.h>
-#include <SoftwareSerial.h>
+//#include <SoftwareSerial.h>
 #include <Debouncer.h>
 
 #include "display/Display.h"
@@ -43,15 +43,15 @@ public:
 	static const int LEFT_PIN = 11;
 	static const int RIGHT_PIN = 10;
 	static const int UP_PIN = 12;
-	static const int DOWN_PIN = 13; //9;
-	static const int BACKLIGHT_PIN = 50; //5;
-	static const int ENTER_PIN = 51; //6;
-	static const int ESC_PIN = 52; //8;
+	static const int DOWN_PIN = A8; //9;
+	static const int BACKLIGHT_PIN = A9; //5;
+	static const int ENTER_PIN = A10; //6;
+	static const int ESC_PIN = A11; //8;
 
 	static const int COUNT_OF_SCREENS = 4;
 
-	static const int SOFTWARE_SERIAL_RX_PIN = 2;
-	static const int SOFTWARE_SERIAL_TX_PIN = 3;
+	//static const int SOFTWARE_SERIAL_RX_PIN = 2;
+	//static const int SOFTWARE_SERIAL_TX_PIN = 3;
 
 //-----------------------------------------------------------------------------
 
@@ -96,7 +96,7 @@ private:
 
 	SerialVirtButtonsTask serialVirtButtonsTask;
 
-	SoftwareSerial mySerial;
+	//SoftwareSerial mySerial;
 
 	volatile byte currentScreen;
 
@@ -225,7 +225,7 @@ private:
 
 			serialVirtButtonsTask(100),
 
-			mySerial(SOFTWARE_SERIAL_RX_PIN, SOFTWARE_SERIAL_TX_PIN),
+			//mySerial(SOFTWARE_SERIAL_RX_PIN, SOFTWARE_SERIAL_TX_PIN),
 
 			currentScreen(DEFAULT_SCREEN),
 			backLight(true) {
@@ -247,7 +247,7 @@ private:
 		pciManager.registerListener(&enterButton);
 		pciManager.registerListener(&escButton);
 
-		mySerial.begin(9600);
+		//mySerial.begin(9600);
 
 		disp.doSetup();
 
