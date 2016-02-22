@@ -15,6 +15,10 @@
 #include <LCD.h>
 #include "LcdMenuDraw.h"
 #include "LcdExitMenu.h"
+#include "SetTaskFrequencyAction.h"
+
+class ProgramState;
+class ProgramSettings;
 
 class ProgramMenu {
 private:
@@ -28,21 +32,17 @@ private:
 	LcdMenuDraw menuDraw;
 	LcdExitMenu menuExit;
 
+	SetTaskFrequencyAction setTempMeasureFreqAction;
+	SetTaskFrequencyAction setPressureMeasureFreqAction;
+	SetTaskFrequencyAction setLightMeasureFreqAction;
+	SetTaskFrequencyAction setDisplayRedrawFreqAction;
+
 	OMMenuMgr menu;
-
-
-	byte foo = 0;
-	byte sel = 0;
-	unsigned int bar = 100;
-	long baz  = 1;
-	float bak = 0.0;
-
-
 public:
 	ProgramMenu(const ProgramMenu& that) = delete;
 	void operator=(const ProgramMenu& that) = delete;
 
-	ProgramMenu(LCD & lcd);
+	ProgramMenu(LCD & lcd, ProgramState * state, ProgramSettings & settings);
 
 	MenuButtonsCache& getButtonsCache() {
 		return buttonsCache;
