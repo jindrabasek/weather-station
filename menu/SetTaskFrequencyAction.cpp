@@ -12,9 +12,6 @@ SetTaskFrequencyAction::SetTaskFrequencyAction(Task& target,
 		unsigned long & periodSec) :
 		target(target),
 		periodSec(periodSec){
-
-	Serial.println("SetTaskFrequencyAction"); delay(100);
-
 }
 
 void SetTaskFrequencyAction::doAction() {

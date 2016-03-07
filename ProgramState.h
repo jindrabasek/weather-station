@@ -36,13 +36,11 @@ class ToDraw;
 
 class ProgramState {
 public:
-	static const int DHT_PIN = 7;
+	static const int DHT_PIN = 30;
 
-	static const int ON_BOARD_LED_PIN = 13;
-
-	static const int LEFT_PIN = 11;
-	static const int RIGHT_PIN = 10;
-	static const int UP_PIN = 12;
+	static const int LEFT_PIN = A12; //11;
+	static const int RIGHT_PIN = A13; //10;
+	static const int UP_PIN = A14; //12;
 	static const int DOWN_PIN = A8; //9;
 	static const int BACKLIGHT_PIN = A9; //5;
 	static const int ENTER_PIN = A10; //6;
@@ -245,8 +243,7 @@ private:
 			currentScreen(settings.getStartupScreen()),
 			backLight(true) {
 
-		Serial.println("Start state");
-				delay(100);
+		pinMode(LED_BUILTIN, OUTPUT);
 
 		SoftTimer & timer = SoftTimer::instance();
 		timer.add(&measureTempTask);

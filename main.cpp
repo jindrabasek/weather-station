@@ -11,6 +11,9 @@
 void setup() {
 	Serial.begin(9600);
 
+	// Let everything stabilize after powering up
+	delay(2000);
+
 	ProgramState::instance();
 
 	Serial.println(F("Init complete"));
