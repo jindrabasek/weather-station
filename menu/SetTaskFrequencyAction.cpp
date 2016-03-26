@@ -15,5 +15,5 @@ SetTaskFrequencyAction::SetTaskFrequencyAction(Task& target,
 }
 
 void SetTaskFrequencyAction::doAction() {
-	target.setPeriodMs(periodSec * ProgramSettings::ONE_SEC_IN_MS);
+	target.setPeriodUs(periodSec * ProgramSettings::ONE_SEC_IN_US);
 }

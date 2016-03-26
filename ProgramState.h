@@ -29,8 +29,8 @@
 #include "time/Time.h"
 #include "menu/ProgramMenu.h"
 #include "controls/SerialVirtButtonsTask.h"
-//#include <WiFiEsp.h>
-//#include <HttpClient.h>
+#include <WiFiEsp.h>
+#include <HttpClient.h>
 
 class ToDraw;
 
@@ -105,15 +105,12 @@ private:
 
 	volatile bool backLight;
 
-	//int status = WL_IDLE_STATUS;     // the Wifi radio's status
-
-	// Initialize the Ethernet client object
-	//WiFiEspClient client;
+	int status = WL_IDLE_STATUS;     // the Wifi radio's status
 
 	// Number of milliseconds to wait without receiving any data before we give up
-	//static const int kNetworkTimeout = 30000;
+	static const int kNetworkTimeout = 3000;
 	// Number of milliseconds to wait if no data is available before trying again
-	//static const int kNetworkDelay = 1000;
+	static const int kNetworkDelay = 100;
 
 //-----------------------------------------------------------------------------
 
@@ -268,128 +265,100 @@ private:
 
 		pciManager.setEnabled(true);
 
-		// initialize serial for ESP module
-		//Serial1.begin(115200);
 		// initialize ESP module
-		//WiFi.init(&Serial1);
+		WiFi.init(&Serial1, 9600);
 
 		// check for the presence of the shield
-		/*if (WiFi.status() == WL_NO_SHIELD) {
-			Serial.println("WiFi shield not present");
+		if (WiFi.status() == WL_NO_SHIELD) {
+			Serial.println(F("WiFi shield not present"));
 		} else {
 			char ssid[] = "***REMOVED***";            // your network SSID (name)
 			char pass[] = "***REMOVED***";        // your network password
 
 			// attempt to connect to WiFi network
-			while (status != WL_CONNECTED) {
-				Serial.print("Attempting to connect to WPA SSID: ");
-				Serial.println(ssid);
-				// Connect to WPA/WPA2 network
-				status = WiFi.begin(ssid, pass);
-			}
+			Serial.print(F("Attempting to connect to SSID: "));
+			Serial.println(ssid);
+			// Connect to WPA/WPA2 network
+			status = WiFi.begin(ssid, pass);
 
-			// you're connected now, so print out the data
-			Serial.println("You're connected to the network");
+			if (status == WL_CONNECTED) {
+				Serial.println(F("Connected to AP"));
 
-			// print the SSID of the network you're attached to
-			Serial.print("SSID: ");
-			Serial.println(WiFi.SSID());
+				WiFiEspClient client;
 
-			// print your WiFi shield's IP address
-			IPAddress ip = WiFi.localIP();
-			Serial.print("IP Address: ");
-			Serial.println(ip);
+				HttpClient http(client);
 
-			// print the received signal strength
-			long rssi = WiFi.RSSI();
-			Serial.print("Signal strength (RSSI):");
-			Serial.print(rssi);
-			Serial.println(" dBm");
+				Serial.println(F("Getting page...\n"));
 
-			Serial.println();
-			Serial.println("Starting connection to server...");
-
-			int err = 0;
-
-			HttpClient http(client);
-
-			err = http.get("arduino.cc", "/asciilogo.txt");
-			if (err == 0) {
-				Serial.println("startedRequest ok");
-
-				err = http.responseStatusCode();
-				if (err >= 0) {
-					Serial.print("Got status code: ");
-					Serial.println(err);
-
-					// Usually you'd check that the response code is 200 or a
-					// similar "success" code (200-299) before carrying on,
-					// but we'll print out whatever response we get
-
-					err = http.skipResponseHeaders();
+				int err = http.get("arduino.cc", "/asciilogo.txt");
+				if (err == 0) {
+					err = http.responseStatusCode();
 					if (err >= 0) {
-						int bodyLen = http.contentLength();
-						Serial.print("Content length is: ");
-						Serial.println(bodyLen);
-						Serial.println();
-						Serial.println("Body returned follows:");
 
-						// Now we've got to the body, so we can print it out
-						unsigned long timeoutStart = millis();
-						char c;
-						// Whilst we haven't timed out & haven't reached the end of the body
-						while ((http.connected() || http.available())
-								&& ((millis() - timeoutStart) < kNetworkTimeout)) {
-							if (http.available()) {
-								c = http.read();
-								// Print out this character
-								Serial.print(c);
-								// We read something, reset the timeout counter
-								timeoutStart = millis();
-							} else {
-								// We haven't got any data, so let's pause to allow some to
-								// arrive
-								delay (kNetworkDelay);
+						// Usually you'd check that the response code is 200 or a
+						// similar "success" code (200-299) before carrying on,
+						// but we'll print out whatever response we get
+
+						err = http.skipResponseHeaders();
+						if (err >= 0) {
+							// Now we've got to the body, so we can print it out
+							unsigned long timeoutStart = millis();
+							char c;
+							// Whilst we haven't timed out & haven't reached the end of the body
+							while ((http.connected() || http.available())
+									&& ((millis() - timeoutStart) < kNetworkTimeout)) {
+								if (http.available()) {
+									c = http.read();
+									// Print out this character
+									Serial.print(c);
+									// We read something, reset the timeout counter
+									timeoutStart = millis();
+								} else {
+									// We haven't got any data, so let's pause to allow some to
+									// arrive
+									delay (kNetworkDelay);
+								}
 							}
+						} else {
+							Serial.print("Failed to skip response headers: ");
+							Serial.println(err);
 						}
 					} else {
-						Serial.print("Failed to skip response headers: ");
+						Serial.print("Getting response failed: ");
 						Serial.println(err);
 					}
 				} else {
-					Serial.print("Getting response failed: ");
+					Serial.print("Connect failed: ");
 					Serial.println(err);
 				}
-			} else {
-				Serial.print("Connect failed: ");
-				Serial.println(err);
-			}
-			http.stop();*/
+				http.stop();
 
-			// if you get a connection, report back via serial
-			/*if (client.connect("arduino.cc", 80)) {
-				Serial.println("Connected to server");
-				// Make a HTTP request
-				client.println("GET /asciilogo.txt HTTP/1.1");
-				client.println("Host: arduino.cc");
-				client.print(F("\r\n\r\n"));
+				// if there's a successful connection
+				if (client.connect("arduino.cc", 80)) {
+					Serial.println("Connecting...");
 
-				delay(1000);
+					// send the HTTP PUT request
+					client.println(F("GET /asciilogo.txt HTTP/1.1"));
+					client.println(F("Host: arduino.cc"));
+					client.println(F("Connection: close"));
+					client.println();
+				} else {
+					// if you couldn't make a connection
+					Serial.println(F("Connection failed"));
+				}
 
-				// if there are incoming bytes available
-				// from the server, read them and print them
+				delay(50);
+
 				while (client.available()) {
-					delay(10);
 					char c = client.read();
 					Serial.write(c);
 				}
 
-				Serial.println();
-				Serial.println("Disconnecting from server...");
-				client.stop();
 
+			} else {
+				Serial.println(F("WiFi connection failed!"));
 			}
-		}*/
+		}
 
 	}
 };

@@ -9,7 +9,7 @@
 
 //The setup function is called once at startup of the sketch
 void setup() {
-	Serial.begin(9600);
+	Serial.begin(115200);
 
 	// Let everything stabilize after powering up
 	delay(2000);

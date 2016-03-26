@@ -41,12 +41,12 @@ public:
 	static const unsigned int MAX_MEASURE_LIGHT_FREQ = SEC_IN_HOUR;
 	static const unsigned int MAX_DISPLAY_DRAW_FREQ = SEC_IN_HOUR;
 
-	static const unsigned int ONE_SEC_IN_MS = 1000;
+	static const unsigned long ONE_SEC_IN_US = 1000000;
 
-	static const unsigned int RESOLUTION_MEASURE_TEMP_FREQ = ONE_SEC_IN_MS;
-	static const unsigned int RESOLUTION_MEASURE_PRESSURE_FREQ = ONE_SEC_IN_MS;
-	static const unsigned int RESOLUTION_MEASURE_LIGHT_FREQ = ONE_SEC_IN_MS;
-	static const unsigned int RESOLUTION_DISPLAY_DRAW_FREQ = ONE_SEC_IN_MS;
+	static const unsigned long RESOLUTION_MEASURE_TEMP_FREQ = ONE_SEC_IN_US;
+	static const unsigned long RESOLUTION_MEASURE_PRESSURE_FREQ = ONE_SEC_IN_US;
+	static const unsigned long RESOLUTION_MEASURE_LIGHT_FREQ = ONE_SEC_IN_US;
+	static const unsigned long RESOLUTION_DISPLAY_DRAW_FREQ = ONE_SEC_IN_US;
 
 	static const int ALTITUDE_EPROM_ADDR = 8;
 	static const int STARTUP_SCREEN_EPROM_ADDR = ALTITUDE_EPROM_ADDR + sizeof(altitude);
