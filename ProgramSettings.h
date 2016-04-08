@@ -11,6 +11,37 @@
 #include <OMEEPROM.h>
 
 class ProgramSettings {
+public:
+    static const int WIFI_MAX_PASSWD_LENGTH = 63;
+    static const int WIFI_MAX_SSID_LENGTH = 32;
+    static const float DEFAULT_ALTITUDE;
+    static const byte DEFAULT_STARTUP_SCREEN = 0;
+    static const unsigned int DEFAULT_MEASURE_TEMP_FREQ = 2;
+    static const unsigned int DEFAULT_MEASURE_PRESSURE_FREQ = 1;
+    static const unsigned int DEFAULT_MEASURE_LIGHT_FREQ = 1;
+    static const unsigned int DEFAULT_DISPLAY_DRAW_FREQ = 1;
+
+    static const unsigned int MIN_ALTITUDE = 0;
+    static const unsigned int MIN_MEASURE_TEMP_FREQ = 2;
+    static const unsigned int MIN_MEASURE_PRESSURE_FREQ = 1;
+    static const unsigned int MIN_MEASURE_LIGHT_FREQ = 1;
+    static const unsigned int MIN_DISPLAY_DRAW_FREQ = 1;
+
+    static const unsigned int SEC_IN_HOUR = 3600;
+
+    static const unsigned int MAX_ALTITUDE = 10000;
+    static const unsigned int MAX_MEASURE_TEMP_FREQ = SEC_IN_HOUR;
+    static const unsigned int MAX_MEASURE_PRESSURE_FREQ = SEC_IN_HOUR;
+    static const unsigned int MAX_MEASURE_LIGHT_FREQ = SEC_IN_HOUR;
+    static const unsigned int MAX_DISPLAY_DRAW_FREQ = SEC_IN_HOUR;
+
+    static const unsigned long ONE_SEC_IN_US = 1000000;
+
+    static const unsigned long RESOLUTION_MEASURE_TEMP_FREQ = ONE_SEC_IN_US;
+    static const unsigned long RESOLUTION_MEASURE_PRESSURE_FREQ = ONE_SEC_IN_US;
+    static const unsigned long RESOLUTION_MEASURE_LIGHT_FREQ = ONE_SEC_IN_US;
+    static const unsigned long RESOLUTION_DISPLAY_DRAW_FREQ = ONE_SEC_IN_US;
+
 private:
 	float altitude;
 	byte startupScreen;
@@ -18,35 +49,13 @@ private:
 	unsigned long measurePressureFreq;
 	unsigned long measureLightFreq;
 	unsigned long displayDrawFreq;
+	bool wifiPasswordUsed;
+	char wifiPasswd[WIFI_MAX_PASSWD_LENGTH + 1];
+	char wifiSsid[WIFI_MAX_SSID_LENGTH + 1];
+
 
 public:
-	static const float DEFAULT_ALTITUDE;
-	static const byte DEFAULT_STARTUP_SCREEN = 0;
-	static const unsigned int DEFAULT_MEASURE_TEMP_FREQ = 2;
-	static const unsigned int DEFAULT_MEASURE_PRESSURE_FREQ = 1;
-	static const unsigned int DEFAULT_MEASURE_LIGHT_FREQ = 1;
-	static const unsigned int DEFAULT_DISPLAY_DRAW_FREQ = 1;
 
-	static const unsigned int MIN_ALTITUDE = 0;
-	static const unsigned int MIN_MEASURE_TEMP_FREQ = 2;
-	static const unsigned int MIN_MEASURE_PRESSURE_FREQ = 1;
-	static const unsigned int MIN_MEASURE_LIGHT_FREQ = 1;
-	static const unsigned int MIN_DISPLAY_DRAW_FREQ = 1;
-
-	static const unsigned int SEC_IN_HOUR = 3600;
-
-	static const unsigned int MAX_ALTITUDE = 10000;
-	static const unsigned int MAX_MEASURE_TEMP_FREQ = SEC_IN_HOUR;
-	static const unsigned int MAX_MEASURE_PRESSURE_FREQ = SEC_IN_HOUR;
-	static const unsigned int MAX_MEASURE_LIGHT_FREQ = SEC_IN_HOUR;
-	static const unsigned int MAX_DISPLAY_DRAW_FREQ = SEC_IN_HOUR;
-
-	static const unsigned long ONE_SEC_IN_US = 1000000;
-
-	static const unsigned long RESOLUTION_MEASURE_TEMP_FREQ = ONE_SEC_IN_US;
-	static const unsigned long RESOLUTION_MEASURE_PRESSURE_FREQ = ONE_SEC_IN_US;
-	static const unsigned long RESOLUTION_MEASURE_LIGHT_FREQ = ONE_SEC_IN_US;
-	static const unsigned long RESOLUTION_DISPLAY_DRAW_FREQ = ONE_SEC_IN_US;
 
 	static const int ALTITUDE_EPROM_ADDR = 8;
 	static const int STARTUP_SCREEN_EPROM_ADDR = ALTITUDE_EPROM_ADDR + sizeof(altitude);
