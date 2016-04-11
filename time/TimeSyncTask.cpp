@@ -7,7 +7,8 @@
 
 #include "TimeSyncTask.h"
 
-TimeSyncTask::TimeSyncTask(unsigned long periodHours, bool enabled) : LongTask(periodHours, 0,enabled) {
+TimeSyncTask::TimeSyncTask(unsigned long periodHours, bool enabled) :
+        LongTask(periodHours, 0, enabled) {
 }
 
 void TimeSyncTask::run() {

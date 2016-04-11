@@ -11,19 +11,19 @@
 #include <Task.h>
 #include <LCD.h>
 
-class BackLightTask: public Task {
+class BackLightTask : public Task {
 private:
-	LCD & display;
+    LCD & display;
 
 //-----------------------------------------------------------------------------
 
 public:
-	BackLightTask(LCD & display);
+    BackLightTask(LCD & display);
 
-	BackLightTask(const BackLightTask& that) = delete;
-	void operator=(const BackLightTask& that) = delete;
+    BackLightTask(const BackLightTask& that) = delete;
+    void operator=(const BackLightTask& that) = delete;
 
-	virtual void run();
+    virtual void run();
 
 };
 

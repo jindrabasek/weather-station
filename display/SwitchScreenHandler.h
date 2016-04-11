@@ -11,15 +11,15 @@
 #include <ButtonHandler.h>
 #include "DrawOnDisplayTask.h"
 
-class SwitchScreenHandler: public ButtonHandler {
+class SwitchScreenHandler : public ButtonHandler {
 private:
-	const int8_t switchFor;
+    const int8_t switchFor;
 
 //-----------------------------------------------------------------------------
 
 public:
-	SwitchScreenHandler(int8_t switchFor);
-	void onPressed();
+    SwitchScreenHandler(int8_t switchFor);
+    void onPressed();
 };
 
 #endif /* SWITCHSCREENHANDLER_H_ */

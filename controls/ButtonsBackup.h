@@ -12,16 +12,16 @@
 
 class ButtonsBackup {
 private:
-	ButtonHandler * volatile leftButtonPrev;
-	ButtonHandler * volatile rightButtonPrev;
-	ButtonHandler * volatile upButtonPrev;
-	ButtonHandler * volatile downButtonPrev;
-	ButtonHandler * volatile enterButtonPrev;
-	ButtonHandler * volatile escButtonPrev;
+    ButtonHandler * volatile leftButtonPrev;
+    ButtonHandler * volatile rightButtonPrev;
+    ButtonHandler * volatile upButtonPrev;
+    ButtonHandler * volatile downButtonPrev;
+    ButtonHandler * volatile enterButtonPrev;
+    ButtonHandler * volatile escButtonPrev;
 public:
-	ButtonsBackup();
-	void backupHandlers();
-	void restoreHandlers();
+    ButtonsBackup();
+    void backupHandlers();
+    void restoreHandlers();
 };
 
 #endif /* BUTTONSBACKUP_H_ */

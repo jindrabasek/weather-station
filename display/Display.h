@@ -17,20 +17,20 @@
 
 class Display {
 private:
-	LiquidCrystal_I2C lcd;
+    LiquidCrystal_I2C lcd;
 
 //-----------------------------------------------------------------------------
 
 public:
-	void doSetup();
-	Display();
+    void doSetup();
+    Display();
 
-	Display(const Display& that) = delete;
-	void operator=(const Display& that) = delete;
+    Display(const Display& that) = delete;
+    void operator=(const Display& that) = delete;
 
-	LiquidCrystal_I2C& getLcd() {
-		return lcd;
-	}
+    LiquidCrystal_I2C& getLcd() {
+        return lcd;
+    }
 
 };
 

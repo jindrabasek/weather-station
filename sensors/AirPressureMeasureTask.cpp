@@ -10,32 +10,32 @@
 #include "../ProgramState.h"
 
 AirPressureMeasureTask::AirPressureMeasureTask(unsigned long periodMs) :
-		Task(periodMs) {
+        Task(periodMs) {
 }
 
 void AirPressureMeasureTask::run() {
-	bool err = false;
-	if (latestReading.getReadState() == NOT_YET_READ
-			|| latestReading.getReadState() == READ_ERROR) {
-		err = !bmp.begin();
-	}
+    bool err = false;
+    if (latestReading.getReadState() == NOT_YET_READ
+            || latestReading.getReadState() == READ_ERROR) {
+        err = !bmp.begin();
+    }
 
-	ProgramState & state = ProgramState::instance();
-	if (err) {
-		AirPressureReading errReading(true);
-		latestReading = AirPressureReading(true, state.getTimeStamp(true));
-	} else {
-		int32_t UT = bmp.readRawTemperature();
-		int32_t UP = bmp.readRawPressure();
-		float temperature = bmp.correctTemperature(UT);
-		float pressurePa = bmp.correctPressure(UT, UP);
-		float pressure = pressurePa / 100.0;
-		float pressureSea = bmp.seaLevelForAltitude(
-				state.getSettings().getAltitude(), pressurePa) / 100.0;
+    ProgramState & state = ProgramState::instance();
+    if (err) {
+        AirPressureReading errReading(true);
+        latestReading = AirPressureReading(true, state.getTimeStamp(true));
+    } else {
+        int32_t UT = bmp.readRawTemperature();
+        int32_t UP = bmp.readRawPressure();
+        float temperature = bmp.correctTemperature(UT);
+        float pressurePa = bmp.correctPressure(UT, UP);
+        float pressure = pressurePa / 100.0;
+        float pressureSea = bmp.seaLevelForAltitude(
+                state.getSettings().getAltitude(), pressurePa) / 100.0;
 
-		latestReading = AirPressureReading(pressure, pressureSea, temperature,
-				state.getTimeStamp(true));
+        latestReading = AirPressureReading(pressure, pressureSea, temperature,
+                state.getTimeStamp(true));
 
-	}
+    }
 }
 

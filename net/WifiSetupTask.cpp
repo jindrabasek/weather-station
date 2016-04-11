@@ -7,7 +7,8 @@
 
 #include "WifiSetupTask.h"
 
-WifiSetupTask::WifiSetupTask() : Task(0, false) {
+WifiSetupTask::WifiSetupTask() :
+        Task(0, false) {
     // TODO Auto-generated constructor stub
 
 }

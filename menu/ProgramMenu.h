@@ -22,43 +22,43 @@ class ProgramSettings;
 
 class ProgramMenu {
 private:
-	LCD & lcd;
+    LCD & lcd;
 
-	ButtonsBackup buttonsBackup;
-	MenuButtonsCache buttonsCache;
-	MenuScreen menuScreen;
-	EnterMenuHandler enterMenuHandler;
+    ButtonsBackup buttonsBackup;
+    MenuButtonsCache buttonsCache;
+    MenuScreen menuScreen;
+    EnterMenuHandler enterMenuHandler;
 
-	LcdMenuDraw menuDraw;
-	LcdExitMenu menuExit;
+    LcdMenuDraw menuDraw;
+    LcdExitMenu menuExit;
 
-	SetTaskFrequencyAction setTempMeasureFreqAction;
-	SetTaskFrequencyAction setPressureMeasureFreqAction;
-	SetTaskFrequencyAction setLightMeasureFreqAction;
-	SetTaskFrequencyAction setDisplayRedrawFreqAction;
+    SetTaskFrequencyAction setTempMeasureFreqAction;
+    SetTaskFrequencyAction setPressureMeasureFreqAction;
+    SetTaskFrequencyAction setLightMeasureFreqAction;
+    SetTaskFrequencyAction setDisplayRedrawFreqAction;
 
-	OMMenuMgr menu;
+    OMMenuMgr menu;
 public:
-	ProgramMenu(const ProgramMenu& that) = delete;
-	void operator=(const ProgramMenu& that) = delete;
+    ProgramMenu(const ProgramMenu& that) = delete;
+    void operator=(const ProgramMenu& that) = delete;
 
-	ProgramMenu(LCD & lcd, ProgramState * state, ProgramSettings & settings);
+    ProgramMenu(LCD & lcd, ProgramState * state, ProgramSettings & settings);
 
-	MenuButtonsCache& getButtonsCache() {
-		return buttonsCache;
-	}
+    MenuButtonsCache& getButtonsCache() {
+        return buttonsCache;
+    }
 
-	EnterMenuHandler& getEnterMenuHandler() {
-		return enterMenuHandler;
-	}
+    EnterMenuHandler& getEnterMenuHandler() {
+        return enterMenuHandler;
+    }
 
-	LcdMenuDraw& getMenuDraw() {
-		return menuDraw;
-	}
+    LcdMenuDraw& getMenuDraw() {
+        return menuDraw;
+    }
 
-	LcdExitMenu& getMenuExit() {
-		return menuExit;
-	}
+    LcdExitMenu& getMenuExit() {
+        return menuExit;
+    }
 };
 
 #endif /* PROGRAMMENU_H_ */

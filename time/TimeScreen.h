@@ -10,9 +10,9 @@
 
 #include "../display/ToDraw.h"
 
-class TimeScreen: public ToDraw {
+class TimeScreen : public ToDraw {
 public:
-	virtual void draw(LCD & display);
+    virtual void draw(LCD & display);
 };
 
 #endif /* TIMESCREEN_H_ */

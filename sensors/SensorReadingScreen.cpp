@@ -10,18 +10,18 @@
 #include "../display/LcdNewLiner.h"
 
 SensorReadingScreen::SensorReadingScreen(SensorReading & toDraw) :
-		toDraw(toDraw) {
+        toDraw(toDraw) {
 
 }
 
 void SensorReadingScreen::draw(LCD & display) {
-	display.setCursor(0, 0);
-	display.print(toDraw.getHeaderText());
-	char buffer[9];
-	ProgramState::instance().getTime(true).timeToStr(buffer);
-	display.setCursor(12, 0);
-	display.print(buffer);
-	LcdNewLiner newLiner(display);
-	toDraw.printTo(display, newLiner);
+    display.setCursor(0, 0);
+    display.print(toDraw.getHeaderText());
+    char buffer[9];
+    ProgramState::instance().getTime(true).timeToStr(buffer);
+    display.setCursor(12, 0);
+    display.print(buffer);
+    LcdNewLiner newLiner(display);
+    toDraw.printTo(display, newLiner);
 }
 

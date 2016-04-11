@@ -13,34 +13,34 @@
 
 class TempReading : public SensorReading {
 private:
-	float humidity;
-	float temperatureCelsius;
-	float heatIndexCelsius;
+    float humidity;
+    float temperatureCelsius;
+    float heatIndexCelsius;
 
 //-----------------------------------------------------------------------------
 
-public:	
-	TempReading(float humidity, float temperatureCelsius,
-			float heatIndexCelsius, unsigned long timeStamp);
-	TempReading(bool error = false, unsigned long timeStamp = 0);
+public:
+    TempReading(float humidity, float temperatureCelsius,
+                float heatIndexCelsius, unsigned long timeStamp);
+    TempReading(bool error = false, unsigned long timeStamp = 0);
 
-	float getHeatIndexCelsius() const {
-		return heatIndexCelsius;
-	}
+    float getHeatIndexCelsius() const {
+        return heatIndexCelsius;
+    }
 
-	float getHumidity() const {
-		return humidity;
-	}
+    float getHumidity() const {
+        return humidity;
+    }
 
-	float getTemperatureCelsius() const {
-		return temperatureCelsius;
-	}
-	void printValues(Print & out, NewLiner & newLine) const;
+    float getTemperatureCelsius() const {
+        return temperatureCelsius;
+    }
+    void printValues(Print & out, NewLiner & newLine) const;
 
 protected:
-	const __FlashStringHelper * getErrText() const;
-	const __FlashStringHelper * getNotYetMeasuredText() const;
-	const __FlashStringHelper * getHeaderText() const;
+    const __FlashStringHelper * getErrText() const;
+    const __FlashStringHelper * getNotYetMeasuredText() const;
+    const __FlashStringHelper * getHeaderText() const;
 };
 
 #endif /* TEMPREADING_H_ */

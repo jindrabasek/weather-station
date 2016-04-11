@@ -8,7 +8,8 @@
 #ifndef PROGRAMSETTINGS_H_
 #define PROGRAMSETTINGS_H_
 
-#include <OMEEPROM.h>
+#include <Arduino.h>
+#include <stdbool.h>
 
 class ProgramSettings {
 public:
@@ -43,59 +44,73 @@ public:
     static const unsigned long RESOLUTION_DISPLAY_DRAW_FREQ = ONE_SEC_IN_US;
 
 private:
-	float altitude;
-	byte startupScreen;
-	unsigned long measureTempFreq;
-	unsigned long measurePressureFreq;
-	unsigned long measureLightFreq;
-	unsigned long displayDrawFreq;
-	bool wifiPasswordUsed;
-	char wifiPasswd[WIFI_MAX_PASSWD_LENGTH + 1];
-	char wifiSsid[WIFI_MAX_SSID_LENGTH + 1];
-
+    float altitude;
+    byte startupScreen;
+    unsigned long measureTempFreq;
+    unsigned long measurePressureFreq;
+    unsigned long measureLightFreq;
+    unsigned long displayDrawFreq;bool wifiPasswordUsed;
+    char wifiPasswd[WIFI_MAX_PASSWD_LENGTH + 1];
+    char wifiSsid[WIFI_MAX_SSID_LENGTH + 1];
 
 public:
 
+    static const int ALTITUDE_EPROM_ADDR = 8;
+    static const int STARTUP_SCREEN_EPROM_ADDR = ALTITUDE_EPROM_ADDR
+            + sizeof(altitude);
+    static const int MEASURE_TEMP_FREQ_EPROM_ADDR = STARTUP_SCREEN_EPROM_ADDR
+            + sizeof(startupScreen);
+    static const int MEASURE_PRESSURE_FREQ_EPROM_ADDR =
+            MEASURE_TEMP_FREQ_EPROM_ADDR + sizeof(measureTempFreq);
+    static const int MEASURE_LIGHT_FREQ_EPROM_ADDR =
+            MEASURE_PRESSURE_FREQ_EPROM_ADDR + sizeof(measurePressureFreq);
+    static const int DISPLAY_DRAW_FREQ_EPROM_ADDR =
+            MEASURE_LIGHT_FREQ_EPROM_ADDR + sizeof(measureLightFreq);
 
-	static const int ALTITUDE_EPROM_ADDR = 8;
-	static const int STARTUP_SCREEN_EPROM_ADDR = ALTITUDE_EPROM_ADDR + sizeof(altitude);
-	static const int MEASURE_TEMP_FREQ_EPROM_ADDR = STARTUP_SCREEN_EPROM_ADDR + sizeof(startupScreen);
-	static const int MEASURE_PRESSURE_FREQ_EPROM_ADDR = MEASURE_TEMP_FREQ_EPROM_ADDR + sizeof(measureTempFreq);
-	static const int MEASURE_LIGHT_FREQ_EPROM_ADDR = MEASURE_PRESSURE_FREQ_EPROM_ADDR + sizeof(measurePressureFreq);
-	static const int DISPLAY_DRAW_FREQ_EPROM_ADDR = MEASURE_LIGHT_FREQ_EPROM_ADDR + sizeof(measureLightFreq);
+    ProgramSettings();
 
-	ProgramSettings();
+    ProgramSettings(const ProgramSettings& that) = delete;
+    void operator=(const ProgramSettings& that) = delete;
 
-	ProgramSettings(const ProgramSettings& that) = delete;
-	void operator=(const ProgramSettings& that) = delete;
+    void loadSettings();
 
-	void loadSettings();
+    float getAltitude() const {
+        return altitude;
+    }
 
-	float getAltitude() const {
-		return altitude;
-	}
+    unsigned long getDisplayDrawFreq() const {
+        return displayDrawFreq * RESOLUTION_DISPLAY_DRAW_FREQ;
+    }
 
-	unsigned long getDisplayDrawFreq() const {
-		return displayDrawFreq * RESOLUTION_DISPLAY_DRAW_FREQ;
-	}
+    unsigned long getMeasureLightFreq() const {
+        return measureLightFreq * RESOLUTION_MEASURE_LIGHT_FREQ;
+    }
 
-	unsigned long getMeasureLightFreq() const {
-		return measureLightFreq * RESOLUTION_MEASURE_LIGHT_FREQ;
-	}
+    unsigned long getMeasurePressureFreq() const {
+        return measurePressureFreq * RESOLUTION_MEASURE_PRESSURE_FREQ;
+    }
 
-	unsigned long getMeasurePressureFreq() const {
-		return measurePressureFreq * RESOLUTION_MEASURE_PRESSURE_FREQ;
-	}
+    unsigned long getMeasureTempFreq() const {
+        return measureTempFreq * RESOLUTION_MEASURE_TEMP_FREQ;
+    }
 
-	unsigned long getMeasureTempFreq() const {
-		return measureTempFreq * RESOLUTION_MEASURE_TEMP_FREQ;
-	}
+    byte getStartupScreen() const {
+        return startupScreen;
+    }
 
-	byte getStartupScreen() const {
-		return startupScreen;
-	}
+    bool isWifiPasswordUsed() const {
+        return wifiPasswordUsed;
+    }
 
-	friend class ProgramMenu;
+    const char * getWifiPasswd() const {
+        return wifiPasswd;
+    }
+
+    const char * getWifiSsid() const {
+        return wifiSsid;
+    }
+
+    friend class ProgramMenu;
 
 };
 

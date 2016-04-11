@@ -9,20 +9,24 @@
 #define PERIPHERYREADING_H_
 
 enum ReadState {
-	NOT_YET_READ, READ_OK, READ_ERROR
+    NOT_YET_READ, READ_OK, READ_ERROR
 };
 
 class PeripheryReading {
 private:
-	ReadState readState;
+    ReadState readState;
 
 public:
-	PeripheryReading(ReadState readState) : readState(readState){}
-	virtual ~PeripheryReading(){}
+    PeripheryReading(ReadState readState) :
+            readState(readState) {
+    }
 
-	ReadState getReadState() const {
-		return readState;
-	}
+    virtual ~PeripheryReading() {
+    }
+
+    ReadState getReadState() const {
+        return readState;
+    }
 };
 
 #endif /* PERIPHERYREADING_H_ */

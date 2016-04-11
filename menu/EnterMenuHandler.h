@@ -14,20 +14,21 @@
 #include "MenuScreen.h"
 #include "../controls/ButtonsBackup.h"
 
-class EnterMenuHandler: public ButtonHandler {
+class EnterMenuHandler : public ButtonHandler {
 private:
-	MenuButtonsCache & buttonsCache;
-	MenuScreen & menuScreen;
-	ButtonsBackup & buttonsBackup;
+    MenuButtonsCache & buttonsCache;
+    MenuScreen & menuScreen;
+    ButtonsBackup & buttonsBackup;
 
-	MenuButtonHandler up;
-	MenuButtonHandler down;
-	MenuButtonHandler back;
-	MenuButtonHandler enter;
+    MenuButtonHandler up;
+    MenuButtonHandler down;
+    MenuButtonHandler back;
+    MenuButtonHandler enter;
 
 public:
-	EnterMenuHandler(MenuButtonsCache & buttonsCache, MenuScreen & menuScreen, ButtonsBackup & buttonsBackup);
-	virtual void onPressed();
+    EnterMenuHandler(MenuButtonsCache & buttonsCache, MenuScreen & menuScreen,
+                     ButtonsBackup & buttonsBackup);
+    virtual void onPressed();
 };
 
 #endif /* ENTERMENUHANDLER_H_ */

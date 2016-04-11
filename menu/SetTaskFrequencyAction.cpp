@@ -9,11 +9,11 @@
 #include "../ProgramSettings.h"
 
 SetTaskFrequencyAction::SetTaskFrequencyAction(Task& target,
-		unsigned long & periodSec) :
-		target(target),
-		periodSec(periodSec){
+                                               unsigned long & periodSec) :
+        target(target),
+        periodSec(periodSec) {
 }
 
 void SetTaskFrequencyAction::doAction() {
-	target.setPeriodUs(periodSec * ProgramSettings::ONE_SEC_IN_US);
+    target.setPeriodUs(periodSec * ProgramSettings::ONE_SEC_IN_US);
 }

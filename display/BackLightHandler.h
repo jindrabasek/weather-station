@@ -15,7 +15,7 @@ class BackLightHandler : public ButtonHandler {
 //-----------------------------------------------------------------------------
 
 public:
-	void onPressed();
+    void onPressed();
 };
 
 #endif /* BACKLIGHTHANDLER_H_ */

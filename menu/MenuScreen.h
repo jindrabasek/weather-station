@@ -12,17 +12,17 @@
 #include "MenuButtonsCache.h"
 #include <OMMenuMgr.h>
 
-class MenuScreen: public ToDraw {
+class MenuScreen : public ToDraw {
 private:
-	MenuButtonsCache & buttonsCache;
-	OMMenuMgr & menu;
+    MenuButtonsCache & buttonsCache;
+    OMMenuMgr & menu;
 public:
-	MenuScreen(MenuButtonsCache & buttonsCache, OMMenuMgr & menu);
-	virtual void draw(LCD & display);
+    MenuScreen(MenuButtonsCache & buttonsCache, OMMenuMgr & menu);
+    virtual void draw(LCD & display);
 
-	OMMenuMgr & getMenu() {
-		return menu;
-	}
+    OMMenuMgr & getMenu() {
+        return menu;
+    }
 };
 
 #endif /* MENUSCREEN_H_ */

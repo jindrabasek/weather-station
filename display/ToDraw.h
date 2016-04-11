@@ -10,11 +10,11 @@
 
 #include <LCD.h>
 
-
 class ToDraw {
 public:
-	virtual ~ToDraw(){}
-	virtual void draw(LCD & display)=0;
+    virtual ~ToDraw() {
+    }
+    virtual void draw(LCD & display)=0;
 };
 
 #endif /* TODRAW_H_ */

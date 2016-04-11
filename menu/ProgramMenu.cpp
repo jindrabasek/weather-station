@@ -124,5 +124,5 @@ ProgramMenu::ProgramMenu(LCD & lcd, ProgramState * state, ProgramSettings & sett
 	measureTempFreqCallbackHolder.setValuePtr(&setTempMeasureFreqAction);
 	measurePressureFreqCallbackHolder.setValuePtr(&setPressureMeasureFreqAction);
 	measureLightFreqCallbackHolder.setValuePtr(&setLightMeasureFreqAction);
-	displayDrawFreqCallbackHolder.setValuePtr(&setDisplayRedrawFreqAction);
+    displayDrawFreqCallbackHolder.setValuePtr(&setDisplayRedrawFreqAction);
 }

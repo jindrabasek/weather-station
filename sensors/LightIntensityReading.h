@@ -12,23 +12,23 @@
 
 class LightIntensityReading : public SensorReading {
 private:
-	int16_t intensity;
+    int16_t intensity;
 
 //-----------------------------------------------------------------------------
 
 public:
-	LightIntensityReading(int16_t intensity, unsigned long timeStamp);
-	LightIntensityReading(bool error = false, unsigned long timeStamp = 0);
+    LightIntensityReading(int16_t intensity, unsigned long timeStamp);
+    LightIntensityReading(bool error = false, unsigned long timeStamp = 0);
 
-	int16_t getIntensity() const {
-		return intensity;
-	}
-	void printValues(Print & out, NewLiner & newLine) const;
+    int16_t getIntensity() const {
+        return intensity;
+    }
+    void printValues(Print & out, NewLiner & newLine) const;
 
 protected:
-	const __FlashStringHelper * getErrText() const;
-	const __FlashStringHelper * getNotYetMeasuredText() const;
-	const __FlashStringHelper * getHeaderText() const;
+    const __FlashStringHelper * getErrText() const;
+    const __FlashStringHelper * getNotYetMeasuredText() const;
+    const __FlashStringHelper * getHeaderText() const;
 
 };
 

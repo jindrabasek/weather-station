@@ -13,25 +13,25 @@
 
 #include "TempReading.h"
 
-class TempMeasureTask: public Task {
+class TempMeasureTask : public Task {
 private:
-	TempReading latestReading;
-	DHT dht;
-	uint8_t pin;
+    TempReading latestReading;
+    DHT dht;
+    uint8_t pin;
 
 //-----------------------------------------------------------------------------
 
 public:
-	TempMeasureTask(uint8_t pin, unsigned long periodMs);
+    TempMeasureTask(uint8_t pin, unsigned long periodMs);
 
-	TempMeasureTask(const TempMeasureTask& that) = delete;
-	void operator=(const TempMeasureTask& that) = delete;
+    TempMeasureTask(const TempMeasureTask& that) = delete;
+    void operator=(const TempMeasureTask& that) = delete;
 
-	virtual void run();
+    virtual void run();
 
-	TempReading& getLatestReading() {
-		return latestReading;
-	}
+    TempReading& getLatestReading() {
+        return latestReading;
+    }
 };
 
 #endif /* TEMPMEASURETASK_H_ */

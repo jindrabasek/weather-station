@@ -16,20 +16,20 @@
 
 class Time {
 private:
-	TimeReading actualTime;
-	unsigned long timeAge;
-	WireRtcLib rtc;
+    TimeReading actualTime;
+    unsigned long timeAge;
+    WireRtcLib rtc;
 
 public:
-	Time();
+    Time();
 
-	Time(const Time& that) = delete;
-	void operator=(const Time& that) = delete;
+    Time(const Time& that) = delete;
+    void operator=(const Time& that) = delete;
 
-	TimeReading& getTime(bool updateFirst = false);
+    TimeReading& getTime(bool updateFirst = false);
 
 private:
-	void readTimeFromRtc();
+    void readTimeFromRtc();
 };
 
 #endif /* TIME_H_ */

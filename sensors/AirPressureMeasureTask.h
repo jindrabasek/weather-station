@@ -13,25 +13,24 @@
 
 #include "AirPressureReading.h"
 
-
-class AirPressureMeasureTask: public Task {
+class AirPressureMeasureTask : public Task {
 private:
-	AirPressureReading latestReading;
-	Adafruit_BMP085 bmp;
+    AirPressureReading latestReading;
+    Adafruit_BMP085 bmp;
 
 //-----------------------------------------------------------------------------
 
 public:
-	AirPressureMeasureTask(unsigned long periodMs);
+    AirPressureMeasureTask(unsigned long periodMs);
 
-	AirPressureMeasureTask(const AirPressureMeasureTask& that) = delete;
-	void operator=(const AirPressureMeasureTask& that) = delete;
+    AirPressureMeasureTask(const AirPressureMeasureTask& that) = delete;
+    void operator=(const AirPressureMeasureTask& that) = delete;
 
-	virtual void run();
+    virtual void run();
 
-	AirPressureReading& getLatestReading() {
-		return latestReading;
-	}
+    AirPressureReading& getLatestReading() {
+        return latestReading;
+    }
 };
 
 #endif /* AIRPRESSUREMEASURETASK_H_ */

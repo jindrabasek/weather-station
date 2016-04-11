@@ -11,12 +11,12 @@
 #include <MenuDrawHandler.h>
 #include <LCD.h>
 
-class LcdMenuDraw: public MenuDrawHandler {
+class LcdMenuDraw : public MenuDrawHandler {
 private:
-	LCD & lcd;
+    LCD & lcd;
 public:
-	LcdMenuDraw(LCD & lcd);
-	virtual void draw(char* p_text, int p_row, int p_col, int len);
+    LcdMenuDraw(LCD & lcd);
+    virtual void draw(char* p_text, int p_row, int p_col, int len);
 };
 
 #endif /* LCDMENUDRAW_H_ */

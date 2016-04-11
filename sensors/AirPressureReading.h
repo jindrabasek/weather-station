@@ -12,33 +12,34 @@
 
 class AirPressureReading : public SensorReading {
 private:
-	float pressure;
-	float pressureAtSeaLevel;
-	float temperature;
+    float pressure;
+    float pressureAtSeaLevel;
+    float temperature;
 
 //-----------------------------------------------------------------------------
 
 public:
-	AirPressureReading(float preassure, float pressureAtSeaLevel, float temperature, unsigned long timeStamp);
-	AirPressureReading(bool error = false, unsigned long timeStamp = 0);
+    AirPressureReading(float preassure, float pressureAtSeaLevel,
+                       float temperature, unsigned long timeStamp);
+    AirPressureReading(bool error = false, unsigned long timeStamp = 0);
 
-	float getPressureAtSeaLevel() const {
-		return pressureAtSeaLevel;
-	}
+    float getPressureAtSeaLevel() const {
+        return pressureAtSeaLevel;
+    }
 
-	float getPressure() const {
-		return pressure;
-	}
+    float getPressure() const {
+        return pressure;
+    }
 
-	float getTemperature() const {
-		return temperature;
-	}
-	void printValues(Print & out, NewLiner & newLine) const;
+    float getTemperature() const {
+        return temperature;
+    }
+    void printValues(Print & out, NewLiner & newLine) const;
 
 protected:
-	const __FlashStringHelper * getErrText() const;
-	const __FlashStringHelper * getNotYetMeasuredText() const;
-	const __FlashStringHelper * getHeaderText() const;
+    const __FlashStringHelper * getErrText() const;
+    const __FlashStringHelper * getNotYetMeasuredText() const;
+    const __FlashStringHelper * getHeaderText() const;
 
 };
 

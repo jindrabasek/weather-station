@@ -12,13 +12,13 @@
 #include <OMMenuMgr.h>
 #include "MenuButtonsCache.h"
 
-class MenuButtonHandler: public ButtonHandler {
+class MenuButtonHandler : public ButtonHandler {
 private:
-	Button button;
-	MenuButtonsCache & buttonsCache;
+    Button button;
+    MenuButtonsCache & buttonsCache;
 public:
-	MenuButtonHandler(Button button, MenuButtonsCache & buttonsCache);
-	virtual void onPressed();
+    MenuButtonHandler(Button button, MenuButtonsCache & buttonsCache);
+    virtual void onPressed();
 };
 
 #endif /* MENUBUTTONHANDLER_H_ */

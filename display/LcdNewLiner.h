@@ -13,21 +13,21 @@
 #include <LCD.h>
 #include <WString.h>
 
-class LcdNewLiner: public NewLiner {
-	LCD & lcd;
+class LcdNewLiner : public NewLiner {
+    LCD & lcd;
 public:
-	LcdNewLiner(LCD & out) :
-			lcd(out) {
-	}
-	virtual void newLine(int lineNumber) {
-		lcd.setCursor(0, lineNumber);
-	}
-	virtual void clearLine() {
-		lcd.print(F("                    "));
-	}
+    LcdNewLiner(LCD & out) :
+            lcd(out) {
+    }
+    virtual void newLine(int lineNumber) {
+        lcd.setCursor(0, lineNumber);
+    }
+    virtual void clearLine() {
+        lcd.print(F("                    "));
+    }
 
-	virtual ~LcdNewLiner(){}
+    virtual ~LcdNewLiner() {
+    }
 };
-
 
 #endif /* LCDNEWLINER_H_ */

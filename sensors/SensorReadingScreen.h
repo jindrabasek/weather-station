@@ -12,13 +12,13 @@
 #include "SensorReading.h"
 #include "../time/Time.h"
 
-class SensorReadingScreen: public ToDraw {
+class SensorReadingScreen : public ToDraw {
 private:
-	SensorReading & toDraw;
+    SensorReading & toDraw;
 
 public:
-	SensorReadingScreen(SensorReading & toDraw);
-	virtual void draw(LCD & display);
+    SensorReadingScreen(SensorReading & toDraw);
+    virtual void draw(LCD & display);
 };
 
 #endif /* SENSORREADINGSCREEN_H_ */

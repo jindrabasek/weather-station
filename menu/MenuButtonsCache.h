@@ -10,22 +10,20 @@
 
 #include "OMMenuMgr.h"
 
-
 class MenuButtonsCache {
 private:
-	static const uint8_t MENU_KEY_STROKES_CACHE_SIZE = 10;
+    static const uint8_t MENU_KEY_STROKES_CACHE_SIZE = 10;
 
-	volatile Button buttonsCache[MENU_KEY_STROKES_CACHE_SIZE];
-	volatile uint8_t size;
-	volatile uint8_t start;
-	volatile uint8_t end;
+    volatile Button buttonsCache[MENU_KEY_STROKES_CACHE_SIZE];
+    volatile uint8_t size;
+    volatile uint8_t start;
+    volatile uint8_t end;
 public:
-	MenuButtonsCache();
+    MenuButtonsCache();
 
-	void putPress(Button button);
-	Button getPress();
-	bool isEmpty();
-	void clear();
+    void putPress(Button button);
+    Button getPress();bool isEmpty();
+    void clear();
 };
 
 #endif /* MENUBUTTONSCACHE_H_ */

@@ -13,26 +13,26 @@
 #include <LCD.h>
 #include "ToDraw.h"
 
-class DrawOnDisplayTask: public Task {
+class DrawOnDisplayTask : public Task {
 private:
-	LCD & display;
-	ToDraw * toDraw;
-	bool clear;
+    LCD & display;
+    ToDraw * toDraw;
+    bool clear;
 
 //-----------------------------------------------------------------------------
 
 public:
-	DrawOnDisplayTask(unsigned long periodMs, LCD & display, ToDraw * toDraw);
+    DrawOnDisplayTask(unsigned long periodMs, LCD & display, ToDraw * toDraw);
 
-	DrawOnDisplayTask(const DrawOnDisplayTask& that) = delete;
-	void operator=(const DrawOnDisplayTask& that) = delete;
+    DrawOnDisplayTask(const DrawOnDisplayTask& that) = delete;
+    void operator=(const DrawOnDisplayTask& that) = delete;
 
-	virtual void run();
+    virtual void run();
 
-	void setToDraw(ToDraw * toDraw, bool clearFirst = false) {
-		this->toDraw = toDraw;
-		this->clear = clearFirst;
-	}
+    void setToDraw(ToDraw * toDraw, bool clearFirst = false) {
+        this->toDraw = toDraw;
+        this->clear = clearFirst;
+    }
 };
 
 #endif /* DRAWONDISPLAYTASK_H_ */

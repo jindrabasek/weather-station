@@ -13,29 +13,29 @@
 #include "../PeripheryReading.h"
 #include "../NewLiner.h"
 
-class SensorReading: public PeripheryReading {
+class SensorReading : public PeripheryReading {
 
 private:
-	unsigned long timeStamp;
+    unsigned long timeStamp;
 
 //-----------------------------------------------------------------------------
 
 public:
-	SensorReading(ReadState readState, unsigned long timeStamp);
-	virtual ~SensorReading() {
-	}
+    SensorReading(ReadState readState, unsigned long timeStamp);
+    virtual ~SensorReading() {
+    }
 
-	unsigned long getTimeStamp() const {
-		return timeStamp;
-	}
+    unsigned long getTimeStamp() const {
+        return timeStamp;
+    }
 
-	virtual const __FlashStringHelper * getHeaderText() const =0;
-	void printTo(Print & out, NewLiner & newLine) const;
+    virtual const __FlashStringHelper * getHeaderText() const =0;
+    void printTo(Print & out, NewLiner & newLine) const;
 
 protected:
-	virtual void printValues(Print & out, NewLiner & newLine) const =0;
-	virtual const __FlashStringHelper * getErrText() const =0;
-	virtual const __FlashStringHelper * getNotYetMeasuredText() const =0;
+    virtual void printValues(Print & out, NewLiner & newLine) const =0;
+    virtual const __FlashStringHelper * getErrText() const =0;
+    virtual const __FlashStringHelper * getNotYetMeasuredText() const =0;
 
 };
 

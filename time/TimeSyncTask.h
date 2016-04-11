@@ -10,12 +10,12 @@
 
 #include <LongTask.h>
 
-class TimeSyncTask: public LongTask {
+class TimeSyncTask : public LongTask {
 public:
-	TimeSyncTask(unsigned long periodHours, bool enabled = true);
+    TimeSyncTask(unsigned long periodHours, bool enabled = true);
 
 protected:
-	virtual void run();
+    virtual void run();
 };
 
 #endif /* TIMESYNCTASK_H_ */

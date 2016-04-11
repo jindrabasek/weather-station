@@ -10,9 +10,10 @@
 
 class NewLiner {
 public:
-	virtual void newLine(int lineNumber)=0;
-	virtual void clearLine() {
-	}
-	virtual ~NewLiner(){}
+    virtual void newLine(int lineNumber)=0;
+    virtual void clearLine() {
+    }
+    virtual ~NewLiner() {
+    }
 };
 #endif /* NEWLINER_H_ */

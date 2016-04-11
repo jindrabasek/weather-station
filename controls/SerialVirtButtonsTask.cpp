@@ -10,46 +10,46 @@
 #include <PciManagerLock.h>
 
 SerialVirtButtonsTask::SerialVirtButtonsTask(unsigned long periodMs) :
-		Task(periodMs) {
+        Task(periodMs) {
 }
 
 void SerialVirtButtonsTask::run() {
-	// check if new serial input is available
-	if (Serial.available()) {
-		// read one char from input buffer
-		char input = Serial.read();
-		ProgramState & state = ProgramState::instance();
+    // check if new serial input is available
+    if (Serial.available()) {
+        // read one char from input buffer
+        char input = Serial.read();
+        ProgramState & state = ProgramState::instance();
 
-		{
-			PciManagerLock lock;
-			switch (input) {
-			case UP_CHAR:
-				state.getUpButton().getHandler()->onPressed();
-				break;
-			case DOWN_CHAR:
-				state.getDownButton().getHandler()->onPressed();
-				break;
-			case LEFT_CHAR:
-				state.getLeftButton().getHandler()->onPressed();
-				break;
-			case RIGHT_CHAR:
-				state.getRightButton().getHandler()->onPressed();
-				break;
-			case BACKLIGHT_CHAR:
-				state.getBackLightButton().getHandler()->onPressed();
-				break;
-			case ENTER_CHAR:
-				state.getEnterButton().getHandler()->onPressed();
-				break;
-			case ESC_CHAR:
-				state.getEscButton().getHandler()->onPressed();
-				break;
-			default:
-				break;
-			}
-		}
+        {
+            PciManagerLock lock;
+            switch (input) {
+                case UP_CHAR:
+                    state.getUpButton().getHandler()->onPressed();
+                    break;
+                case DOWN_CHAR:
+                    state.getDownButton().getHandler()->onPressed();
+                    break;
+                case LEFT_CHAR:
+                    state.getLeftButton().getHandler()->onPressed();
+                    break;
+                case RIGHT_CHAR:
+                    state.getRightButton().getHandler()->onPressed();
+                    break;
+                case BACKLIGHT_CHAR:
+                    state.getBackLightButton().getHandler()->onPressed();
+                    break;
+                case ENTER_CHAR:
+                    state.getEnterButton().getHandler()->onPressed();
+                    break;
+                case ESC_CHAR:
+                    state.getEscButton().getHandler()->onPressed();
+                    break;
+                default:
+                    break;
+            }
+        }
 
-		Serial.print(F("Key received: "));
-		Serial.println(input);
-	}
+        Serial.print(F("Key received: "));
+        Serial.println(input);
+    }
 }

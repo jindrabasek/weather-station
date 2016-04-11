@@ -13,26 +13,24 @@
 
 #include "LightIntensityReading.h"
 
-
-class LightIntensityMeasureTask: public Task {
+class LightIntensityMeasureTask : public Task {
 private:
-	LightIntensityReading latestReading;
-	BH1750FVI bh;
+    LightIntensityReading latestReading;
+    BH1750FVI bh;
 
 //-----------------------------------------------------------------------------
 
 public:
-	LightIntensityMeasureTask(unsigned long periodMs);
+    LightIntensityMeasureTask(unsigned long periodMs);
 
-	LightIntensityMeasureTask(const LightIntensityMeasureTask& that) = delete;
-	void operator=(const LightIntensityMeasureTask& that) = delete;
+    LightIntensityMeasureTask(const LightIntensityMeasureTask& that) = delete;
+    void operator=(const LightIntensityMeasureTask& that) = delete;
 
-	virtual void run();
+    virtual void run();
 
-	LightIntensityReading& getLatestReading() {
-		return latestReading;
-	}
+    LightIntensityReading& getLatestReading() {
+        return latestReading;
+    }
 };
-
 
 #endif /* LIGHTINTENSITYMEASURETASK_H_ */

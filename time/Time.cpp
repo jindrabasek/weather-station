@@ -8,27 +8,27 @@
 #include "Time.h"
 
 TimeReading& Time::getTime(bool updateFirst) {
-	if (updateFirst) {
-		readTimeFromRtc();
-	}
-	return actualTime;
+    if (updateFirst) {
+        readTimeFromRtc();
+    }
+    return actualTime;
 }
 
 void Time::readTimeFromRtc() {
-	if (timeAge - millis() > READ_AT_MOST_EVERY_N_MS || timeAge - millis() < 0
-			|| actualTime.getReadState() == NOT_YET_READ
-			|| actualTime.getReadState() == READ_ERROR) {
+    if (timeAge - millis() > READ_AT_MOST_EVERY_N_MS || timeAge - millis() < 0
+            || actualTime.getReadState() == NOT_YET_READ
+            || actualTime.getReadState() == READ_ERROR) {
 
-		if (actualTime.getReadState() == NOT_YET_READ
-				|| actualTime.getReadState() == READ_ERROR) {
-			rtc.begin();
-		}
+        if (actualTime.getReadState() == NOT_YET_READ
+                || actualTime.getReadState() == READ_ERROR) {
+            rtc.begin();
+        }
 
-		timeAge = millis();
-		actualTime = TimeReading(rtc.getTime());
-	}
+        timeAge = millis();
+        actualTime = TimeReading(rtc.getTime());
+    }
 }
 
 Time::Time() :
-		timeAge(0) {
+        timeAge(0) {
 }

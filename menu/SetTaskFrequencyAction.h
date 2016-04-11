@@ -11,13 +11,13 @@
 #include <MenuAction.h>
 #include <Task.h>
 
-class SetTaskFrequencyAction: public MenuAction {
+class SetTaskFrequencyAction : public MenuAction {
 private:
-	Task & target;
-	unsigned long & periodSec;
+    Task & target;
+    unsigned long & periodSec;
 public:
-	SetTaskFrequencyAction(Task & target, unsigned long & periodSec);
-	virtual void doAction();
+    SetTaskFrequencyAction(Task & target, unsigned long & periodSec);
+    virtual void doAction();
 };
 
 #endif /* SETTASKFREQUENCYACTION_H_ */

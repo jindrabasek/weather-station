@@ -9,19 +9,20 @@
 #include "../ProgramState.h"
 
 SwitchScreenHandler::SwitchScreenHandler(int8_t switchFor) :
-		switchFor(switchFor){
+        switchFor(switchFor) {
 }
 
 void SwitchScreenHandler::onPressed() {
-	ProgramState & state = ProgramState::instance();
+    ProgramState & state = ProgramState::instance();
 
-	state.setCurrentScreen(
-			(switchFor < 0) ?
-					(state.getCurrentScreen() == 0 ?
-							(ProgramState::COUNT_OF_SCREENS + switchFor) :
-							state.getCurrentScreen() + switchFor) :
-					(state.getCurrentScreen() + switchFor) % ProgramState::COUNT_OF_SCREENS);
-	state.getDrawOnDisplayTask().setToDraw(
-			state.getDisplayScreens()[state.getCurrentScreen()], true);
-	state.getDrawOnDisplayTask().startAtEarliestOportunity();
+    state.setCurrentScreen(
+            (switchFor < 0) ?
+                    (state.getCurrentScreen() == 0 ?
+                            (ProgramState::COUNT_OF_SCREENS + switchFor) :
+                            state.getCurrentScreen() + switchFor) :
+                    (state.getCurrentScreen() + switchFor)
+                            % ProgramState::COUNT_OF_SCREENS);
+    state.getDrawOnDisplayTask().setToDraw(
+            state.getDisplayScreens()[state.getCurrentScreen()], true);
+    state.getDrawOnDisplayTask().startAtEarliestOportunity();
 }
