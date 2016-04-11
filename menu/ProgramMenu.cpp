@@ -6,9 +6,14 @@
  */
 
 #include "ProgramMenu.h"
+
+#include <Arduino.h>
+#include <LCD.h>
 #include <MenuValueHolder.h>
-#include "../ProgramState.h"
+#include <OMMenuMgr.h>
+
 #include "../ProgramSettings.h"
+#include "../ProgramState.h"
 
 MenuValueHolder<float> altitudeHolder;
 MenuValueHolder<byte> startupScreenHolder;

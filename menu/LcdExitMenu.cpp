@@ -5,10 +5,18 @@
  *      Author: jindra
  */
 
-#include <ButtonHandler.h>
 #include "LcdExitMenu.h"
-#include "../ProgramState.h"
+
+#include <Debouncer.h>
+#include <LCD.h>
 #include <PciManager.h>
+#include <stdbool.h>
+#include <Task.h>
+
+#include "../controls/ButtonsBackup.h"
+#include "../display/DrawOnDisplayTask.h"
+#include "../ProgramState.h"
+#include "EnterMenuHandler.h"
 
 LcdExitMenu::LcdExitMenu(LCD& lcd, EnterMenuHandler& enterMenuHandler,
                          ButtonsBackup & buttonsBackup) :

@@ -10,8 +10,9 @@
 
 #include <Print.h>
 #include <WString.h>
-#include "../PeripheryReading.h"
+
 #include "../NewLiner.h"
+#include "../PeripheryReading.h"
 
 class SensorReading : public PeripheryReading {
 

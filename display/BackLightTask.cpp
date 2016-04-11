@@ -6,6 +6,11 @@
  */
 
 #include "BackLightTask.h"
+
+#include <LCD.h>
+#include <stdbool.h>
+#include <Task.h>
+
 #include "../ProgramState.h"
 
 BackLightTask::BackLightTask(LCD & display) :

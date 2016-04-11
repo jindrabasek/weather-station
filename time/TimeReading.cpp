@@ -5,9 +5,13 @@
  *      Author: jindra
  */
 
-#include <stdio.h>
-
 #include "TimeReading.h"
+
+#include <stdio.h>
+#include <WireRtcLib.h>
+#include <WString.h>
+
+#include "../PeripheryReading.h"
 
 TimeReading::TimeReading(WireRtcLib::tm time) :
         PeripheryReading(time.error ? READ_ERROR : READ_OK),

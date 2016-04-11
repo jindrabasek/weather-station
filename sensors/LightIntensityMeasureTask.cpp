@@ -7,6 +7,11 @@
 
 #include "LightIntensityMeasureTask.h"
 
+#include <BH1750FVI.h>
+#include <stdbool.h>
+#include <stdint.h>
+
+#include "../PeripheryReading.h"
 #include "../ProgramState.h"
 
 LightIntensityMeasureTask::LightIntensityMeasureTask(unsigned long periodMs) :

@@ -8,6 +8,12 @@
 #ifndef LIGHTINTENSITYREADING_H_
 #define LIGHTINTENSITYREADING_H_
 
+#include <Print.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <WString.h>
+
+#include "../NewLiner.h"
 #include "SensorReading.h"
 
 class LightIntensityReading : public SensorReading {

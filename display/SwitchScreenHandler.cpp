@@ -6,7 +6,12 @@
  */
 
 #include "SwitchScreenHandler.h"
+
+#include <stdbool.h>
+#include <stdint.h>
+
 #include "../ProgramState.h"
+#include "DrawOnDisplayTask.h"
 
 SwitchScreenHandler::SwitchScreenHandler(int8_t switchFor) :
         switchFor(switchFor) {

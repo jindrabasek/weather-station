@@ -7,6 +7,11 @@
 
 #include "AirPressureMeasureTask.h"
 
+#include <stdbool.h>
+#include <stdint.h>
+
+#include "../PeripheryReading.h"
+#include "../ProgramSettings.h"
 #include "../ProgramState.h"
 
 AirPressureMeasureTask::AirPressureMeasureTask(unsigned long periodMs) :

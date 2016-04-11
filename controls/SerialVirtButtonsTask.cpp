@@ -6,8 +6,14 @@
  */
 
 #include "SerialVirtButtonsTask.h"
-#include "../ProgramState.h"
+
+#include <ButtonHandler.h>
+#include <Debouncer.h>
+#include <HardwareSerial.h>
 #include <PciManagerLock.h>
+#include <WString.h>
+
+#include "../ProgramState.h"
 
 SerialVirtButtonsTask::SerialVirtButtonsTask(unsigned long periodMs) :
         Task(periodMs) {

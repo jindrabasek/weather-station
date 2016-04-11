@@ -1,9 +1,11 @@
 // Do not remove the include below
-#include <Arduino.h>
 
-#include <SoftTimer.h>
+#include <avr/interrupt.h>
+#include <Arduino.h>
+#include <HardwareSerial.h>
 #include <PciManager.h>
-//#include <SoftwareSerial.h>
+#include <SoftTimer.h>
+#include <WString.h>
 
 #include "ProgramState.h"
 

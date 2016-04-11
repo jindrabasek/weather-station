@@ -7,6 +7,15 @@
 
 #include "TempReading.h"
 
+#include <math.h>
+#include <Print.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <WString.h>
+
+#include "../NewLiner.h"
+#include "../PeripheryReading.h"
+
 TempReading::TempReading(float humidity, float temperatureCelsius,
                          float heatIndexCelsius, unsigned long timeStamp) :
         SensorReading(READ_OK, timeStamp),

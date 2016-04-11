@@ -8,8 +8,8 @@
 #ifndef AIRPRESSUREMEASURETASK_H_
 #define AIRPRESSUREMEASURETASK_H_
 
-#include <Task.h>
 #include <Adafruit_BMP085.h>
+#include <Task.h>
 
 #include "AirPressureReading.h"
 

@@ -6,12 +6,16 @@
  */
 
 #include "SensorReadingScreen.h"
-#include "../ProgramState.h"
+
+#include <LCD.h>
+#include <stdbool.h>
+
 #include "../display/LcdNewLiner.h"
+#include "../ProgramState.h"
+#include "SensorReading.h"
 
 SensorReadingScreen::SensorReadingScreen(SensorReading & toDraw) :
         toDraw(toDraw) {
-
 }
 
 void SensorReadingScreen::draw(LCD & display) {

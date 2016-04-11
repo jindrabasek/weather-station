@@ -8,8 +8,8 @@
 #ifndef LCDMENUDRAW_H_
 #define LCDMENUDRAW_H_
 
-#include <MenuDrawHandler.h>
 #include <LCD.h>
+#include <MenuDrawHandler.h>
 
 class LcdMenuDraw : public MenuDrawHandler {
 private:

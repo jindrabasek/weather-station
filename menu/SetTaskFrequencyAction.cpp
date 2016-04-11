@@ -6,6 +6,9 @@
  */
 
 #include "SetTaskFrequencyAction.h"
+
+#include <Task.h>
+
 #include "../ProgramSettings.h"
 
 SetTaskFrequencyAction::SetTaskFrequencyAction(Task& target,

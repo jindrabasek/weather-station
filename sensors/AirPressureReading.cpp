@@ -6,9 +6,14 @@
  */
 
 #include "AirPressureReading.h"
+
 #include <math.h>
 #include <Print.h>
+#include <stdlib.h>
 #include <WString.h>
+
+#include "../NewLiner.h"
+#include "../PeripheryReading.h"
 
 AirPressureReading::AirPressureReading(float pressure, float pressureAtSeaLevel,
                                        float temperature,

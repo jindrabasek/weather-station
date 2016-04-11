@@ -6,8 +6,18 @@
  */
 
 #include "MenuScreen.h"
+
+#include <LCD.h>
+#include <OMMenuMgr.h>
 #include <PciManagerLock.h>
+#include <stdbool.h>
+#include <Task.h>
+
 #include "../ProgramState.h"
+#include "LcdExitMenu.h"
+#include "LcdMenuDraw.h"
+#include "MenuButtonsCache.h"
+#include "ProgramMenu.h"
 
 MenuScreen::MenuScreen(MenuButtonsCache& buttonsCache, OMMenuMgr& menu) :
         buttonsCache(buttonsCache),

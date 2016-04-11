@@ -8,8 +8,8 @@
 #ifndef BACKLIGHTTASK_H_
 #define BACKLIGHTTASK_H_
 
-#include <Task.h>
 #include <LCD.h>
+#include <Task.h>
 
 class BackLightTask : public Task {
 private:

@@ -7,6 +7,12 @@
 
 #include "Time.h"
 
+#include <Arduino.h>
+#include <stdbool.h>
+#include <WireRtcLib.h>
+
+#include "../PeripheryReading.h"
+
 TimeReading& Time::getTime(bool updateFirst) {
     if (updateFirst) {
         readTimeFromRtc();

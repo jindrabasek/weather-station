@@ -7,6 +7,8 @@
 
 #include "LcdMenuDraw.h"
 
+#include <LCD.h>
+
 LcdMenuDraw::LcdMenuDraw(LCD & lcd) :
         lcd(lcd) {
 }

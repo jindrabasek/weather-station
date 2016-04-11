@@ -6,6 +6,10 @@
  */
 
 #include "ButtonsBackup.h"
+
+#include <Debouncer.h>
+#include <stddef.h>
+
 #include "../ProgramState.h"
 
 ButtonsBackup::ButtonsBackup() :

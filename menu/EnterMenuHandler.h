@@ -8,11 +8,10 @@
 #ifndef ENTERMENUHANDLER_H_
 #define ENTERMENUHANDLER_H_
 
-#include <ButtonHandler.h>
+#include "../controls/ButtonsBackup.h"
 #include "MenuButtonHandler.h"
 #include "MenuButtonsCache.h"
 #include "MenuScreen.h"
-#include "../controls/ButtonsBackup.h"
 
 class EnterMenuHandler : public ButtonHandler {
 private:

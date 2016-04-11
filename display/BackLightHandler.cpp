@@ -6,6 +6,10 @@
  */
 
 #include "BackLightHandler.h"
+
+#include <stdbool.h>
+#include <Task.h>
+
 #include "../ProgramState.h"
 
 void BackLightHandler::onPressed() {

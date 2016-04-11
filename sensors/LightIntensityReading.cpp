@@ -7,6 +7,14 @@
 
 #include "LightIntensityReading.h"
 
+#include <Print.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <WString.h>
+
+#include "../NewLiner.h"
+#include "../PeripheryReading.h"
+
 LightIntensityReading::LightIntensityReading(int16_t intensity,
                                              unsigned long timeStamp) :
         SensorReading(READ_OK, timeStamp),

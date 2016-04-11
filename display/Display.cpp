@@ -7,6 +7,9 @@
 
 #include "Display.h"
 
+#include <Arduino.h>
+#include <LCD.h>
+
 void Display::doSetup() {
     lcd.begin(20, 4);
 

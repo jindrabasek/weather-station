@@ -8,9 +8,10 @@
 #ifndef DRAWONDISPLAYTASK_H_
 #define DRAWONDISPLAYTASK_H_
 
+#include <LCD.h>
+#include <stdbool.h>
 #include <Task.h>
 
-#include <LCD.h>
 #include "ToDraw.h"
 
 class DrawOnDisplayTask : public Task {

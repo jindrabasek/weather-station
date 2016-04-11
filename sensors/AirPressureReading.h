@@ -8,6 +8,10 @@
 #ifndef AIRPRESSUREREADING_H_
 #define AIRPRESSUREREADING_H_
 
+#include <Print.h>
+#include <WString.h>
+
+#include "../NewLiner.h"
 #include "SensorReading.h"
 
 class AirPressureReading : public SensorReading {

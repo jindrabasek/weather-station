@@ -8,9 +8,11 @@
 #ifndef MENUSCREEN_H_
 #define MENUSCREEN_H_
 
+#include <LCD.h>
+#include <OMMenuMgr.h>
+
 #include "../display/ToDraw.h"
 #include "MenuButtonsCache.h"
-#include <OMMenuMgr.h>
 
 class MenuScreen : public ToDraw {
 private:

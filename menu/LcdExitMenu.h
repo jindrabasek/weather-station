@@ -8,10 +8,12 @@
 #ifndef LCDEXITMENU_H_
 #define LCDEXITMENU_H_
 
-#include <MenuExitHandler.h>
-#include "EnterMenuHandler.h"
 #include <LCD.h>
+#include <MenuExitHandler.h>
+#include <stdbool.h>
+
 #include "../controls/ButtonsBackup.h"
+#include "EnterMenuHandler.h"
 
 class LcdExitMenu : public MenuExitHandler {
 private:

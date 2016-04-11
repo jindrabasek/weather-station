@@ -6,7 +6,13 @@
  */
 
 #include "MenuButtonHandler.h"
+
+#include <OMMenuMgr.h>
+#include <stdbool.h>
+#include <Task.h>
+
 #include "../ProgramState.h"
+#include "MenuButtonsCache.h"
 
 MenuButtonHandler::MenuButtonHandler(Button button,
                                      MenuButtonsCache& buttonsCache) :

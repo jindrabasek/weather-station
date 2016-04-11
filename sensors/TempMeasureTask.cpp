@@ -7,6 +7,11 @@
 
 #include "TempMeasureTask.h"
 
+#include <DHT.h>
+#include <math.h>
+#include <stdbool.h>
+#include <stdint.h>
+
 #include "../ProgramState.h"
 
 TempMeasureTask::TempMeasureTask(uint8_t pin, unsigned long periodMs) :

@@ -8,7 +8,9 @@
 #ifndef MENUBUTTONSCACHE_H_
 #define MENUBUTTONSCACHE_H_
 
-#include "OMMenuMgr.h"
+#include <OMMenuMgr.h>
+#include <stdbool.h>
+#include <stdint.h>
 
 class MenuButtonsCache {
 private:
@@ -22,7 +24,8 @@ public:
     MenuButtonsCache();
 
     void putPress(Button button);
-    Button getPress();bool isEmpty();
+    Button getPress();
+    bool isEmpty();
     void clear();
 };
 

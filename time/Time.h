@@ -8,11 +8,13 @@
 #ifndef TIME_H_
 #define TIME_H_
 
-#define READ_AT_MOST_EVERY_N_MS 500
-
+#include <stdbool.h>
 #include <WireRtcLib.h>
 
 #include "TimeReading.h"
+
+
+#define READ_AT_MOST_EVERY_N_MS 500
 
 class Time {
 private:

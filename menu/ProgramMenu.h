@@ -8,13 +8,15 @@
 #ifndef PROGRAMMENU_H_
 #define PROGRAMMENU_H_
 
-#include "MenuButtonsCache.h"
-#include "EnterMenuHandler.h"
-#include "../controls/ButtonsBackup.h"
-#include "MenuScreen.h"
 #include <LCD.h>
-#include "LcdMenuDraw.h"
+#include <OMMenuMgr.h>
+
+#include "../controls/ButtonsBackup.h"
+#include "EnterMenuHandler.h"
 #include "LcdExitMenu.h"
+#include "LcdMenuDraw.h"
+#include "MenuButtonsCache.h"
+#include "MenuScreen.h"
 #include "SetTaskFrequencyAction.h"
 
 class ProgramState;

@@ -9,7 +9,8 @@
 #define SWITCHSCREENHANDLER_H_
 
 #include <ButtonHandler.h>
-#include "DrawOnDisplayTask.h"
+#include <stdint.h>
+
 
 class SwitchScreenHandler : public ButtonHandler {
 private:

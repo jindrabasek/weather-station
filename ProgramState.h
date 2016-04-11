@@ -8,28 +8,37 @@
 #ifndef PROGRAMSTATE_H_
 #define PROGRAMSTATE_H_
 
-#include <SoftTimer.h>
-#include <PciManager.h>
-#include <Debouncer.h>
-
-#include "display/Display.h"
 #include "ProgramState.h"
+
+#include <Arduino.h>
+#include <Debouncer.h>
+#include <HardwareSerial.h>
+#include <HttpClient.h>
+#include <pins_arduino.h>
+#include <PciManager.h>
+#include <stdbool.h>
+#include <SoftTimer.h>
+#include <utility/EspDrv.h>
+#include <WiFiEsp.h>
+#include <WiFiEspClient.h>
+#include <WString.h>
+
+#include "controls/SerialVirtButtonsTask.h"
+#include "display/BackLightHandler.h"
+#include "display/BackLightTask.h"
+#include "display/Display.h"
 #include "display/DrawOnDisplayTask.h"
 #include "display/SwitchScreenHandler.h"
+#include "display/ToDraw.h"
+#include "menu/ProgramMenu.h"
+#include "ProgramSettings.h"
 #include "sensors/AirPressureMeasureTask.h"
 #include "sensors/LightIntensityMeasureTask.h"
-#include "sensors/TempMeasureTask.h"
-#include "display/BackLightTask.h"
-#include "display/BackLightHandler.h"
-#include "ProgramSettings.h"
-#include "time/TimeScreen.h"
-#include "time/TimeReading.h"
 #include "sensors/SensorReadingScreen.h"
+#include "sensors/TempMeasureTask.h"
 #include "time/Time.h"
-#include "menu/ProgramMenu.h"
-#include "controls/SerialVirtButtonsTask.h"
-#include <WiFiEsp.h>
-#include <HttpClient.h>
+#include "time/TimeReading.h"
+#include "time/TimeScreen.h"
 
 class ToDraw;
 

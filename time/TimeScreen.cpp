@@ -6,8 +6,16 @@
  */
 
 #include "TimeScreen.h"
-#include "TimeReading.h"
+
+#include <LCD.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <WireRtcLib.h>
+#include <WString.h>
+
+#include "../PeripheryReading.h"
 #include "../ProgramState.h"
+#include "TimeReading.h"
 
 void TimeScreen::draw(LCD & display) {
     char buffer[11];

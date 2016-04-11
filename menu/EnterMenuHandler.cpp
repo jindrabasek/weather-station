@@ -6,8 +6,17 @@
  */
 
 #include "EnterMenuHandler.h"
+
+#include <Debouncer.h>
 #include <OMMenuMgr.h>
+#include <stdbool.h>
+#include <Task.h>
+
+#include "../controls/ButtonsBackup.h"
+#include "../display/DrawOnDisplayTask.h"
 #include "../ProgramState.h"
+#include "MenuButtonsCache.h"
+#include "MenuScreen.h"
 
 EnterMenuHandler::EnterMenuHandler(MenuButtonsCache& buttonsCache,
                                    MenuScreen & menuScreen,

@@ -7,6 +7,9 @@
 
 #include "MenuButtonsCache.h"
 
+#include <OMMenuMgr.h>
+#include <stdbool.h>
+
 MenuButtonsCache::MenuButtonsCache() :
         size(0),
         start(0),

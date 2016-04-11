@@ -8,8 +8,8 @@
 #ifndef TEMPMEASURETASK_H_
 #define TEMPMEASURETASK_H_
 
-#include <Task.h>
 #include <DHT.h>
+#include <stdint.h>
 
 #include "TempReading.h"
 

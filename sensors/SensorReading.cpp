@@ -7,6 +7,13 @@
 
 #include "SensorReading.h"
 
+#include <Print.h>
+#include <stdint.h>
+#include <WString.h>
+
+#include "../NewLiner.h"
+#include "../PeripheryReading.h"
+
 SensorReading::SensorReading(ReadState readState, unsigned long timeStamp) :
         PeripheryReading(readState),
         timeStamp(timeStamp) {

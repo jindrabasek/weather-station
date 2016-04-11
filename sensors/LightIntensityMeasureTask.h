@@ -8,8 +8,8 @@
 #ifndef LIGHTINTENSITYMEASURETASK_H_
 #define LIGHTINTENSITYMEASURETASK_H_
 
-#include <Task.h>
 #include <BH1750FVI.h>
+#include <Task.h>
 
 #include "LightIntensityReading.h"
 
