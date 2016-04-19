@@ -68,6 +68,9 @@ private:
 
     Display disp;
 
+    SingleThreadPool measureThread;
+    SingleThreadPool displayThread;
+
     Time time;
     TempMeasureTask measureTempTask;
     AirPressureMeasureTask measureAirPressureTask;
@@ -201,6 +204,9 @@ public:
 
 private:
     ProgramState() :
+            measureThread(512),
+            displayThread(512),
+
             measureTempTask(DHT_PIN, settings.getMeasureTempFreq()),
             measureAirPressureTask(settings.getMeasurePressureFreq()),
             measureLightIntensityTask(settings.getMeasureLightFreq()),
@@ -238,6 +244,13 @@ private:
 
         pinMode(LED_BUILTIN, OUTPUT);
 
+        measureTempTask.setThreadPool(&measureThread);
+        measureAirPressureTask.setThreadPool(&measureThread);
+        measureLightIntensityTask.setThreadPool(&measureThread);
+
+        drawOnDisplayTask.setThreadPool(&displayThread);
+        backLightTask.setThreadPool(&displayThread);
+
         SoftTimer & timer = SoftTimer::instance();
         timer.add(&measureTempTask);
         timer.add(&measureAirPressureTask);
@@ -255,13 +268,11 @@ private:
         pciManager.registerListener(&enterButton);
         pciManager.registerListener(&escButton);
 
-        //mySerial.begin(9600);
-
         disp.doSetup();
 
         pciManager.setEnabled(true);
 
-        // initialize ESP module
+        /*// initialize ESP module
         WiFi.init(&Serial1, 9600);
 
         // check for the presence of the shield
@@ -307,15 +318,15 @@ private:
                             }
                             Serial.println(F("Page loaded!\n"));
                         } else {
-                            Serial.print("Failed to skip response headers: ");
+                            Serial.print(F("Failed to skip response headers: "));
                             Serial.println(err);
                         }
                     } else {
-                        Serial.print("Getting response failed: ");
+                        Serial.print(F("Getting response failed: "));
                         Serial.println(err);
                     }
                 } else {
-                    Serial.print("Connect failed: ");
+                    Serial.print(F("Connect failed: "));
                     Serial.println(err);
                 }
                 http.stop();
@@ -323,7 +334,7 @@ private:
             } else {
                 Serial.println(F("WiFi connection failed!"));
             }
-        }
+        }*/
 
     }
 };

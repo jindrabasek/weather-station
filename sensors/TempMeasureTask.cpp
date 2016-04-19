@@ -22,12 +22,11 @@ TempMeasureTask::TempMeasureTask(uint8_t pin, unsigned long periodMs) :
 
 void TempMeasureTask::run() {
     DhtReadState dhtState = dht.read();
-
     ProgramState & state = ProgramState::instance();
     if (dhtState == DHT_GOOD) {
-        float h = dht.readHumidity();
+        float h = dht.getHumidity();
         // Read temperature as Celsius (the default)
-        float t = dht.readTemperature();
+        float t = dht.getTemperature();
 
         float hic = NAN;
         // Check if any reads failed and exit early (to try again).
@@ -37,9 +36,7 @@ void TempMeasureTask::run() {
 
         latestReading = TempReading(h, t, hic, state.getTimeStamp(true));
     } else {
-        latestReading = TempReading(dhtState == DHT_ERROR,
-                state.getTimeStamp(true));
+        latestReading = TempReading(true, state.getTimeStamp(true));
     }
-
 }
 

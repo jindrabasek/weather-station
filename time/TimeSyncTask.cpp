@@ -7,6 +7,10 @@
 
 #include "TimeSyncTask.h"
 
+#include <stdbool.h>
+#include <stddef.h>
+#include <SingleThreadPool.h>
+
 TimeSyncTask::TimeSyncTask(unsigned long periodHours, bool enabled) :
         LongTask(periodHours, 0, enabled) {
 }
