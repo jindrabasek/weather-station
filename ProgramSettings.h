@@ -13,6 +13,8 @@
 
 class ProgramSettings {
 public:
+    static const unsigned int SETTINGS_VERSION = 3;
+
     static const int WIFI_MAX_PASSWD_LENGTH = 63;
     static const int WIFI_MAX_SSID_LENGTH = 32;
     static const float DEFAULT_ALTITUDE;
@@ -49,13 +51,13 @@ private:
     unsigned long measureTempFreq;
     unsigned long measurePressureFreq;
     unsigned long measureLightFreq;
-    unsigned long displayDrawFreq;bool wifiPasswordUsed;
-    char wifiPasswd[WIFI_MAX_PASSWD_LENGTH + 1];
-    char wifiSsid[WIFI_MAX_SSID_LENGTH + 1];
+    unsigned long displayDrawFreq;
+    char wifiPasswd[WIFI_MAX_PASSWD_LENGTH + 1] = {0};
+    char wifiSsid[WIFI_MAX_SSID_LENGTH + 1] = {0};
 
 public:
 
-    static const int ALTITUDE_EPROM_ADDR = 8;
+    static const int ALTITUDE_EPROM_ADDR = 16;
     static const int STARTUP_SCREEN_EPROM_ADDR = ALTITUDE_EPROM_ADDR
             + sizeof(altitude);
     static const int MEASURE_TEMP_FREQ_EPROM_ADDR = STARTUP_SCREEN_EPROM_ADDR
@@ -66,6 +68,10 @@ public:
             MEASURE_PRESSURE_FREQ_EPROM_ADDR + sizeof(measurePressureFreq);
     static const int DISPLAY_DRAW_FREQ_EPROM_ADDR =
             MEASURE_LIGHT_FREQ_EPROM_ADDR + sizeof(measureLightFreq);
+    static const int WIFI_PASSWORD_EPROM_ADDR =
+            8 + DISPLAY_DRAW_FREQ_EPROM_ADDR + sizeof(displayDrawFreq);
+    static const int WIFI_SSID_EPROM_ADDR =
+            WIFI_PASSWORD_EPROM_ADDR + sizeof(wifiPasswd);
 
     ProgramSettings();
 
@@ -96,10 +102,6 @@ public:
 
     byte getStartupScreen() const {
         return startupScreen;
-    }
-
-    bool isWifiPasswordUsed() const {
-        return wifiPasswordUsed;
     }
 
     const char * getWifiPasswd() const {

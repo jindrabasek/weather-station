@@ -12,16 +12,12 @@
 
 #include <Arduino.h>
 #include <Debouncer.h>
-#include <HardwareSerial.h>
-#include <HttpClient.h>
 #include <pins_arduino.h>
 #include <PciManager.h>
 #include <stdbool.h>
+#include <SingleThreadPool.h>
 #include <SoftTimer.h>
-#include <utility/EspDrv.h>
-#include <WiFiEsp.h>
-#include <WiFiEspClient.h>
-#include <WString.h>
+#include <Task.h>
 
 #include "controls/SerialVirtButtonsTask.h"
 #include "display/BackLightHandler.h"
@@ -31,6 +27,8 @@
 #include "display/SwitchScreenHandler.h"
 #include "display/ToDraw.h"
 #include "menu/ProgramMenu.h"
+#include "net/Network.h"
+#include "net/NetworkTestTask.h"
 #include "ProgramSettings.h"
 #include "sensors/AirPressureMeasureTask.h"
 #include "sensors/LightIntensityMeasureTask.h"
@@ -70,6 +68,7 @@ private:
 
     SingleThreadPool measureThread;
     SingleThreadPool displayThread;
+    SingleThreadPool networkThread;
 
     Time time;
     TempMeasureTask measureTempTask;
@@ -106,6 +105,9 @@ private:
     volatile byte currentScreen;
 
     volatile bool backLight;
+
+    Network network;
+    NetworkTestTask networkTestTask;
 
 //-----------------------------------------------------------------------------
 
@@ -202,10 +204,15 @@ public:
         return menu;
     }
 
+    Network& getNetwork() {
+        return network;
+    }
+
 private:
     ProgramState() :
             measureThread(512),
             displayThread(512),
+            networkThread(512),
 
             measureTempTask(DHT_PIN, settings.getMeasureTempFreq()),
             measureAirPressureTask(settings.getMeasurePressureFreq()),
@@ -270,72 +277,11 @@ private:
 
         disp.doSetup();
 
+        network.connect(settings);
+        networkTestTask.setThreadPool(&networkThread);
+        timer.add(&networkTestTask);
+
         pciManager.setEnabled(true);
-
-        /*// initialize ESP module
-        WiFi.init(&Serial1, 9600);
-
-        // check for the presence of the shield
-        if (WiFi.status() == WL_NO_SHIELD) {
-            Serial.println(F("WiFi shield not present"));
-        } else {
-            char ssid[] = "***REMOVED***";            // your network SSID (name)
-            char pass[] = "***REMOVED***";        // your network password
-
-            // attempt to connect to WiFi network
-            Serial.print(F("Attempting to connect to SSID: "));
-            Serial.println(ssid);
-
-            int status = WL_IDLE_STATUS;
-            // Connect to WPA/WPA2 network
-            status = WiFi.begin(ssid, pass);
-
-            if (status == WL_CONNECTED) {
-                Serial.println(F("Connected to AP"));
-
-                WiFiEspClient client;
-
-                HttpClient http(client);
-
-                Serial.println(F("Getting page...\n"));
-
-                int err = http.get("arduino.cc", "/asciilogo.txt");
-                if (err == 0) {
-                    err = http.responseStatusCode();
-                    if (err >= 0) {
-
-                        // Usually you'd check that the response code is 200 or a
-                        // similar "success" code (200-299) before carrying on,
-                        // but we'll print out whatever response we get
-
-                        err = http.skipResponseHeaders();
-                        if (err >= 0) {
-                            // Whilst we haven't timed out & haven't reached the end of the body
-                            while (http.available()) {
-                                char c = http.read();
-                                // Print out this character
-                                Serial.print(c);
-                            }
-                            Serial.println(F("Page loaded!\n"));
-                        } else {
-                            Serial.print(F("Failed to skip response headers: "));
-                            Serial.println(err);
-                        }
-                    } else {
-                        Serial.print(F("Getting response failed: "));
-                        Serial.println(err);
-                    }
-                } else {
-                    Serial.print(F("Connect failed: "));
-                    Serial.println(err);
-                }
-                http.stop();
-
-            } else {
-                Serial.println(F("WiFi connection failed!"));
-            }
-        }*/
-
     }
 };
 
