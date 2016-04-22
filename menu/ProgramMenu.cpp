@@ -21,11 +21,14 @@ MenuValueHolder<unsigned long> measureTempFreqHolder;
 MenuValueHolder<unsigned long> measurePressureFreqHolder;
 MenuValueHolder<unsigned long> measureLightFreqHolder;
 MenuValueHolder<unsigned long> displayDrawFreqHolder;
+MenuValueHolder<unsigned long> syncTimeFreqHolder;
+MenuValueHolder<int> timeZoneHolder;
 
 MenuValueHolder<MenuAction> measureTempFreqCallbackHolder;
 MenuValueHolder<MenuAction> measurePressureFreqCallbackHolder;
 MenuValueHolder<MenuAction> measureLightFreqCallbackHolder;
 MenuValueHolder<MenuAction> displayDrawFreqCallbackHolder;
+MenuValueHolder<MenuAction> syncTimeFreqCallbackHolder;
 
 // Create a list of states and values for a select input
 MENU_SELECT_ITEM  selTimeScreen = { ProgramState::TIME_SCREEN_NUMBER, {"Time and Date"} };
@@ -103,7 +106,30 @@ MENU_LIST barometerSettingsList[]   = { &altitude };
 MENU_ITEM barometerSettings     = { {"Barometer Settings"}, ITEM_MENU, MENU_SIZE(barometerSettingsList), MENU_TARGET(&barometerSettingsList) };
 
 
-MENU_LIST root_list[]   = { &startupScreen, &measureFreqency, &displaySettings, &barometerSettings };
+MENU_VALUE_AND_ACTION syncTimeFreqValueAction = {
+        MENU_TARGET(&syncTimeFreqHolder),
+        MENU_TARGET(&syncTimeFreqCallbackHolder)};
+MENU_VALUE syncTimeFreqValue = {
+        TYPE_UINT,
+        ProgramSettings::MAX_SYNC_TIME_FREQ,
+        ProgramSettings::MIN_SYNC_TIME_FREQ,
+        MENU_TARGET(&syncTimeFreqValueAction),
+        ProgramSettings::SYNC_TIME_FREQ_EPROM_ADDR };
+MENU_ITEM syncTimeFreq    = { {"Sync time freq (h)"}, ITEM_VALUE_WITH_CALLBACK, 0, MENU_TARGET(&syncTimeFreqValue) };
+
+MENU_VALUE timeZoneValue = {
+        TYPE_INT,
+        ProgramSettings::MAX_TIME_ZONE,
+        ProgramSettings::MIN_TIME_ZONE,
+        MENU_TARGET(&timeZoneHolder),
+        ProgramSettings::TIME_ZONE_EPROM_ADDR };
+MENU_ITEM timeZone    = { {"Time zone"}, ITEM_VALUE, 0, MENU_TARGET(&timeZoneValue) };
+
+MENU_LIST timeSettingsList[]   = { &syncTimeFreq, &timeZone };
+MENU_ITEM timeSettings     = { {"Time Settings"}, ITEM_MENU, MENU_SIZE(timeSettingsList), MENU_TARGET(&timeSettingsList) };
+
+
+MENU_LIST root_list[]   = { &startupScreen, &measureFreqency, &displaySettings, &barometerSettings, &timeSettings };
 
 MENU_ITEM menu_root     = { {"Root"}, ITEM_MENU, MENU_SIZE(root_list), MENU_TARGET(&root_list) };
 
@@ -117,6 +143,7 @@ ProgramMenu::ProgramMenu(LCD & lcd, ProgramState * state, ProgramSettings & sett
 	setPressureMeasureFreqAction(state->getMeasureAirPressureTask(), settings.measurePressureFreq),
 	setLightMeasureFreqAction(state->getMeasureLightIntensityTask(), settings.measureLightFreq),
 	setDisplayRedrawFreqAction(state->getDrawOnDisplayTask(), settings.displayDrawFreq),
+	setTimeSyncFreqAction(state->getTimeSyncTask(), settings.syncTimeFreq),
 	menu(&menu_root){
 
 	altitudeHolder.setValuePtr(&settings.altitude);
@@ -125,9 +152,12 @@ ProgramMenu::ProgramMenu(LCD & lcd, ProgramState * state, ProgramSettings & sett
 	measurePressureFreqHolder.setValuePtr(&settings.measurePressureFreq);
 	measureLightFreqHolder.setValuePtr(&settings.measureLightFreq);
 	displayDrawFreqHolder.setValuePtr(&settings.displayDrawFreq);
+	syncTimeFreqHolder.setValuePtr(&settings.syncTimeFreq);
+	timeZoneHolder.setValuePtr(&settings.timeZone);
 
 	measureTempFreqCallbackHolder.setValuePtr(&setTempMeasureFreqAction);
 	measurePressureFreqCallbackHolder.setValuePtr(&setPressureMeasureFreqAction);
 	measureLightFreqCallbackHolder.setValuePtr(&setLightMeasureFreqAction);
     displayDrawFreqCallbackHolder.setValuePtr(&setDisplayRedrawFreqAction);
+    syncTimeFreqCallbackHolder.setValuePtr(&setTimeSyncFreqAction);
 }

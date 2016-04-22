@@ -9,17 +9,17 @@
 #define BUTTONSBACKUP_H_
 
 #include <ButtonHandler.h>
+#include <stddef.h>
+
+#include "../Buttons.h"
 
 class ButtonsBackup {
 private:
-    ButtonHandler * volatile leftButtonPrev;
-    ButtonHandler * volatile rightButtonPrev;
-    ButtonHandler * volatile upButtonPrev;
-    ButtonHandler * volatile downButtonPrev;
-    ButtonHandler * volatile enterButtonPrev;
-    ButtonHandler * volatile escButtonPrev;
+    ButtonHandler * volatile buttonHandlers[WeatherStation::Buttons::enumSize] = {
+    NULL };
 public:
-    ButtonsBackup();
+    ButtonsBackup() {
+    }
     void backupHandlers();
     void restoreHandlers();
 };

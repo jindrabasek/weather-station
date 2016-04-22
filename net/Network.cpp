@@ -37,7 +37,7 @@ void Network::connect(ProgramSettings& settings) {
 
 inline void Network::initNetwork() {
     if (!networkInitialized()) {
-        WiFi.init(&Serial1, 4800, 9600);
+        WiFi.init(&Serial1, 4800, 115200);
 
         espStatus = WiFi.status();
         if (espStatus == WL_NO_SHIELD) {

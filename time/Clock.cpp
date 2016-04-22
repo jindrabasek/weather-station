@@ -5,7 +5,7 @@
  *      Author: jindra
  */
 
-#include "Time.h"
+#include "Clock.h"
 
 #include <Arduino.h>
 #include <stdbool.h>
@@ -13,14 +13,14 @@
 
 #include "../PeripheryReading.h"
 
-TimeReading& Time::getTime(bool updateFirst) {
+TimeReading& Clock::getTime(bool updateFirst) {
     if (updateFirst) {
         readTimeFromRtc();
     }
     return actualTime;
 }
 
-void Time::readTimeFromRtc() {
+void Clock::readTimeFromRtc() {
     if (timeAge - millis() > READ_AT_MOST_EVERY_N_MS || timeAge - millis() < 0
             || actualTime.getReadState() == NOT_YET_READ
             || actualTime.getReadState() == READ_ERROR) {
@@ -35,6 +35,6 @@ void Time::readTimeFromRtc() {
     }
 }
 
-Time::Time() :
+Clock::Clock() :
         timeAge(0) {
 }

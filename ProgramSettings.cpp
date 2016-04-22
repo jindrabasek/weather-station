@@ -20,7 +20,9 @@ ProgramSettings::ProgramSettings() :
         measureTempFreq(DEFAULT_MEASURE_TEMP_FREQ),
         measurePressureFreq(DEFAULT_MEASURE_PRESSURE_FREQ),
         measureLightFreq(DEFAULT_MEASURE_LIGHT_FREQ),
-        displayDrawFreq(DEFAULT_DISPLAY_DRAW_FREQ) {
+        displayDrawFreq(DEFAULT_DISPLAY_DRAW_FREQ),
+        timeZone(DEFAULT_TIME_ZONE),
+        syncTimeFreq(DEFAULT_SYNC_TIME_FREQ){
 
     memcpy(wifiSsid, "***REMOVED***", 4);
     memcpy(wifiPasswd, "*********", 13);
@@ -37,12 +39,18 @@ void ProgramSettings::loadSettings() {
         OMEEPROM::write(MEASURE_LIGHT_FREQ_EPROM_ADDR, measureLightFreq);
         OMEEPROM::write(DISPLAY_DRAW_FREQ_EPROM_ADDR, displayDrawFreq);
 
+#ifndef WIFI_KEEP_PASSWD
         for (unsigned int i = 0; i < sizeof(wifiPasswd); i++) {
             EEPROM.update(WIFI_PASSWORD_EPROM_ADDR + i, wifiPasswd[i]);
         }
+#endif
+
         for (unsigned int i = 0; i < sizeof(wifiSsid); i++) {
             EEPROM.update(WIFI_SSID_EPROM_ADDR + i, wifiSsid[i]);
         }
+
+        OMEEPROM::write(TIME_ZONE_EPROM_ADDR, timeZone);
+        OMEEPROM::write(SYNC_TIME_FREQ_EPROM_ADDR, syncTimeFreq);
 
         OMEEPROM::version(SETTINGS_VERSION);
         OMEEPROM::saved(true);
@@ -61,4 +69,7 @@ void ProgramSettings::loadSettings() {
     for (unsigned int i = 0; i < sizeof(wifiSsid); i++) {
         wifiSsid[i] = EEPROM.read(WIFI_SSID_EPROM_ADDR + i);
     }
+
+    OMEEPROM::read(TIME_ZONE_EPROM_ADDR, timeZone);
+    OMEEPROM::read(SYNC_TIME_FREQ_EPROM_ADDR, syncTimeFreq);
 }

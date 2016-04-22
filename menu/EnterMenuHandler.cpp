@@ -12,6 +12,7 @@
 #include <stdbool.h>
 #include <Task.h>
 
+#include "../Buttons.h"
 #include "../controls/ButtonsBackup.h"
 #include "../display/DrawOnDisplayTask.h"
 #include "../ProgramState.h"
@@ -39,12 +40,12 @@ void EnterMenuHandler::onPressed() {
     }
 
     ButtonHandler * voidHandler = &ButtonHandler::voidButtonHandler();
-    state.getUpButton().setHandler(&up);
-    state.getDownButton().setHandler(&down);
-    state.getLeftButton().setHandler(voidHandler);
-    state.getRightButton().setHandler(voidHandler);
-    state.getEnterButton().setHandler(&enter);
-    state.getEscButton().setHandler(&back);
+    state.getButtons()[WeatherStation::Buttons::UP].setHandler(&up);
+    state.getButtons()[WeatherStation::Buttons::DOWN].setHandler(&down);
+    state.getButtons()[WeatherStation::Buttons::LEFT].setHandler(voidHandler);
+    state.getButtons()[WeatherStation::Buttons::RIGHT].setHandler(voidHandler);
+    state.getButtons()[WeatherStation::Buttons::ENTER].setHandler(&enter);
+    state.getButtons()[WeatherStation::Buttons::ESC].setHandler(&back);
 
     buttonsCache.clear();
 

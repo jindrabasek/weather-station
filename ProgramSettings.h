@@ -13,7 +13,7 @@
 
 class ProgramSettings {
 public:
-    static const unsigned int SETTINGS_VERSION = 3;
+    static const unsigned int SETTINGS_VERSION = 5;
 
     static const int WIFI_MAX_PASSWD_LENGTH = 63;
     static const int WIFI_MAX_SSID_LENGTH = 32;
@@ -23,12 +23,16 @@ public:
     static const unsigned int DEFAULT_MEASURE_PRESSURE_FREQ = 1;
     static const unsigned int DEFAULT_MEASURE_LIGHT_FREQ = 1;
     static const unsigned int DEFAULT_DISPLAY_DRAW_FREQ = 1;
+    static const int DEFAULT_TIME_ZONE = 2;
+    static const unsigned int DEFAULT_SYNC_TIME_FREQ = 24;
 
     static const unsigned int MIN_ALTITUDE = 0;
     static const unsigned int MIN_MEASURE_TEMP_FREQ = 2;
     static const unsigned int MIN_MEASURE_PRESSURE_FREQ = 1;
     static const unsigned int MIN_MEASURE_LIGHT_FREQ = 1;
     static const unsigned int MIN_DISPLAY_DRAW_FREQ = 1;
+    static const unsigned int MIN_SYNC_TIME_FREQ = 1;
+    static const int MIN_TIME_ZONE = -12;
 
     static const unsigned int SEC_IN_HOUR = 3600;
 
@@ -37,6 +41,8 @@ public:
     static const unsigned int MAX_MEASURE_PRESSURE_FREQ = SEC_IN_HOUR;
     static const unsigned int MAX_MEASURE_LIGHT_FREQ = SEC_IN_HOUR;
     static const unsigned int MAX_DISPLAY_DRAW_FREQ = SEC_IN_HOUR;
+    static const unsigned int MAX_SYNC_TIME_FREQ = 9999;
+    static const int MAX_TIME_ZONE = 12;
 
     static const unsigned long ONE_SEC_IN_US = 1000000;
 
@@ -54,6 +60,8 @@ private:
     unsigned long displayDrawFreq;
     char wifiPasswd[WIFI_MAX_PASSWD_LENGTH + 1] = {0};
     char wifiSsid[WIFI_MAX_SSID_LENGTH + 1] = {0};
+    int timeZone;
+    unsigned long syncTimeFreq;
 
 public:
 
@@ -72,6 +80,10 @@ public:
             8 + DISPLAY_DRAW_FREQ_EPROM_ADDR + sizeof(displayDrawFreq);
     static const int WIFI_SSID_EPROM_ADDR =
             WIFI_PASSWORD_EPROM_ADDR + sizeof(wifiPasswd);
+    static const int TIME_ZONE_EPROM_ADDR =
+            8 + WIFI_SSID_EPROM_ADDR + sizeof(wifiSsid);
+    static const int SYNC_TIME_FREQ_EPROM_ADDR =
+            1 + TIME_ZONE_EPROM_ADDR + sizeof(timeZone);
 
     ProgramSettings();
 
@@ -110,6 +122,14 @@ public:
 
     const char * getWifiSsid() const {
         return wifiSsid;
+    }
+
+    unsigned long getSyncTimeFreq() const {
+        return syncTimeFreq;
+    }
+
+    int getTimeZone() const {
+        return timeZone;
     }
 
     friend class ProgramMenu;

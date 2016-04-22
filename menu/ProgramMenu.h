@@ -17,6 +17,7 @@
 #include "LcdMenuDraw.h"
 #include "MenuButtonsCache.h"
 #include "MenuScreen.h"
+#include "SetLongTaskFrequencyAction.h"
 #include "SetTaskFrequencyAction.h"
 
 class ProgramState;
@@ -38,6 +39,7 @@ private:
     SetTaskFrequencyAction setPressureMeasureFreqAction;
     SetTaskFrequencyAction setLightMeasureFreqAction;
     SetTaskFrequencyAction setDisplayRedrawFreqAction;
+    SetLongTaskFrequencyAction setTimeSyncFreqAction;
 
     OMMenuMgr menu;
 public:

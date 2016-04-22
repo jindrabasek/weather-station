@@ -19,6 +19,7 @@
 #include <SoftTimer.h>
 #include <Task.h>
 
+#include "Buttons.h"
 #include "controls/SerialVirtButtonsTask.h"
 #include "display/BackLightHandler.h"
 #include "display/BackLightTask.h"
@@ -34,9 +35,10 @@
 #include "sensors/LightIntensityMeasureTask.h"
 #include "sensors/SensorReadingScreen.h"
 #include "sensors/TempMeasureTask.h"
-#include "time/Time.h"
+#include "time/Clock.h"
 #include "time/TimeReading.h"
 #include "time/TimeScreen.h"
+#include "time/TimeSyncTask.h"
 
 class ToDraw;
 
@@ -70,7 +72,7 @@ private:
     SingleThreadPool displayThread;
     SingleThreadPool networkThread;
 
-    Time time;
+    Clock clock;
     TempMeasureTask measureTempTask;
     AirPressureMeasureTask measureAirPressureTask;
     LightIntensityMeasureTask measureLightIntensityTask;
@@ -92,13 +94,7 @@ private:
     SwitchScreenHandler prevScreen;
     BackLightHandler backLightHandler;
 
-    Debouncer leftButton;
-    Debouncer rightButton;
-    Debouncer backLightButton;
-    Debouncer upButton;
-    Debouncer downButton;
-    Debouncer enterButton;
-    Debouncer escButton;
+    Debouncer buttons[WeatherStation::Buttons::enumSize];
 
     SerialVirtButtonsTask serialVirtButtonsTask;
 
@@ -108,6 +104,7 @@ private:
 
     Network network;
     NetworkTestTask networkTestTask;
+    TimeSyncTask timeSyncTask;
 
 //-----------------------------------------------------------------------------
 
@@ -161,43 +158,23 @@ public:
     }
 
     TimeReading & getTime(bool updateFirst = false) {
-        return time.getTime(updateFirst);
+        return clock.getTime(updateFirst);
     }
 
     unsigned long getTimeStamp(bool updateFirst = false) {
-        return time.getTime(updateFirst).getTimeStamp();
+        return clock.getTime(updateFirst).getTimeStamp();
+    }
+
+    Clock& getClock() {
+        return this->clock;
     }
 
     ProgramSettings& getSettings() {
         return settings;
     }
 
-    Debouncer& getBackLightButton() {
-        return backLightButton;
-    }
-
-    Debouncer& getDownButton() {
-        return downButton;
-    }
-
-    Debouncer& getEnterButton() {
-        return enterButton;
-    }
-
-    Debouncer& getLeftButton() {
-        return leftButton;
-    }
-
-    Debouncer& getRightButton() {
-        return rightButton;
-    }
-
-    Debouncer& getUpButton() {
-        return upButton;
-    }
-
-    Debouncer& getEscButton() {
-        return escButton;
+    Debouncer * getButtons() {
+        return buttons;
     }
 
     ProgramMenu& getMenu() {
@@ -206,6 +183,10 @@ public:
 
     Network& getNetwork() {
         return network;
+    }
+
+    TimeSyncTask& getTimeSyncTask() {
+        return timeSyncTask;
     }
 
 private:
@@ -231,23 +212,19 @@ private:
             nextScreen(1),
             prevScreen(-1),
 
-            leftButton(LEFT_PIN, MODE_CLOSE_ON_PUSH, &prevScreen),
-            rightButton(RIGHT_PIN, MODE_CLOSE_ON_PUSH, &nextScreen),
-            backLightButton(BACKLIGHT_PIN, MODE_CLOSE_ON_PUSH,
-                    &backLightHandler),
-            upButton(UP_PIN, MODE_CLOSE_ON_PUSH,
-                    &ButtonHandler::voidButtonHandler()),
-            downButton(DOWN_PIN, MODE_CLOSE_ON_PUSH,
-                    &ButtonHandler::voidButtonHandler()),
-            enterButton(ENTER_PIN, MODE_CLOSE_ON_PUSH,
-                    &menu.getEnterMenuHandler()),
-            escButton(ESC_PIN, MODE_CLOSE_ON_PUSH,
-                    &ButtonHandler::voidButtonHandler()),
+            buttons { {LEFT_PIN, MODE_CLOSE_ON_PUSH, &prevScreen},
+                    {RIGHT_PIN, MODE_CLOSE_ON_PUSH, &nextScreen},
+                    {BACKLIGHT_PIN, MODE_CLOSE_ON_PUSH, &backLightHandler},
+                    {UP_PIN, MODE_CLOSE_ON_PUSH, &ButtonHandler::voidButtonHandler()},
+                    {DOWN_PIN, MODE_CLOSE_ON_PUSH, &ButtonHandler::voidButtonHandler()},
+                    {ENTER_PIN, MODE_CLOSE_ON_PUSH, &menu.getEnterMenuHandler()},
+                    {ESC_PIN, MODE_CLOSE_ON_PUSH, &ButtonHandler::voidButtonHandler()} },
 
             serialVirtButtonsTask(100),
 
             currentScreen(settings.getStartupScreen()),
-            backLight(true) {
+            backLight(true),
+            timeSyncTask(settings.getSyncTimeFreq()){
 
         pinMode(LED_BUILTIN, OUTPUT);
 
@@ -267,19 +244,17 @@ private:
         timer.add(&serialVirtButtonsTask);
 
         PciManager & pciManager = PciManager::instance();
-        pciManager.registerListener(&leftButton);
-        pciManager.registerListener(&rightButton);
-        pciManager.registerListener(&backLightButton);
-        pciManager.registerListener(&upButton);
-        pciManager.registerListener(&downButton);
-        pciManager.registerListener(&enterButton);
-        pciManager.registerListener(&escButton);
+        for (unsigned int i = 0; i < WeatherStation::Buttons::enumSize; i++) {
+            pciManager.registerListener(&buttons[i]);
+        }
 
         disp.doSetup();
 
         network.connect(settings);
         networkTestTask.setThreadPool(&networkThread);
+        timeSyncTask.setThreadPool(&networkThread);
         timer.add(&networkTestTask);
+        timer.add(&timeSyncTask);
 
         pciManager.setEnabled(true);
     }

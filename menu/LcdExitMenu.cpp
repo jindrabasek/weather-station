@@ -13,6 +13,7 @@
 #include <stdbool.h>
 #include <Task.h>
 
+#include "../Buttons.h"
 #include "../controls/ButtonsBackup.h"
 #include "../display/DrawOnDisplayTask.h"
 #include "../ProgramState.h"
@@ -37,12 +38,12 @@ void LcdExitMenu::exitMenu(bool fullExit) {
         state.getDrawOnDisplayTask().setEnabled(true);
     } else {
         ButtonHandler * voidHandler = &ButtonHandler::voidButtonHandler();
-        state.getUpButton().setHandler(voidHandler);
-        state.getDownButton().setHandler(voidHandler);
-        state.getLeftButton().setHandler(voidHandler);
-        state.getRightButton().setHandler(voidHandler);
-        state.getEnterButton().setHandler(enterMenuHandler);
-        state.getEscButton().setHandler(voidHandler);
+        state.getButtons()[WeatherStation::Buttons::UP].setHandler(voidHandler);
+        state.getButtons()[WeatherStation::Buttons::DOWN].setHandler(voidHandler);
+        state.getButtons()[WeatherStation::Buttons::LEFT].setHandler(voidHandler);
+        state.getButtons()[WeatherStation::Buttons::RIGHT].setHandler(voidHandler);
+        state.getButtons()[WeatherStation::Buttons::ENTER].setHandler(enterMenuHandler);
+        state.getButtons()[WeatherStation::Buttons::ESC].setHandler(voidHandler);
         lcd.clear();
         state.getDrawOnDisplayTask().setEnabled(false);
     }
