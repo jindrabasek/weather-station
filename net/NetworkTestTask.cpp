@@ -25,11 +25,13 @@ NetworkTestTask::NetworkTestTask() :
 void NetworkTestTask::run() {
     if (ProgramState::instance().getNetwork().networkConnected()) {
         WiFiEspClient client;
+        //client.setUseSsl(true);
         HttpClient http(client);
 
         Serial.println(F("Getting page...\n"));
 
-        int err = http.get("arduino.cc", "/asciilogo.txt");
+        int err = http.get("arduino.cc", 80, "/asciilogo.txt");
+        //int err = http.get("da.wiktionary.org", 443, "/wiki/car");
         if (err == 0) {
             err = http.responseStatusCode();
             if (err >= 0) {
