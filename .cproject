@@ -24,7 +24,6 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireRtcLib}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimer}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimer/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Adafruit_BMP085}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/OMMenuMgr}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/PciManager}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/PciManager/src}&quot;"/>
@@ -37,10 +36,11 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/EEPROM/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/NewliquidCrystal}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/NewliquidCrystal/utility}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/DHT_sensor_library}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Arduino-Scheduler}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireConcurrent}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireConcurrent/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Adafruit-BMP085-Library}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/DHT-sensor-library}&quot;"/>
 								</option>
 								<inputType id="it.baeyens.arduino.compiler.cpp.sketch.input.1126043895" name="CPP source files" superClass="it.baeyens.arduino.compiler.cpp.sketch.input"/>
 							</tool>
@@ -51,7 +51,6 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireRtcLib}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimer}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimer/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Adafruit_BMP085}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/OMMenuMgr}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/PciManager}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/PciManager/src}&quot;"/>
@@ -64,10 +63,11 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/EEPROM/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/NewliquidCrystal}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/NewliquidCrystal/utility}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/DHT_sensor_library}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Arduino-Scheduler}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireConcurrent}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireConcurrent/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Adafruit-BMP085-Library}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/DHT-sensor-library}&quot;"/>
 								</option>
 								<inputType id="it.baeyens.arduino.compiler.c.sketch.input.22390311" name="C Source Files" superClass="it.baeyens.arduino.compiler.c.sketch.input"/>
 							</tool>
@@ -113,7 +113,6 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireRtcLib}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimer}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimer/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Adafruit_BMP085}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/OMMenuMgr}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/PciManager}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/PciManager/src}&quot;"/>
@@ -127,7 +126,6 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/NewliquidCrystal}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/NewliquidCrystal/utility}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Arduino-Scheduler}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/DHT_sensor_library}&quot;"/>
 								</option>
 								<inputType id="it.baeyens.arduino.compiler.cpp.sketch.input.1297296522" name="CPP source files" superClass="it.baeyens.arduino.compiler.cpp.sketch.input"/>
 							</tool>
@@ -136,7 +134,6 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireRtcLib}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimer}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimer/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Adafruit_BMP085}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/OMMenuMgr}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/PciManager}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/PciManager/src}&quot;"/>
@@ -150,7 +147,6 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/NewliquidCrystal}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/NewliquidCrystal/utility}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Arduino-Scheduler}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/DHT_sensor_library}&quot;"/>
 								</option>
 								<inputType id="it.baeyens.arduino.compiler.c.sketch.input.239996089" name="C Source Files" superClass="it.baeyens.arduino.compiler.c.sketch.input"/>
 							</tool>
