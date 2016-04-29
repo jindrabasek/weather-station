@@ -22,7 +22,7 @@ void TimeScreen::draw(LCD & display) {
 
     TimeReading & actualTime = ProgramState::instance().getTime(true);
 
-    if (actualTime.getReadState() == READ_OK) {
+    if (actualTime.getReadState() == ReadState::READ_OK) {
         snprintf_P(buffer, 9, (const char *) F("%02d:%02d:%02d"),
                 actualTime.getTime().hour, actualTime.getTime().min,
                 actualTime.getTime().sec);

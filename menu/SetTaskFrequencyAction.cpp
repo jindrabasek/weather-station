@@ -10,13 +10,17 @@
 #include <Task.h>
 
 #include "../ProgramSettings.h"
+#include "../ProgramState.h"
 
-SetTaskFrequencyAction::SetTaskFrequencyAction(Task& target,
-                                               unsigned long & periodSec) :
+SetTaskFrequencyAction::SetTaskFrequencyAction(
+        Task & target, unsigned int (ProgramSettings::*period)() const,
+        unsigned long multiplier) :
         target(target),
-        periodSec(periodSec) {
+        period(period),
+        multiplier(multiplier) {
 }
 
 void SetTaskFrequencyAction::doAction() {
-    target.setPeriodUs(periodSec * ProgramSettings::ONE_SEC_IN_US);
+    target.setPeriodUs(
+            (ProgramState::instance().getSettings().*period)() * multiplier);
 }

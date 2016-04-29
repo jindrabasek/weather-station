@@ -11,12 +11,14 @@
 #include <LongTask.h>
 #include <MenuAction.h>
 
+#include "../ProgramSettings.h"
+
 class SetLongTaskFrequencyAction : public MenuAction {
 private:
     LongTask & target;
-    unsigned long & periodHours;
+    unsigned int (ProgramSettings::*periodHours)() const;
 public:
-    SetLongTaskFrequencyAction(LongTask & target, unsigned long & periodHours);
+    SetLongTaskFrequencyAction(LongTask & target, unsigned int (ProgramSettings::*periodHours)() const);
     virtual void doAction();
 };
 

@@ -40,8 +40,11 @@ private:
     SetTaskFrequencyAction setLightMeasureFreqAction;
     SetTaskFrequencyAction setDisplayRedrawFreqAction;
     SetLongTaskFrequencyAction setTimeSyncFreqAction;
+    SetTaskFrequencyAction setDataUploadFreqAction;
 
     OMMenuMgr menu;
+
+    static const unsigned int SEC_IN_MINUTE = 60;
 public:
     ProgramMenu(const ProgramMenu& that) = delete;
     void operator=(const ProgramMenu& that) = delete;

@@ -13,8 +13,8 @@
 #include <PciManagerLock.h>
 #include <WString.h>
 
-#include "../Buttons.h"
 #include "../ProgramState.h"
+#include "Buttons.h"
 
 SerialVirtButtonsTask::SerialVirtButtonsTask(unsigned long periodMs) :
         Task(periodMs) {

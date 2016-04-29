@@ -14,11 +14,12 @@
 
 #include "../NewLiner.h"
 #include "../PeripheryReading.h"
+#include "Sensors.h"
 
 AirPressureReading::AirPressureReading(float pressure, float pressureAtSeaLevel,
                                        float temperature,
                                        unsigned long timeStamp) :
-        SensorReading(READ_OK, timeStamp),
+        SensorReading(ReadState::READ_OK, timeStamp),
         pressure(pressure),
         pressureAtSeaLevel(pressureAtSeaLevel),
         temperature(temperature) {
@@ -26,7 +27,7 @@ AirPressureReading::AirPressureReading(float pressure, float pressureAtSeaLevel,
 }
 
 AirPressureReading::AirPressureReading(bool error, unsigned long timeStamp) :
-        SensorReading(error ? READ_ERROR : NOT_YET_READ, timeStamp),
+        SensorReading(error ? ReadState::READ_ERROR : ReadState::NOT_YET_READ, timeStamp),
         pressure(0),
         pressureAtSeaLevel(NAN),
         temperature(NAN) {
@@ -61,4 +62,26 @@ const __FlashStringHelper * AirPressureReading::getNotYetMeasuredText() const {
 
 const __FlashStringHelper * AirPressureReading::getHeaderText() const {
     return F("Barometer");
+}
+
+void AirPressureReading::registerSensorValues(SensorReading** valueArray) {
+    valueArray[WeatherStation::Sensors::PRESSURE] = this;
+    valueArray[WeatherStation::Sensors::PRESSURE_SEAL_LEVEL] = this;
+    valueArray[WeatherStation::Sensors::BMP_TEMPERATURE] = this;
+}
+
+void AirPressureReading::printValue(int valueId, Print& out) {
+    char buffer[WeatherStation::Sensors::PRINT_VALUE_STRING_LENGTH + 1];
+    switch (valueId) {
+        case WeatherStation::Sensors::PRESSURE:
+            dtostrf(pressure, WeatherStation::Sensors::PRINT_VALUE_STRING_LENGTH, 1, buffer);
+            break;
+        case WeatherStation::Sensors::BMP_TEMPERATURE:
+            dtostrf(temperature, WeatherStation::Sensors::PRINT_VALUE_STRING_LENGTH, 2, buffer);
+            break;
+        case WeatherStation::Sensors::PRESSURE_SEAL_LEVEL:
+            dtostrf(pressureAtSeaLevel, WeatherStation::Sensors::PRINT_VALUE_STRING_LENGTH, 1, buffer);
+            break;
+    }
+    out.print(buffer);
 }

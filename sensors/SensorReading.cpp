@@ -20,7 +20,7 @@ SensorReading::SensorReading(ReadState readState, unsigned long timeStamp) :
 }
 
 void SensorReading::printTo(Print & out, NewLiner & newLine) const {
-    if (getReadState() == READ_OK) {
+    if (getReadState() == ReadState::READ_OK) {
         printValues(out, newLine);
     } else {
         for (uint8_t i = 1; i < 4; i++) {
@@ -28,7 +28,7 @@ void SensorReading::printTo(Print & out, NewLiner & newLine) const {
             newLine.clearLine();
         }
         newLine.newLine(2);
-        if (getReadState() == NOT_YET_READ) {
+        if (getReadState() == ReadState::NOT_YET_READ) {
             out.print(getNotYetMeasuredText());
             out.print(F(" not yet read"));
 

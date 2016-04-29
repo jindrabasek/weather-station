@@ -11,12 +11,16 @@
 #include <MenuAction.h>
 #include <Task.h>
 
+#include "../ProgramSettings.h"
+
 class SetTaskFrequencyAction : public MenuAction {
 private:
     Task & target;
-    unsigned long & periodSec;
+    unsigned int (ProgramSettings::*period)() const;
+    unsigned long multiplier;
 public:
-    SetTaskFrequencyAction(Task & target, unsigned long & periodSec);
+    SetTaskFrequencyAction(Task & target, unsigned int (ProgramSettings::*period)() const,
+                           unsigned long multiplier);
     virtual void doAction();
 };
 

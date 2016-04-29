@@ -33,6 +33,9 @@ public:
     virtual const __FlashStringHelper * getHeaderText() const =0;
     void printTo(Print & out, NewLiner & newLine) const;
 
+    virtual void registerSensorValues(SensorReading ** valueArray) =0;
+    virtual void printValue(int valueId, Print & out) =0;
+
 protected:
     virtual void printValues(Print & out, NewLiner & newLine) const =0;
     virtual const __FlashStringHelper * getErrText() const =0;

@@ -41,9 +41,6 @@ void TimeSyncTask::run() {
             return;
         }
 
-        // Clear received data from possible stray received packets
-        udp.flush();
-
         // Send an NTP request
         if (!(udp.beginPacket(timeServer, 123) // 123 is the NTP port
         && udp.write((byte *) &ntpFirstFourBytes, 48) == 48 && udp.endPacket())) {
@@ -88,13 +85,12 @@ void TimeSyncTask::run() {
         udp.flush();
         udp.stop();
 
-        ProgramState& programState = ProgramState::instance();
-
         // convert NTP time to Unix time
         long timeUnix = time - 2208988800ul;
         // adjust time with time zone
-        timeUnix += (programState.getSettings().getTimeZone() * 3600);
-        programState.getClock().getRtc().setTime(WireRtcLib::breakTime(timeUnix));
+        timeUnix += (ProgramState::instance().getSettings().getTimeZone() * 3600);
+        WireRtcLib rtc;
+        rtc.setTime(WireRtcLib::breakTime(timeUnix));
         Serial.print(F("TimeSync: synced "));
         Serial.println(timeUnix);
     } else {

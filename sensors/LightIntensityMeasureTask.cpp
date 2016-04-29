@@ -20,8 +20,9 @@ LightIntensityMeasureTask::LightIntensityMeasureTask(unsigned long periodMs) :
 
 void LightIntensityMeasureTask::run() {
     bool err = false;
-    if (latestReading.getReadState() == NOT_YET_READ
-            || latestReading.getReadState() == READ_ERROR) {
+    BH1750FVI bh;
+    if (latestReading.getReadState() == ReadState::NOT_YET_READ
+            || latestReading.getReadState() == ReadState::READ_ERROR) {
         if (bh.begin() > 0) {
             err = true;
         } else {

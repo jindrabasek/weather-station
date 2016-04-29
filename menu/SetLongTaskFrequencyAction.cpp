@@ -9,13 +9,16 @@
 
 #include <LongTask.h>
 
+#include "../ProgramSettings.h"
+#include "../ProgramState.h"
 
-SetLongTaskFrequencyAction::SetLongTaskFrequencyAction(LongTask& target,
-                                               unsigned long & periodHours) :
+SetLongTaskFrequencyAction::SetLongTaskFrequencyAction(
+        LongTask & target, unsigned int (ProgramSettings::*periodHours)() const) :
         target(target),
         periodHours(periodHours) {
 }
 
 void SetLongTaskFrequencyAction::doAction() {
-    target.setPeriod(periodHours, 0);
+    target.setPeriod(
+                (ProgramState::instance().getSettings().*periodHours)(), 0);
 }

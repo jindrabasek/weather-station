@@ -20,8 +20,8 @@ AirPressureMeasureTask::AirPressureMeasureTask(unsigned long periodMs) :
 
 void AirPressureMeasureTask::run() {
     bool err = false;
-    if (latestReading.getReadState() == NOT_YET_READ
-            || latestReading.getReadState() == READ_ERROR) {
+    if (latestReading.getReadState() == ReadState::NOT_YET_READ
+            || latestReading.getReadState() == ReadState::READ_ERROR) {
         err = !bmp.begin();
     }
 

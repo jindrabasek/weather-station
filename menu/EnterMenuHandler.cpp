@@ -12,7 +12,7 @@
 #include <stdbool.h>
 #include <Task.h>
 
-#include "../Buttons.h"
+#include "../controls/Buttons.h"
 #include "../controls/ButtonsBackup.h"
 #include "../display/DrawOnDisplayTask.h"
 #include "../ProgramState.h"

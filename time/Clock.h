@@ -9,8 +9,6 @@
 #define CLOCK_H_
 
 #include <stdbool.h>
-#include <WireRtcLib.h>
-
 #include "TimeReading.h"
 
 
@@ -20,7 +18,6 @@ class Clock {
 private:
     TimeReading actualTime;
     unsigned long timeAge;
-    WireRtcLib rtc;
 
 public:
     Clock();
@@ -29,10 +26,6 @@ public:
     void operator=(const Clock& that) = delete;
 
     TimeReading& getTime(bool updateFirst = false);
-
-    WireRtcLib & getRtc() {
-        return rtc;
-    }
 
 private:
     void readTimeFromRtc();

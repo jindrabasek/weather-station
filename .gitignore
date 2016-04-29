@@ -1,7 +1,2 @@
-Release/**/*.o
-Release/**/*.d
-Release/**/*.ar
-Release/**/*.elf
-Release/**/*.eep
-Release/**/*.hex
+Release/
 

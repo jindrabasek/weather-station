@@ -8,7 +8,7 @@
 #ifndef PERIPHERYREADING_H_
 #define PERIPHERYREADING_H_
 
-enum ReadState {
+enum class ReadState {
     NOT_YET_READ, READ_OK, READ_ERROR
 };
 

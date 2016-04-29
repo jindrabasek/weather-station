@@ -8,22 +8,24 @@
 #include "LightIntensityReading.h"
 
 #include <Print.h>
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <WString.h>
 
 #include "../NewLiner.h"
 #include "../PeripheryReading.h"
+#include "Sensors.h"
 
 LightIntensityReading::LightIntensityReading(int16_t intensity,
                                              unsigned long timeStamp) :
-        SensorReading(READ_OK, timeStamp),
+        SensorReading(ReadState::READ_OK, timeStamp),
         intensity(intensity) {
 }
 
 LightIntensityReading::LightIntensityReading(bool error,
                                              unsigned long timeStamp) :
-        SensorReading(error ? READ_ERROR : NOT_YET_READ, timeStamp),
+        SensorReading(error ? ReadState::READ_ERROR : ReadState::NOT_YET_READ, timeStamp),
         intensity(-1) {
 }
 
@@ -46,6 +48,20 @@ const __FlashStringHelper * LightIntensityReading::getErrText() const {
 
 const __FlashStringHelper * LightIntensityReading::getNotYetMeasuredText() const {
     return F("Light");
+}
+
+void LightIntensityReading::registerSensorValues(SensorReading** valueArray) {
+    valueArray[WeatherStation::Sensors::LIGHT_INTENSITY] = this;
+}
+
+void LightIntensityReading::printValue(int valueId, Print& out) {
+    char buffer[WeatherStation::Sensors::PRINT_VALUE_STRING_LENGTH + 1];
+    switch (valueId) {
+        case WeatherStation::Sensors::LIGHT_INTENSITY:
+            dtostrf(intensity, WeatherStation::Sensors::PRINT_VALUE_STRING_LENGTH, 0, buffer);
+            break;
+    }
+    out.print(buffer);
 }
 
 const __FlashStringHelper * LightIntensityReading::getHeaderText() const {

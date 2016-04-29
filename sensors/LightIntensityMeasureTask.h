@@ -8,7 +8,6 @@
 #ifndef LIGHTINTENSITYMEASURETASK_H_
 #define LIGHTINTENSITYMEASURETASK_H_
 
-#include <BH1750FVI.h>
 #include <Task.h>
 
 #include "LightIntensityReading.h"
@@ -16,7 +15,6 @@
 class LightIntensityMeasureTask : public Task {
 private:
     LightIntensityReading latestReading;
-    BH1750FVI bh;
 
 //-----------------------------------------------------------------------------
 

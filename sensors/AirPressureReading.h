@@ -40,6 +40,9 @@ public:
     }
     void printValues(Print & out, NewLiner & newLine) const;
 
+    virtual void registerSensorValues(SensorReading ** valueArray);
+    virtual void printValue(int valueId, Print & out);
+
 protected:
     const __FlashStringHelper * getErrText() const;
     const __FlashStringHelper * getNotYetMeasuredText() const;

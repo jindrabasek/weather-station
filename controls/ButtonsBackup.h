@@ -11,11 +11,11 @@
 #include <ButtonHandler.h>
 #include <stddef.h>
 
-#include "../Buttons.h"
+#include "Buttons.h"
 
 class ButtonsBackup {
 private:
-    ButtonHandler * volatile buttonHandlers[WeatherStation::Buttons::enumSize] = {
+    ButtonHandler * volatile buttonHandlers[WeatherStation::Buttons::buttonsEnumSize] = {
     NULL };
 public:
     ButtonsBackup() {

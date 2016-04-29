@@ -19,13 +19,17 @@ void Network::connect(ProgramSettings& settings) {
 
     if (networkInitialized() && !networkConnected()) {
 
+        char wifiPasswd[ProgramSettings::WIFI_PASSWD_ARRAY_LENGTH];
+        char wifiSsid[ProgramSettings::WIFI_SSID_ARRAY_LENGTH];
+        settings.loadWifiPasswd(wifiPasswd);
+        settings.loadWifiSsid(wifiSsid);
+
         // attempt to connect to WiFi network
         Serial.print(F("Attempting to connect to SSID: "));
-        Serial.println(settings.getWifiSsid());
+        Serial.println(wifiSsid);
 
         // Connect to WPA/WPA2 network
-        espStatus = WiFi.begin(settings.getWifiSsid(),
-                settings.getWifiPasswd());
+        espStatus = WiFi.begin(wifiSsid, wifiPasswd);
 
         if (espStatus == WL_CONNECTED) {
             Serial.println(F("Connected to AP"));

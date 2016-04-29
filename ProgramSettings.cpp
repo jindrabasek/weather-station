@@ -14,62 +14,43 @@
 
 const float ProgramSettings::DEFAULT_ALTITUDE = 327.1f;
 
-ProgramSettings::ProgramSettings() :
-        altitude(DEFAULT_ALTITUDE),
-        startupScreen(DEFAULT_STARTUP_SCREEN),
-        measureTempFreq(DEFAULT_MEASURE_TEMP_FREQ),
-        measurePressureFreq(DEFAULT_MEASURE_PRESSURE_FREQ),
-        measureLightFreq(DEFAULT_MEASURE_LIGHT_FREQ),
-        displayDrawFreq(DEFAULT_DISPLAY_DRAW_FREQ),
-        timeZone(DEFAULT_TIME_ZONE),
-        syncTimeFreq(DEFAULT_SYNC_TIME_FREQ){
-
-    memcpy(wifiSsid, "***REMOVED***", 4);
-    memcpy(wifiPasswd, "*********", 13);
-
+ProgramSettings::ProgramSettings() {
     loadSettings();
 }
 
 void ProgramSettings::loadSettings() {
     if (!OMEEPROM::saved() || OMEEPROM::version() != SETTINGS_VERSION) {
-        OMEEPROM::write(ALTITUDE_EPROM_ADDR, altitude);
-        OMEEPROM::write(STARTUP_SCREEN_EPROM_ADDR, startupScreen);
-        OMEEPROM::write(MEASURE_TEMP_FREQ_EPROM_ADDR, measureTempFreq);
-        OMEEPROM::write(MEASURE_PRESSURE_FREQ_EPROM_ADDR, measurePressureFreq);
-        OMEEPROM::write(MEASURE_LIGHT_FREQ_EPROM_ADDR, measureLightFreq);
-        OMEEPROM::write(DISPLAY_DRAW_FREQ_EPROM_ADDR, displayDrawFreq);
+        OMEEPROM::writeConst(ALTITUDE_EPROM_ADDR, DEFAULT_ALTITUDE);
+        OMEEPROM::writeConst(STARTUP_SCREEN_EPROM_ADDR, DEFAULT_STARTUP_SCREEN);
+        OMEEPROM::writeConst(MEASURE_TEMP_FREQ_EPROM_ADDR,
+                DEFAULT_MEASURE_TEMP_FREQ);
+        OMEEPROM::writeConst(MEASURE_PRESSURE_FREQ_EPROM_ADDR,
+                DEFAULT_MEASURE_PRESSURE_FREQ);
+        OMEEPROM::writeConst(MEASURE_LIGHT_FREQ_EPROM_ADDR,
+                DEFAULT_MEASURE_LIGHT_FREQ);
+        OMEEPROM::writeConst(DISPLAY_DRAW_FREQ_EPROM_ADDR,
+                DEFAULT_DISPLAY_DRAW_FREQ);
 
 #ifndef WIFI_KEEP_PASSWD
-        for (unsigned int i = 0; i < sizeof(wifiPasswd); i++) {
-            EEPROM.update(WIFI_PASSWORD_EPROM_ADDR + i, wifiPasswd[i]);
-        }
-#endif
 
-        for (unsigned int i = 0; i < sizeof(wifiSsid); i++) {
+        char wifiSsid[WIFI_SSID_ARRAY_LENGTH] = {0};
+        for (unsigned int i = 0; i < WIFI_SSID_ARRAY_LENGTH; i++) {
             EEPROM.update(WIFI_SSID_EPROM_ADDR + i, wifiSsid[i]);
         }
 
-        OMEEPROM::write(TIME_ZONE_EPROM_ADDR, timeZone);
-        OMEEPROM::write(SYNC_TIME_FREQ_EPROM_ADDR, syncTimeFreq);
+        char wifiPasswd[WIFI_PASSWD_ARRAY_LENGTH] = {0};
+        for (unsigned int i = 0; i < WIFI_PASSWD_ARRAY_LENGTH; i++) {
+            EEPROM.update(WIFI_PASSWORD_EPROM_ADDR + i, wifiPasswd[i]);
+        }
+
+#endif
+
+        OMEEPROM::writeConst(TIME_ZONE_EPROM_ADDR, DEFAULT_TIME_ZONE);
+        OMEEPROM::writeConst(SYNC_TIME_FREQ_EPROM_ADDR, DEFAULT_SYNC_TIME_FREQ);
+        OMEEPROM::writeConst(DATA_UPLOAD_MIN_EPROM_ADDR,
+                DEFAULT_DATA_UPLOAD_MIN_FREQ);
 
         OMEEPROM::version(SETTINGS_VERSION);
         OMEEPROM::saved(true);
     }
-
-    OMEEPROM::read(ALTITUDE_EPROM_ADDR, altitude);
-    OMEEPROM::read(STARTUP_SCREEN_EPROM_ADDR, startupScreen);
-    OMEEPROM::read(MEASURE_TEMP_FREQ_EPROM_ADDR, measureTempFreq);
-    OMEEPROM::read(MEASURE_PRESSURE_FREQ_EPROM_ADDR, measurePressureFreq);
-    OMEEPROM::read(MEASURE_LIGHT_FREQ_EPROM_ADDR, measureLightFreq);
-    OMEEPROM::read(DISPLAY_DRAW_FREQ_EPROM_ADDR, displayDrawFreq);
-
-    for (unsigned int i = 0; i < sizeof(wifiPasswd); i++) {
-        wifiPasswd[i] = EEPROM.read(WIFI_PASSWORD_EPROM_ADDR + i);
-    }
-    for (unsigned int i = 0; i < sizeof(wifiSsid); i++) {
-        wifiSsid[i] = EEPROM.read(WIFI_SSID_EPROM_ADDR + i);
-    }
-
-    OMEEPROM::read(TIME_ZONE_EPROM_ADDR, timeZone);
-    OMEEPROM::read(SYNC_TIME_FREQ_EPROM_ADDR, syncTimeFreq);
 }

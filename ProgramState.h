@@ -19,7 +19,7 @@
 #include <SoftTimer.h>
 #include <Task.h>
 
-#include "Buttons.h"
+#include "controls/Buttons.h"
 #include "controls/SerialVirtButtonsTask.h"
 #include "display/BackLightHandler.h"
 #include "display/BackLightTask.h"
@@ -30,10 +30,13 @@
 #include "menu/ProgramMenu.h"
 #include "net/Network.h"
 #include "net/NetworkTestTask.h"
+#include "net/SmartLivingPublishTask.h"
 #include "ProgramSettings.h"
 #include "sensors/AirPressureMeasureTask.h"
 #include "sensors/LightIntensityMeasureTask.h"
+#include "sensors/SensorReading.h"
 #include "sensors/SensorReadingScreen.h"
+#include "sensors/Sensors.h"
 #include "sensors/TempMeasureTask.h"
 #include "time/Clock.h"
 #include "time/TimeReading.h"
@@ -94,7 +97,7 @@ private:
     SwitchScreenHandler prevScreen;
     BackLightHandler backLightHandler;
 
-    Debouncer buttons[WeatherStation::Buttons::enumSize];
+    Debouncer buttons[WeatherStation::Buttons::buttonsEnumSize];
 
     SerialVirtButtonsTask serialVirtButtonsTask;
 
@@ -102,9 +105,12 @@ private:
 
     volatile bool backLight;
 
+    SensorReading * sensorValues[WeatherStation::Sensors::sensorsEnumSize];
+
     Network network;
     NetworkTestTask networkTestTask;
     TimeSyncTask timeSyncTask;
+    SmartLivingPublishTask dataUploadTask;
 
 //-----------------------------------------------------------------------------
 
@@ -189,42 +195,63 @@ public:
         return timeSyncTask;
     }
 
+    SensorReading** getSensorValues() {
+        return sensorValues;
+    }
+
+    SmartLivingPublishTask& getDataUploadTask() {
+        return dataUploadTask;
+    }
+
 private:
     ProgramState() :
             measureThread(512),
             displayThread(512),
             networkThread(512),
 
-            measureTempTask(DHT_PIN, settings.getMeasureTempFreq()),
-            measureAirPressureTask(settings.getMeasurePressureFreq()),
-            measureLightIntensityTask(settings.getMeasureLightFreq()),
+            measureTempTask(DHT_PIN,
+                    settings.getMeasureTempSecondFreq()
+                            * ProgramSettings::RESOLUTION_MEASURE_TEMP_FREQ),
+            measureAirPressureTask(
+                    settings.getMeasurePressureSecondFreq()
+                            * ProgramSettings::RESOLUTION_MEASURE_PRESSURE_FREQ),
+            measureLightIntensityTask(
+                    settings.getMeasureLightSecondFreq()
+                            * ProgramSettings::RESOLUTION_MEASURE_LIGHT_FREQ),
 
             tempScreen(measureTempTask.getLatestReading()),
             airPressureScreen(measureAirPressureTask.getLatestReading()),
             lightIntensityScreen(measureLightIntensityTask.getLatestReading()),
 
             backLightTask(disp.getLcd()),
-            drawOnDisplayTask(settings.getDisplayDrawFreq(), disp.getLcd(),
-                    displayScreens[settings.getStartupScreen()]),
+            drawOnDisplayTask(
+                    settings.getDisplayDrawSecondFreq()
+                            * ProgramSettings::RESOLUTION_DISPLAY_DRAW_FREQ,
+                    disp.getLcd(), displayScreens[settings.getStartupScreen()]),
 
             menu(disp.getLcd(), this, settings),
 
             nextScreen(1),
             prevScreen(-1),
 
-            buttons { {LEFT_PIN, MODE_CLOSE_ON_PUSH, &prevScreen},
-                    {RIGHT_PIN, MODE_CLOSE_ON_PUSH, &nextScreen},
-                    {BACKLIGHT_PIN, MODE_CLOSE_ON_PUSH, &backLightHandler},
-                    {UP_PIN, MODE_CLOSE_ON_PUSH, &ButtonHandler::voidButtonHandler()},
-                    {DOWN_PIN, MODE_CLOSE_ON_PUSH, &ButtonHandler::voidButtonHandler()},
-                    {ENTER_PIN, MODE_CLOSE_ON_PUSH, &menu.getEnterMenuHandler()},
-                    {ESC_PIN, MODE_CLOSE_ON_PUSH, &ButtonHandler::voidButtonHandler()} },
+            buttons { { LEFT_PIN, MODE_CLOSE_ON_PUSH, &prevScreen }, {
+                    RIGHT_PIN, MODE_CLOSE_ON_PUSH, &nextScreen }, {
+                    BACKLIGHT_PIN, MODE_CLOSE_ON_PUSH, &backLightHandler }, {
+                    UP_PIN, MODE_CLOSE_ON_PUSH,
+                    &ButtonHandler::voidButtonHandler() }, { DOWN_PIN,
+                    MODE_CLOSE_ON_PUSH, &ButtonHandler::voidButtonHandler() },
+                    { ENTER_PIN, MODE_CLOSE_ON_PUSH, &menu.getEnterMenuHandler() },
+                    { ESC_PIN, MODE_CLOSE_ON_PUSH,
+                            &ButtonHandler::voidButtonHandler() } },
 
             serialVirtButtonsTask(100),
 
             currentScreen(settings.getStartupScreen()),
             backLight(true),
-            timeSyncTask(settings.getSyncTimeFreq()){
+            timeSyncTask(settings.getSyncTimeHourFreq()),
+            dataUploadTask(
+                    settings.getDataUploadMinutesFreq()
+                            * ProgramSettings::RESOLUTION_DATA_UPLOAD_MIN_FREQ) {
 
         pinMode(LED_BUILTIN, OUTPUT);
 
@@ -244,17 +271,26 @@ private:
         timer.add(&serialVirtButtonsTask);
 
         PciManager & pciManager = PciManager::instance();
-        for (unsigned int i = 0; i < WeatherStation::Buttons::enumSize; i++) {
+        for (unsigned int i = 0; i < WeatherStation::Buttons::buttonsEnumSize;
+                i++) {
             pciManager.registerListener(&buttons[i]);
         }
 
         disp.doSetup();
 
+        measureTempTask.getLatestReading().registerSensorValues(sensorValues);
+        measureAirPressureTask.getLatestReading().registerSensorValues(
+                sensorValues);
+        measureLightIntensityTask.getLatestReading().registerSensorValues(
+                sensorValues);
+
         network.connect(settings);
         networkTestTask.setThreadPool(&networkThread);
         timeSyncTask.setThreadPool(&networkThread);
+        dataUploadTask.setThreadPool(&networkThread);
         timer.add(&networkTestTask);
         timer.add(&timeSyncTask);
+        timer.add(&dataUploadTask);
 
         pciManager.setEnabled(true);
     }

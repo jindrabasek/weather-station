@@ -16,8 +16,7 @@
 
 TempMeasureTask::TempMeasureTask(uint8_t pin, unsigned long periodMs) :
         Task(periodMs),
-        dht(pin),
-        pin(pin) {
+        dht(pin){
 }
 
 void TempMeasureTask::run() {

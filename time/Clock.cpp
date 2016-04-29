@@ -22,11 +22,13 @@ TimeReading& Clock::getTime(bool updateFirst) {
 
 void Clock::readTimeFromRtc() {
     if (timeAge - millis() > READ_AT_MOST_EVERY_N_MS || timeAge - millis() < 0
-            || actualTime.getReadState() == NOT_YET_READ
-            || actualTime.getReadState() == READ_ERROR) {
+            || actualTime.getReadState() == ReadState::NOT_YET_READ
+            || actualTime.getReadState() == ReadState::READ_ERROR) {
 
-        if (actualTime.getReadState() == NOT_YET_READ
-                || actualTime.getReadState() == READ_ERROR) {
+        WireRtcLib rtc;
+
+        if (actualTime.getReadState() == ReadState::NOT_YET_READ
+                || actualTime.getReadState() == ReadState::READ_ERROR) {
             rtc.begin();
         }
 
