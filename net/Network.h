@@ -25,7 +25,7 @@ public:
     Network() {
     }
 
-    void connect(ProgramSettings& settings);
+    void connect(ProgramSettings& settings, bool force = false);
 
     bool networkInitialized() {
         return !(espStatus == WL_IDLE_STATUS || espStatus == WL_NO_SHIELD);
@@ -36,7 +36,7 @@ public:
     }
 
 private:
-    void initNetwork();
+    void initNetwork(bool force);
 
 };
 

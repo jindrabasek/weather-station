@@ -31,6 +31,7 @@
 #include "net/Network.h"
 #include "net/NetworkTestTask.h"
 #include "net/SmartLivingPublishTask.h"
+#include "net/WifiWatchdogTask.h"
 #include "ProgramSettings.h"
 #include "sensors/AirPressureMeasureTask.h"
 #include "sensors/LightIntensityMeasureTask.h"
@@ -111,6 +112,7 @@ private:
     NetworkTestTask networkTestTask;
     TimeSyncTask timeSyncTask;
     SmartLivingPublishTask dataUploadTask;
+    WifiWatchdogTask wifiWatchDogTask;
 
 //-----------------------------------------------------------------------------
 
@@ -203,6 +205,10 @@ public:
         return dataUploadTask;
     }
 
+    WifiWatchdogTask& getWifiWatchDogTask() {
+        return wifiWatchDogTask;
+    }
+
 private:
     ProgramState() :
             measureThread(512),
@@ -251,7 +257,9 @@ private:
             timeSyncTask(settings.getSyncTimeHourFreq()),
             dataUploadTask(
                     settings.getDataUploadMinutesFreq()
-                            * ProgramSettings::RESOLUTION_DATA_UPLOAD_MIN_FREQ) {
+                            * ProgramSettings::RESOLUTION_DATA_UPLOAD_MIN_FREQ),
+            wifiWatchDogTask(settings.getWifiWatchdogMinutesFreq()
+                    * ProgramSettings::RESOLUTION_WIFI_WATCHDOG_MIN_FREQ){
 
         pinMode(LED_BUILTIN, OUTPUT);
 
@@ -288,9 +296,11 @@ private:
         networkTestTask.setThreadPool(&networkThread);
         timeSyncTask.setThreadPool(&networkThread);
         dataUploadTask.setThreadPool(&networkThread);
+        wifiWatchDogTask.setThreadPool(&networkThread);
         timer.add(&networkTestTask);
         timer.add(&timeSyncTask);
         timer.add(&dataUploadTask);
+        timer.add(&wifiWatchDogTask);
 
         pciManager.setEnabled(true);
     }

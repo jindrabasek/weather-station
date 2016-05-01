@@ -21,6 +21,8 @@ static MenuValueHolder<MenuAction> measureLightFreqCallbackHolder;
 static MenuValueHolder<MenuAction> displayDrawFreqCallbackHolder;
 static MenuValueHolder<MenuAction> syncTimeFreqCallbackHolder;
 static MenuValueHolder<MenuAction> dataUploadFreqCallbackHolder;
+static MenuValueHolder<MenuAction> wifiWatchdogFreqCallbackHolder;
+static MenuValueHolder<MenuAction> wifiRestartCallbackHolder;
 
 // Create a list of states and values for a select input
 static MENU_SELECT_ITEM  selTimeScreen = { ProgramState::TIME_SCREEN_NUMBER, {"Time and Date"} };
@@ -132,7 +134,20 @@ static MENU_VALUE dataUploadFreqValue = {
         ProgramSettings::DATA_UPLOAD_MIN_EPROM_ADDR };
 static MENU_ITEM dataUploadFreq    = { {"Upload freq (min)"}, ITEM_VALUE_WITH_CALLBACK, 0, MENU_TARGET(&dataUploadFreqValue) };
 
-static MENU_LIST networkSettingsList[]   = { &dataUploadFreq };
+static MENU_VALUE_AND_ACTION wifiWatchdogFreqValueAction = {
+        NULL,
+        MENU_TARGET(&wifiWatchdogFreqCallbackHolder)};
+static MENU_VALUE wifiWatchdogFreqValue = {
+        TYPE_UINT,
+        ProgramSettings::MAX_WIFI_WATCHDOG_MIN_FREQ,
+        ProgramSettings::MIN_WIFI_WATCHDOG_MIN_FREQ,
+        MENU_TARGET(&wifiWatchdogFreqValueAction),
+        ProgramSettings::WIFI_WATCHDOG_MIN_EPROM_ADDR };
+static MENU_ITEM wifiWatchdogFreq    = { {"Watchdog freq (min)"}, ITEM_VALUE_WITH_CALLBACK, 0, MENU_TARGET(&wifiWatchdogFreqValue) };
+
+static MENU_ITEM restartWifi    = { {"Restart WiFi"}, ITEM_ACTION, 0, MENU_TARGET(&wifiRestartCallbackHolder) };
+
+static MENU_LIST networkSettingsList[]   = { &dataUploadFreq, &wifiWatchdogFreq, &restartWifi };
 static MENU_ITEM networkSettings     = { {"Network Settings"}, ITEM_MENU, MENU_SIZE(networkSettingsList), MENU_TARGET(&networkSettingsList) };
 
 
@@ -163,6 +178,9 @@ ProgramMenu::ProgramMenu(LCD & lcd, ProgramState * state, ProgramSettings & sett
         setDataUploadFreqAction(state->getDataUploadTask(),
                 &ProgramSettings::getDataUploadMinutesFreq,
                 ProgramSettings::RESOLUTION_DATA_UPLOAD_MIN_FREQ),
+        setWifiWatchdogFreqAction(state->getWifiWatchDogTask(),
+                &ProgramSettings::getWifiWatchdogMinutesFreq,
+                ProgramSettings::RESOLUTION_WIFI_WATCHDOG_MIN_FREQ),
 	menu(&menu_root){
 
 	measureTempFreqCallbackHolder.setValuePtr(&setTempMeasureFreqAction);
@@ -171,4 +189,6 @@ ProgramMenu::ProgramMenu(LCD & lcd, ProgramState * state, ProgramSettings & sett
     displayDrawFreqCallbackHolder.setValuePtr(&setDisplayRedrawFreqAction);
     syncTimeFreqCallbackHolder.setValuePtr(&setTimeSyncFreqAction);
     dataUploadFreqCallbackHolder.setValuePtr(&setDataUploadFreqAction);
+    dataUploadFreqCallbackHolder.setValuePtr(&setDataUploadFreqAction);
+    wifiRestartCallbackHolder.setValuePtr(&restartWifiAction);
 }

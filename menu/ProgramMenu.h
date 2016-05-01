@@ -12,6 +12,7 @@
 #include <OMMenuMgr.h>
 
 #include "../controls/ButtonsBackup.h"
+#include "../net/RestartWifiAction.h"
 #include "EnterMenuHandler.h"
 #include "LcdExitMenu.h"
 #include "LcdMenuDraw.h"
@@ -41,6 +42,9 @@ private:
     SetTaskFrequencyAction setDisplayRedrawFreqAction;
     SetLongTaskFrequencyAction setTimeSyncFreqAction;
     SetTaskFrequencyAction setDataUploadFreqAction;
+    SetTaskFrequencyAction setWifiWatchdogFreqAction;
+    RestartWifiAction restartWifiAction;
+
 
     OMMenuMgr menu;
 

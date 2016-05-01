@@ -14,7 +14,7 @@
 
 class ProgramSettings {
 public:
-    static const unsigned int SETTINGS_VERSION = 8;
+    static const unsigned int SETTINGS_VERSION = 9;
 
     static const int WIFI_MAX_PASSWD_LENGTH = 63;
     static const int WIFI_MAX_SSID_LENGTH = 32;
@@ -29,6 +29,7 @@ public:
     static const int DEFAULT_TIME_ZONE = 2;
     static const unsigned int DEFAULT_SYNC_TIME_FREQ = 24;
     static const unsigned int DEFAULT_DATA_UPLOAD_MIN_FREQ = 3;
+    static const unsigned int DEFAULT_WIFI_WATCHDOG_MIN_FREQ = 2;
 
     static const unsigned int MIN_ALTITUDE = 0;
     static const unsigned int MIN_MEASURE_TEMP_FREQ = 2;
@@ -38,6 +39,7 @@ public:
     static const unsigned int MIN_SYNC_TIME_FREQ = 1;
     static const int MIN_TIME_ZONE = -12;
     static const unsigned int MIN_DATA_UPLOAD_MIN_FREQ = 1;
+    static const unsigned int MIN_WIFI_WATCHDOG_MIN_FREQ = 1;
 
     static const unsigned int SEC_IN_HOUR = 3600;
 
@@ -49,6 +51,7 @@ public:
     static const unsigned int MAX_SYNC_TIME_FREQ = 9999;
     static const int MAX_TIME_ZONE = 12;
     static const unsigned int MAX_DATA_UPLOAD_MIN_FREQ = 60;
+    static const unsigned int MAX_WIFI_WATCHDOG_MIN_FREQ = 60;
 
     static const unsigned long ONE_SEC_IN_US = 1000000;
     static const unsigned long ONE_MIN_IN_US = 60000000;
@@ -58,6 +61,7 @@ public:
     static const unsigned long RESOLUTION_MEASURE_LIGHT_FREQ = ONE_SEC_IN_US;
     static const unsigned long RESOLUTION_DISPLAY_DRAW_FREQ = ONE_SEC_IN_US;
     static const unsigned long RESOLUTION_DATA_UPLOAD_MIN_FREQ = ONE_MIN_IN_US;
+    static const unsigned long RESOLUTION_WIFI_WATCHDOG_MIN_FREQ = ONE_MIN_IN_US;
 
 
     static const int ALTITUDE_EPROM_ADDR = 16;
@@ -81,6 +85,8 @@ public:
             1 + TIME_ZONE_EPROM_ADDR + sizeof(int);
     static const int DATA_UPLOAD_MIN_EPROM_ADDR =
             SYNC_TIME_FREQ_EPROM_ADDR + sizeof(unsigned int);
+    static const int WIFI_WATCHDOG_MIN_EPROM_ADDR =
+            DATA_UPLOAD_MIN_EPROM_ADDR + sizeof(unsigned int);
 
     ProgramSettings();
 
@@ -135,6 +141,10 @@ public:
 
     unsigned int getDataUploadMinutesFreq() const {
         return OMEEPROM::read<unsigned int>(DATA_UPLOAD_MIN_EPROM_ADDR);
+    }
+
+    unsigned int getWifiWatchdogMinutesFreq() const {
+        return OMEEPROM::read<unsigned int>(WIFI_WATCHDOG_MIN_EPROM_ADDR);
     }
 
     friend class ProgramMenu;

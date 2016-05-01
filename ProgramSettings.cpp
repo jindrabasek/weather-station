@@ -49,6 +49,8 @@ void ProgramSettings::loadSettings() {
         OMEEPROM::writeConst(SYNC_TIME_FREQ_EPROM_ADDR, DEFAULT_SYNC_TIME_FREQ);
         OMEEPROM::writeConst(DATA_UPLOAD_MIN_EPROM_ADDR,
                 DEFAULT_DATA_UPLOAD_MIN_FREQ);
+        OMEEPROM::writeConst(WIFI_WATCHDOG_MIN_EPROM_ADDR,
+                DEFAULT_WIFI_WATCHDOG_MIN_FREQ);
 
         OMEEPROM::version(SETTINGS_VERSION);
         OMEEPROM::saved(true);
