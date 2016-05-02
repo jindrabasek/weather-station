@@ -9,9 +9,15 @@
 
 #include <FatLib/ArduinoFiles.h>
 #include <HardwareSerial.h>
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <SdFat.h>
+#include <WireRtcLib.h>
+
+#include "PeripheryReading.h"
+#include "time/Clock.h"
+#include "time/TimeReading.h"
 
 size_t LoggerClass::write(uint8_t unsignedChar) {
     size_t r = 0;
@@ -61,3 +67,15 @@ Print& LoggerClass::getLoggerForLevel(uint8_t level) {
 
 LoggerClass Logger;
 VoidPrintClass VoidPrint;
+
+void LoggerClass::printTime() {
+    TimeReading& time = Clock::getTime(false);
+    print('[');
+    if (time.getReadState() == ReadState::READ_OK) {
+        WireRtcLib::formatTime(*this, time.getTime());
+    } else {
+        print('?');
+    }
+    print(']');
+    print(' ');
+}

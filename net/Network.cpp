@@ -40,7 +40,7 @@ void Network::connect(ProgramSettings& settings, bool force) {
                 ip.printTo(LOGGER_INFO);
                 LOGGER_INFO.println();
             } else {
-                LOGGER_INFO.println(F("WiFi connection failed!"));
+                LOG_INFO(F("WiFi connection failed!"));
             }
             Logger.flush();
         }

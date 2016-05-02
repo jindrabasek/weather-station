@@ -13,6 +13,9 @@
 
 #include "../PeripheryReading.h"
 
+TimeReading Clock::actualTime;
+unsigned long Clock::timeAge = 0;
+
 TimeReading& Clock::getTime(bool updateFirst) {
     if (updateFirst) {
         readTimeFromRtc();
@@ -35,8 +38,4 @@ void Clock::readTimeFromRtc() {
         timeAge = millis();
         actualTime = TimeReading(rtc.getTime());
     }
-}
-
-Clock::Clock() :
-        timeAge(0) {
 }

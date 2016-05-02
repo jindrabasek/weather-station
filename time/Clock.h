@@ -16,19 +16,14 @@
 
 class Clock {
 private:
-    TimeReading actualTime;
-    unsigned long timeAge;
+    static TimeReading actualTime;
+    static unsigned long timeAge;
 
 public:
-    Clock();
-
-    Clock(const Clock& that) = delete;
-    void operator=(const Clock& that) = delete;
-
-    TimeReading& getTime(bool updateFirst = false);
+    static TimeReading& getTime(bool updateFirst = false);
 
 private:
-    void readTimeFromRtc();
+    static void readTimeFromRtc();
 };
 
 #endif /* CLOCK_H_ */

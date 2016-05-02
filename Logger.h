@@ -37,20 +37,20 @@
 #define _LOG_SD_
 #endif
 
-#define LOG_ERROR(x)    if(LOG_LEVEL>LOGGER_LEVEL_DISABLED) { Logger.println(x); Logger.flush(); }
+#define LOG_ERROR(x)    if(LOG_LEVEL>LOGGER_LEVEL_DISABLED) { Logger.log(x); }
 #define LOG_ERROR0(x)   if(LOG_LEVEL>LOGGER_LEVEL_DISABLED) { Logger.print(x); }
-#define LOG_ERROR1(x,y) if(LOG_LEVEL>LOGGER_LEVEL_DISABLED) { Logger.print(x); Logger.print(' '); Logger.println(y); Logger.flush(); }
-#define LOG_WARN(x)     if(LOG_LEVEL>LOGGER_LEVEL_ERROR) { Logger.println(x); Logger.flush(); }
+#define LOG_ERROR1(x,y) if(LOG_LEVEL>LOGGER_LEVEL_DISABLED) { Logger.log(x,y); }
+#define LOG_WARN(x)     if(LOG_LEVEL>LOGGER_LEVEL_ERROR) { Logger.log(x); }
 #define LOG_WARN0(x)    if(LOG_LEVEL>LOGGER_LEVEL_ERROR) { Logger.print(x); }
-#define LOG_WARN1(x,y)  if(LOG_LEVEL>LOGGER_LEVEL_ERROR) { Logger.print(x); Logger.print(' '); Logger.println(y); Logger.flush(); }
-#define LOG_INFO(x)     if(LOG_LEVEL>LOGGER_LEVEL_WARN) { Logger.println(x); Logger.flush(); }
+#define LOG_WARN1(x,y)  if(LOG_LEVEL>LOGGER_LEVEL_ERROR) { Logger.log(x,y); }
+#define LOG_INFO(x)     if(LOG_LEVEL>LOGGER_LEVEL_WARN) { Logger.log(x); }
 #define LOG_INFO0(x)    if(LOG_LEVEL>LOGGER_LEVEL_WARN) { Logger.print(x); }
-#define LOG_INFO1(x,y)  if(LOG_LEVEL>LOGGER_LEVEL_WARN) { Logger.print(x); Logger.print(' '); Logger.println(y); Logger.flush(); }
+#define LOG_INFO1(x,y)  if(LOG_LEVEL>LOGGER_LEVEL_WARN) { Logger.log(x,y); }
 
-#define LOG_DEBUG(x)      if(LOG_LEVEL>LOGGER_LEVEL_INFO) { Logger.println(x); Logger.flush(); }
+#define LOG_DEBUG(x)      if(LOG_LEVEL>LOGGER_LEVEL_INFO) { Logger.log(x); }
 #define LOG_DEBUG0(x)     if(LOG_LEVEL>LOGGER_LEVEL_INFO) { Logger.print(x); }
-#define LOG_DEBUG1(x,y)   if(LOG_LEVEL>LOGGER_LEVEL_INFO) { Logger.print(x); Logger.print(' '); Logger.println(y); Logger.flush(); }
-#define LOG_DEBUG2(x,y,z) if(LOG_LEVEL>LOGGER_LEVEL_INFO) { Logger.print(x); Logger.print(' '); Logger.print(y); Logger.print(' '); Logger.println(z); Logger.flush(); }
+#define LOG_DEBUG1(x,y)   if(LOG_LEVEL>LOGGER_LEVEL_INFO) { Logger.log(x,y); }
+#define LOG_DEBUG2(x,y,z) if(LOG_LEVEL>LOGGER_LEVEL_INFO) { Logger.log(x,y,z); }
 
 #define LOGGER_ERROR LoggerClass::getLoggerForLevel(LOGGER_LEVEL_ERROR)
 #define LOGGER_WARN  LoggerClass::getLoggerForLevel(LOGGER_LEVEL_WARN)
@@ -60,6 +60,8 @@
 class LoggerClass : public Print {
 private:
     SdFile * sdLoggingFile = NULL;
+
+    void printTime();
 public:
     LoggerClass() {
     }
@@ -72,6 +74,33 @@ public:
     void flush();
 
     static Print& getLoggerForLevel(uint8_t level);
+
+    template <typename T>
+    void log(T message) {
+        printTime();
+        println(message);
+        flush();
+    }
+
+    template <typename T, typename U>
+    void log(T message, U message1) {
+        printTime();
+        print(message);
+        print(' ');
+        println(message1);
+        flush();
+    }
+
+    template <typename T, typename U, typename V>
+    void log(T message, U message1, V message2) {
+        printTime();
+        print(message);
+        print(' ');
+        print(message1);
+        print(' ');
+        println(message2);
+        flush();
+    }
 
     void setSdLoggingFile(SdFile* sdLoggingFile) {
         this->sdLoggingFile = sdLoggingFile;

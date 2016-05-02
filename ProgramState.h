@@ -77,7 +77,6 @@ private:
     SingleThreadPool displayThread;
     SingleThreadPool networkThread;
 
-    Clock clock;
     TempMeasureTask measureTempTask;
     AirPressureMeasureTask measureAirPressureTask;
     LightIntensityMeasureTask measureLightIntensityTask;
@@ -167,15 +166,11 @@ public:
     }
 
     TimeReading & getTime(bool updateFirst = false) {
-        return clock.getTime(updateFirst);
+        return Clock::getTime(updateFirst);
     }
 
     unsigned long getTimeStamp(bool updateFirst = false) {
-        return clock.getTime(updateFirst).getTimeStamp();
-    }
-
-    Clock& getClock() {
-        return this->clock;
+        return Clock::getTime(updateFirst).getTimeStamp();
     }
 
     ProgramSettings& getSettings() {

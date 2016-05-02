@@ -21,7 +21,7 @@ public:
     TimeReading(WireRtcLib::tm time);
     TimeReading();
 
-    WireRtcLib::tm getTime() const {
+    WireRtcLib::tm& getTime() {
         return time;
     }
 

@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include <HardwareSerial.h>
 #include <PciManager.h>
+#include <stdbool.h>
 #include <Scheduler.h>
 #include <SoftTimer.h>
 #include <Wire.h>
@@ -11,6 +12,7 @@
 #include "Logger.h"
 #include "ProgramState.h"
 #include "sd/SdCard.h"
+#include "time/Clock.h"
 
 //The setup function is called once at startup of the sketch
 void setup() {
@@ -22,6 +24,7 @@ void setup() {
     Scheduler.begin(512);
     Wire.begin();
 
+    Clock::getTime(true);
     SdCard::init();
     ProgramState::instance();
 
