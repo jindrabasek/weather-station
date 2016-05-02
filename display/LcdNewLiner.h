@@ -19,7 +19,7 @@ public:
     LcdNewLiner(LCD & out) :
             lcd(out) {
     }
-    virtual void newLine(int lineNumber) {
+    virtual void newLine(uint8_t lineNumber) {
         lcd.setCursor(0, lineNumber);
     }
     virtual void clearLine() {

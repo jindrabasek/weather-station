@@ -8,16 +8,15 @@
 #include "TimeSyncTask.h"
 
 #include <Arduino.h>
-#include <HardwareSerial.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <WiFiEspUdp.h>
 #include <WireRtcLib.h>
-#include <WString.h>
 
 #include "../Logger.h"
 #include "../net/Network.h"
+#include "../ProgramSettings.h"
 #include "../ProgramState.h"
-#include "Clock.h"
 
 TimeSyncTask::TimeSyncTask(unsigned long periodHours, bool enabled) :
         LongTask(periodHours, 0, enabled) {
@@ -44,16 +43,16 @@ void TimeSyncTask::run() {
 
         // Send an NTP request
         if (!(udp.beginPacket(timeServer, 123) // 123 is the NTP port
-        && udp.write((byte *) &ntpFirstFourBytes, 48) == 48 && udp.endPacket())) {
+        && udp.write((uint8_t *) &ntpFirstFourBytes, 48) == 48 && udp.endPacket())) {
             LOG_WARN(F("TimeSync: request failed"));
             return;               // sending request failed
         }
 
         // Wait for response; check every pollIntv ms up to maxPoll times
         const int pollIntv = 150;     // poll every this many ms
-        const byte maxPoll = 15;      // poll up to this many times
+        const uint8_t maxPoll = 15;      // poll up to this many times
         int pktLen;               // received packet length
-        for (byte i = 0; i < maxPoll; i++) {
+        for (uint8_t i = 0; i < maxPoll; i++) {
             if ((pktLen = udp.parsePacket()) == 48)
                 break;
             delay(pollIntv);
@@ -65,13 +64,13 @@ void TimeSyncTask::run() {
 
         // Read and discard the first useless bytes
         // Set useless to 32 for speed; set to 40 for accuracy.
-        const byte useless = 40;
-        for (byte i = 0; i < useless; ++i)
+        const uint8_t useless = 40;
+        for (uint8_t i = 0; i < useless; ++i)
             udp.read();
 
         // Read the integer part of sending time
         unsigned long time = udp.read();  // NTP time
-        for (byte i = 1; i < 4; i++)
+        for (uint8_t i = 1; i < 4; i++)
             time = time << 8 | udp.read();
 
         // Round to the nearest second if we want accuracy

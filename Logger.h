@@ -71,7 +71,7 @@ public:
     virtual size_t write(const uint8_t *buffer, size_t size);
     void flush();
 
-    static Print& getLoggerForLevel(int level);
+    static Print& getLoggerForLevel(uint8_t level);
 
     void setSdLoggingFile(SdFile* sdLoggingFile) {
         this->sdLoggingFile = sdLoggingFile;

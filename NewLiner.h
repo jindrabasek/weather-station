@@ -10,7 +10,7 @@
 
 class NewLiner {
 public:
-    virtual void newLine(int lineNumber)=0;
+    virtual void newLine(uint8_t lineNumber)=0;
     virtual void clearLine() {
     }
     virtual ~NewLiner() {

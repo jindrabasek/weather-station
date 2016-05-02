@@ -10,6 +10,7 @@
 #include <math.h>
 #include <Print.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <WString.h>
 
@@ -65,7 +66,7 @@ void TempReading::registerSensorValues(SensorReading** valueArray) {
     valueArray[WeatherStation::Sensors::DHT_TEMPERTAURE_REAL_FEEL] = this;
 }
 
-void TempReading::printValue(int valueId, Print& out) {
+void TempReading::printValue(uint8_t valueId, Print& out) {
     char buffer[WeatherStation::Sensors::PRINT_VALUE_STRING_LENGTH + 1] = {0};
     switch(valueId) {
         case WeatherStation::Sensors::DHT_HUMIDITY:

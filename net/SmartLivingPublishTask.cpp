@@ -8,9 +8,10 @@
 #include "SmartLivingPublishTask.h"
 
 #include <avr/pgmspace.h>
-#include <HardwareSerial.h>
+#include <Arduino.h>
 #include <HttpClient.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <WiFiEspClient.h>
@@ -50,7 +51,7 @@ void SmartLivingPublishTask::run() {
     if (state.getNetwork().networkConnected()) {
         LOG_DEBUG(F("Uploading data...\n"));
 
-        for (int i = 0; i < WeatherStation::Sensors::sensorsEnumSize; i++) {
+        for (uint8_t i = 0; i < WeatherStation::Sensors::sensorsEnumSize; i++) {
             SensorReading * sensorValue = state.getSensorValues()[i];
             char assetId[ASSET_ID_LENGTH + 1] = { 0 };
             getAssetId(assetId, i);
@@ -102,7 +103,7 @@ void SmartLivingPublishTask::run() {
     }
 }
 
-void SmartLivingPublishTask::getAssetId(char* buffer, int valueId) {
+void SmartLivingPublishTask::getAssetId(char* buffer, uint8_t valueId) {
     strcpy_P(buffer, (char*) pgm_read_word(&(assetIds[valueId])));
 }
 

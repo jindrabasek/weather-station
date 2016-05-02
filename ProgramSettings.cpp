@@ -34,12 +34,12 @@ void ProgramSettings::loadSettings() {
 #ifndef WIFI_KEEP_PASSWD
 
         char wifiSsid[WIFI_SSID_ARRAY_LENGTH] = {0};
-        for (unsigned int i = 0; i < WIFI_SSID_ARRAY_LENGTH; i++) {
+        for (uint8_t i = 0; i < WIFI_SSID_ARRAY_LENGTH; i++) {
             EEPROM.update(WIFI_SSID_EPROM_ADDR + i, wifiSsid[i]);
         }
 
         char wifiPasswd[WIFI_PASSWD_ARRAY_LENGTH] = {0};
-        for (unsigned int i = 0; i < WIFI_PASSWD_ARRAY_LENGTH; i++) {
+        for (uint8_t i = 0; i < WIFI_PASSWD_ARRAY_LENGTH; i++) {
             EEPROM.update(WIFI_PASSWORD_EPROM_ADDR + i, wifiPasswd[i]);
         }
 

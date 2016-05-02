@@ -54,7 +54,7 @@ void LightIntensityReading::registerSensorValues(SensorReading** valueArray) {
     valueArray[WeatherStation::Sensors::LIGHT_INTENSITY] = this;
 }
 
-void LightIntensityReading::printValue(int valueId, Print& out) {
+void LightIntensityReading::printValue(uint8_t valueId, Print& out) {
     char buffer[WeatherStation::Sensors::PRINT_VALUE_STRING_LENGTH + 1];
     switch (valueId) {
         case WeatherStation::Sensors::LIGHT_INTENSITY:

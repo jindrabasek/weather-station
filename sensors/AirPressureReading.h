@@ -9,6 +9,7 @@
 #define AIRPRESSUREREADING_H_
 
 #include <Print.h>
+#include <stdint.h>
 #include <WString.h>
 
 #include "../NewLiner.h"
@@ -41,7 +42,7 @@ public:
     void printValues(Print & out, NewLiner & newLine) const;
 
     virtual void registerSensorValues(SensorReading ** valueArray);
-    virtual void printValue(int valueId, Print & out);
+    virtual void printValue(uint8_t valueId, Print & out);
 
 protected:
     const __FlashStringHelper * getErrText() const;

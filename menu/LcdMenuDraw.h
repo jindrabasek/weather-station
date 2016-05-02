@@ -16,7 +16,7 @@ private:
     LCD & lcd;
 public:
     LcdMenuDraw(LCD & lcd);
-    virtual void draw(char* p_text, int p_row, int p_col, int len);
+    virtual void draw(char* p_text, uint8_t p_row, uint8_t p_col, uint8_t len);
 };
 
 #endif /* LCDMENUDRAW_H_ */

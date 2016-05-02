@@ -9,6 +9,7 @@
 #define SMARTLIVINGPUBLISHTASK_H_
 
 #include <Print.h>
+#include <stdint.h>
 #include <Task.h>
 
 class SmartLivingPublishTask  : public Task {
@@ -25,7 +26,7 @@ private:
     static const int PATH_FORMAT_LENGTH = 15;
     static const int FORMAT_TIME_LENGTH = 25;
 
-    void getAssetId(char* buffer, int valueId);
+    void getAssetId(char* buffer, uint8_t valueId);
     void formatTime(Print & out, unsigned long timeStamp);
 };
 

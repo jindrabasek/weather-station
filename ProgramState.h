@@ -15,6 +15,7 @@
 #include <pins_arduino.h>
 #include <PciManager.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <SingleThreadPool.h>
 #include <SoftTimer.h>
 #include <Task.h>
@@ -102,7 +103,7 @@ private:
 
     SerialVirtButtonsTask serialVirtButtonsTask;
 
-    volatile byte currentScreen;
+    volatile uint8_t currentScreen;
 
     volatile bool backLight;
 
@@ -121,11 +122,11 @@ public:
     void operator=(const ProgramState& that) = delete;
     static ProgramState& instance();
 
-    volatile byte getCurrentScreen() const {
+    volatile uint8_t getCurrentScreen() const {
         return currentScreen;
     }
 
-    void setCurrentScreen(volatile byte currentScreen) {
+    void setCurrentScreen(volatile uint8_t currentScreen) {
         this->currentScreen = currentScreen;
     }
 
@@ -279,7 +280,7 @@ private:
         timer.add(&serialVirtButtonsTask);
 
         PciManager & pciManager = PciManager::instance();
-        for (unsigned int i = 0; i < WeatherStation::Buttons::buttonsEnumSize;
+        for (uint8_t i = 0; i < WeatherStation::Buttons::buttonsEnumSize;
                 i++) {
             pciManager.registerListener(&buttons[i]);
         }

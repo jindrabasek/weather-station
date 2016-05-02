@@ -8,9 +8,9 @@
 #ifndef PROGRAMSETTINGS_H_
 #define PROGRAMSETTINGS_H_
 
-#include <Arduino.h>
 #include <EEPROM.h>
 #include <OMEEPROM.h>
+#include <stdint.h>
 
 class ProgramSettings {
 public:
@@ -68,7 +68,7 @@ public:
     static const int STARTUP_SCREEN_EPROM_ADDR = ALTITUDE_EPROM_ADDR
             + sizeof(float);
     static const int MEASURE_TEMP_FREQ_EPROM_ADDR = STARTUP_SCREEN_EPROM_ADDR
-            + sizeof(byte);
+            + sizeof(uint8_t);
     static const int MEASURE_PRESSURE_FREQ_EPROM_ADDR =
             MEASURE_TEMP_FREQ_EPROM_ADDR + sizeof(unsigned int);
     static const int MEASURE_LIGHT_FREQ_EPROM_ADDR =
@@ -120,13 +120,13 @@ public:
     }
 
     const void loadWifiPasswd(char result[]) const {
-        for (unsigned int i = 0; i < WIFI_PASSWD_ARRAY_LENGTH; i++) {
+        for (uint8_t i = 0; i < WIFI_PASSWD_ARRAY_LENGTH; i++) {
             result[i] = EEPROM.read(WIFI_PASSWORD_EPROM_ADDR + i);
         }
     }
 
     const void loadWifiSsid(char result[]) const {
-        for (unsigned int i = 0; i < WIFI_SSID_ARRAY_LENGTH; i++) {
+        for (uint8_t i = 0; i < WIFI_SSID_ARRAY_LENGTH; i++) {
             result[i] = EEPROM.read(WIFI_SSID_EPROM_ADDR + i);
         }
     }

@@ -7,9 +7,11 @@
 
 #include "Logger.h"
 
+#include <FatLib/ArduinoFiles.h>
 #include <HardwareSerial.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <SdFat.h>
 
 size_t LoggerClass::write(uint8_t unsignedChar) {
     size_t r = 0;
@@ -50,7 +52,7 @@ void LoggerClass::flush() {
 #endif
 }
 
-Print& LoggerClass::getLoggerForLevel(int level) {
+Print& LoggerClass::getLoggerForLevel(uint8_t level) {
     if (level <= LOG_LEVEL) {
         return Logger;
     }

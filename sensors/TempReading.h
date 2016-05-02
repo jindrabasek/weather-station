@@ -8,7 +8,12 @@
 #ifndef TEMPREADING_H_
 #define TEMPREADING_H_
 
-#include <Arduino.h>
+#include <Print.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <WString.h>
+
+#include "../NewLiner.h"
 #include "SensorReading.h"
 
 class TempReading : public SensorReading {
@@ -38,7 +43,7 @@ public:
     void printValues(Print & out, NewLiner & newLine) const;
 
     virtual void registerSensorValues(SensorReading ** valueArray);
-    virtual void printValue(int valueId, Print & out);
+    virtual void printValue(uint8_t valueId, Print & out);
 
 protected:
     const __FlashStringHelper * getErrText() const;

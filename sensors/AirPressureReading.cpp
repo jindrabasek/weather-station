@@ -9,6 +9,7 @@
 
 #include <math.h>
 #include <Print.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <WString.h>
 
@@ -70,7 +71,7 @@ void AirPressureReading::registerSensorValues(SensorReading** valueArray) {
     valueArray[WeatherStation::Sensors::BMP_TEMPERATURE] = this;
 }
 
-void AirPressureReading::printValue(int valueId, Print& out) {
+void AirPressureReading::printValue(uint8_t valueId, Print& out) {
     char buffer[WeatherStation::Sensors::PRINT_VALUE_STRING_LENGTH + 1];
     switch (valueId) {
         case WeatherStation::Sensors::PRESSURE:

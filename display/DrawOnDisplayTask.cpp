@@ -7,9 +7,9 @@
 
 #include "DrawOnDisplayTask.h"
 
-#include <Arduino.h>
 #include <LCD.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 #include "LcdNewLiner.h"
 #include "ToDraw.h"
@@ -26,7 +26,7 @@ void DrawOnDisplayTask::run() {
     if (clear) {
         clear = false;
         LcdNewLiner lcdClear(display);
-        for (byte i = 0; i < 4; i++) {
+        for (uint8_t i = 0; i < 4; i++) {
             lcdClear.newLine(i);
             lcdClear.clearLine();
         }

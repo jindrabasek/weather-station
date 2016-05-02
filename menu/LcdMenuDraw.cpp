@@ -8,15 +8,16 @@
 #include "LcdMenuDraw.h"
 
 #include <LCD.h>
+#include <stdint.h>
 
 LcdMenuDraw::LcdMenuDraw(LCD & lcd) :
         lcd(lcd) {
 }
 
-void LcdMenuDraw::draw(char* p_text, int p_row, int p_col, int len) {
+void LcdMenuDraw::draw(char* p_text, uint8_t p_row, uint8_t p_col, uint8_t len) {
     lcd.setCursor(p_col, p_row);
 
-    for (int i = 0; i < len; i++) {
+    for (uint8_t i = 0; i < len; i++) {
         if (p_text[i] < '!' || p_text[i] > '~')
             lcd.write(' ');
         else

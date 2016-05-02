@@ -9,6 +9,7 @@
 #define SENSORREADING_H_
 
 #include <Print.h>
+#include <stdint.h>
 #include <WString.h>
 
 #include "../NewLiner.h"
@@ -34,7 +35,7 @@ public:
     void printTo(Print & out, NewLiner & newLine) const;
 
     virtual void registerSensorValues(SensorReading ** valueArray) =0;
-    virtual void printValue(int valueId, Print & out) =0;
+    virtual void printValue(uint8_t valueId, Print & out) =0;
 
 protected:
     virtual void printValues(Print & out, NewLiner & newLine) const =0;

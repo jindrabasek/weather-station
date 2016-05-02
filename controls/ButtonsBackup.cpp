@@ -7,15 +7,17 @@
 
 #include "ButtonsBackup.h"
 
+#include <ButtonHandler.h>
 #include <Debouncer.h>
-#include <stddef.h>
+#include <stdint.h>
 
 #include "../ProgramState.h"
+#include "Buttons.h"
 
 void ButtonsBackup::backupHandlers() {
     ProgramState & state = ProgramState::instance();
 
-    for (unsigned int i = 0; i < WeatherStation::Buttons::buttonsEnumSize; i++) {
+    for (uint8_t i = 0; i < WeatherStation::Buttons::buttonsEnumSize; i++) {
         buttonHandlers[i] = state.getButtons()[i].getHandler();
     }
 }
@@ -23,7 +25,7 @@ void ButtonsBackup::backupHandlers() {
 void ButtonsBackup::restoreHandlers() {
     ProgramState & state = ProgramState::instance();
 
-    for (unsigned int i = 0; i < WeatherStation::Buttons::buttonsEnumSize; i++) {
+    for (uint8_t i = 0; i < WeatherStation::Buttons::buttonsEnumSize; i++) {
         state.getButtons()[i].setHandler(buttonHandlers[i]);
     }
 }
