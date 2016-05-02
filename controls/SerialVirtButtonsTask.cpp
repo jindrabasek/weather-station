@@ -11,8 +11,8 @@
 #include <Debouncer.h>
 #include <HardwareSerial.h>
 #include <PciManagerLock.h>
-#include <WString.h>
 
+#include "../Logger.h"
 #include "../ProgramState.h"
 #include "Buttons.h"
 
@@ -56,7 +56,6 @@ void SerialVirtButtonsTask::run() {
             }
         }
 
-        Serial.print(F("Key received: "));
-        Serial.println(input);
+        LOG_INFO1(F("Key received: "), input);
     }
 }

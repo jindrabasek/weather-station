@@ -41,6 +41,10 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireConcurrent/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Adafruit-BMP085-Library}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/DHT-sensor-library}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SdFat}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SdFat/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SPI}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SPI/src}&quot;"/>
 								</option>
 								<inputType id="it.baeyens.arduino.compiler.cpp.sketch.input.1126043895" name="CPP source files" superClass="it.baeyens.arduino.compiler.cpp.sketch.input"/>
 							</tool>
@@ -68,6 +72,10 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireConcurrent/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Adafruit-BMP085-Library}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/DHT-sensor-library}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SdFat}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SdFat/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SPI}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SPI/src}&quot;"/>
 								</option>
 								<inputType id="it.baeyens.arduino.compiler.c.sketch.input.22390311" name="C Source Files" superClass="it.baeyens.arduino.compiler.c.sketch.input"/>
 							</tool>
@@ -80,11 +88,12 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="net|controls|menu|time|sensors|display|not used/*|libraries/**/?xamples/**|libraries/**/?xtras/**|libraries/**/test/**|libraries/**/third-party/**|libraries**/._*|libraries/BH1750FVI/BH1750_serial|libraries/BH1750FVI/BH1750_LCD|libraries/BH1750FVI/BH1750_Led" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
+						<entry excluding="sd|net|controls|menu|time|sensors|display|not used/*|libraries/**/?xamples/**|libraries/**/?xtras/**|libraries/**/test/**|libraries/**/third-party/**|libraries**/._*|libraries/BH1750FVI/BH1750_serial|libraries/BH1750FVI/BH1750_LCD|libraries/BH1750FVI/BH1750_Led" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="controls"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="display"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="menu"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="net"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="sd"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="sensors"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="time"/>
 					</sourceEntries>
@@ -158,6 +167,10 @@
 							<tool id="it.baeyens.arduino.tool.size.309070780" name="Arduino tool Print Size" superClass="it.baeyens.arduino.tool.size"/>
 						</toolChain>
 					</folderInfo>
+					<sourceEntries>
+						<entry excluding="sd" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="sd"/>
+					</sourceEntries>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>

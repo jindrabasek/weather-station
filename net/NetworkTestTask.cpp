@@ -14,6 +14,7 @@
 #include <WiFiEspClient.h>
 #include <WString.h>
 
+#include "../Logger.h"
 #include "../ProgramState.h"
 #include "Network.h"
 
@@ -26,12 +27,13 @@ void NetworkTestTask::run() {
     if (ProgramState::instance().getNetwork().networkConnected()) {
         WiFiEspClient client;
         HttpClient http(client);
-        Serial.println(F("Getting page...\n"));
+        LOG_INFO(F("Getting page...\n"));
         int err = http.get("arduino.cc", 80, "/asciilogo.txt");
-        http.receiveAndPrintResponse(err);
+        http.receiveAndPrintResponse(err, Serial, LOGGER_INFO);
         http.stop();
+        Logger.flush();
     } else {
-        Serial.println(F("Cannot test network, network not connected."));
+        LOG_WARN(F("Cannot test network, network not connected."));
     }
 
     setEnabled(false);

@@ -14,6 +14,7 @@
 #include <WireRtcLib.h>
 #include <WString.h>
 
+#include "../Logger.h"
 #include "../net/Network.h"
 #include "../ProgramState.h"
 #include "Clock.h"
@@ -37,14 +38,14 @@ void TimeSyncTask::run() {
 
         // Fail if WiFiUdp.begin() could not init a socket
         if (!udpInited) {
-            Serial.println(F("TimeSync: UDP failed"));
+            LOG_WARN(F("TimeSync: UDP failed"));
             return;
         }
 
         // Send an NTP request
         if (!(udp.beginPacket(timeServer, 123) // 123 is the NTP port
         && udp.write((byte *) &ntpFirstFourBytes, 48) == 48 && udp.endPacket())) {
-            Serial.println(F("TimeSync: request failed"));
+            LOG_WARN(F("TimeSync: request failed"));
             return;               // sending request failed
         }
 
@@ -58,7 +59,7 @@ void TimeSyncTask::run() {
             delay(pollIntv);
         }
         if (pktLen != 48) {
-            Serial.println(F("TimeSync: invalid data"));
+            LOG_WARN(F("TimeSync: invalid data"));
             return;               // no correct packet received
         }
 
@@ -91,9 +92,8 @@ void TimeSyncTask::run() {
         timeUnix += (ProgramState::instance().getSettings().getTimeZone() * 3600);
         WireRtcLib rtc;
         rtc.setTime(WireRtcLib::breakTime(timeUnix));
-        Serial.print(F("TimeSync: synced "));
-        Serial.println(timeUnix);
+        LOG_INFO1(F("TimeSync: synced "), timeUnix);
     } else {
-        Serial.println(F("Cannot sync time, network not connected."));
+        LOG_WARN(F("Cannot sync time, network not connected."));
     }
 }

@@ -12,6 +12,7 @@
 #include <WiFiEsp.h>
 #include <WString.h>
 
+#include "../Logger.h"
 #include "../ProgramState.h"
 
 WifiWatchdogTask::WifiWatchdogTask(unsigned long periodMs) : Task(periodMs) {
@@ -19,16 +20,16 @@ WifiWatchdogTask::WifiWatchdogTask(unsigned long periodMs) : Task(periodMs) {
 
 void WifiWatchdogTask::run() {
     IPAddress ip = WiFi.localIP();
-    Serial.println(F("Checking WiFi online."));
+    LOG_INFO(F("Checking WiFi online"));
     // If task is executed manually, restart wifi
     if (forceRestart || ip == IPAddress(0, 0, 0, 0)) {
         forceRestart = false;
-        Serial.println(F("Restarting WiFi..."));
+        LOG_INFO(F("Restarting WiFi..."));
         bool result = WiFi.hardReset();
         if (result) {
-            Serial.println(F("Reset done. Connecting..."));
+            LOG_INFO(F("Reset done. Connecting..."));
         } else {
-            Serial.println(F("HW reset not performed, doing SW and connecting..."));
+            LOG_INFO(F("HW reset not performed, doing SW and connecting..."));
         }
         ProgramState & state = ProgramState::instance();
         state.getNetwork().connect(state.getSettings(), true);

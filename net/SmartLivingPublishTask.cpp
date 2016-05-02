@@ -17,6 +17,7 @@
 #include <WireRtcLib.h>
 #include <WString.h>
 
+#include "../Logger.h"
 #include "../PeripheryReading.h"
 #include "../ProgramSettings.h"
 #include "../ProgramState.h"
@@ -47,15 +48,14 @@ void SmartLivingPublishTask::run() {
     ProgramState & state = ProgramState::instance();
 
     if (state.getNetwork().networkConnected()) {
-        Serial.println(F("Uploading data...\n"));
+        LOG_DEBUG(F("Uploading data...\n"));
 
         for (int i = 0; i < WeatherStation::Sensors::sensorsEnumSize; i++) {
             SensorReading * sensorValue = state.getSensorValues()[i];
             char assetId[ASSET_ID_LENGTH + 1] = { 0 };
             getAssetId(assetId, i);
             if (sensorValue->getReadState() == ReadState::READ_OK) {
-                Serial.print(F("Sensor data uploading "));
-                Serial.println(assetId);
+                LOG_INFO1(F("Sensor data uploading "), assetId);
 
                 WiFiEspClient client;
                 client.setUseSsl(true);
@@ -87,18 +87,18 @@ void SmartLivingPublishTask::run() {
                     client.println('}');
                     client.println();
                 }
-                http.receiveAndPrintResponse(err);
+                http.receiveAndPrintResponse(err, LOGGER_DEBUG, LOGGER_DEBUG);
+                Logger.flush();
                 http.stop();
 
             } else {
-                Serial.print(F("Sensor data not uploaded, error or not read "));
-                Serial.println(assetId);
+                LOG_WARN1(F("Sensor data not uploaded. Error or not read "), assetId);
             }
             yield();
         }
-        Serial.println(F("Sensor data uploaded"));
+        LOG_INFO(F("Sensor data uploaded"));
     } else {
-        Serial.println(F("Cannot upload data, network not connected."));
+        LOG_WARN(F("Cannot upload data, network not connected."));
     }
 }
 

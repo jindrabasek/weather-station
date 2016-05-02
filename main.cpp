@@ -2,17 +2,15 @@
 
 #include <avr/interrupt.h>
 #include <Arduino.h>
-#include <FuncRunnable.h>
 #include <HardwareSerial.h>
 #include <PciManager.h>
-#include <stddef.h>
-#include <Scheduler/Semaphore.h>
 #include <Scheduler.h>
 #include <SoftTimer.h>
-#include <Thread.h>
-#include <WString.h>
+#include <Wire.h>
 
+#include "Logger.h"
 #include "ProgramState.h"
+#include "sd/SdCard.h"
 
 //The setup function is called once at startup of the sketch
 void setup() {
@@ -24,9 +22,10 @@ void setup() {
     Scheduler.begin(512);
     Wire.begin();
 
+    SdCard::init();
     ProgramState::instance();
 
-    Serial.println(F("Init complete"));
+    LOG_INFO(F("Init complete"));
 }
 
 void loop() {

@@ -13,6 +13,7 @@
 #include <WiFiEsp.h>
 #include <WString.h>
 
+#include "../Logger.h"
 #include "../ProgramSettings.h"
 
 void Network::connect(ProgramSettings& settings, bool force) {
@@ -26,19 +27,22 @@ void Network::connect(ProgramSettings& settings, bool force) {
         settings.loadWifiSsid(wifiSsid);
 
         // attempt to connect to WiFi network
-        Serial.print(F("Attempting to connect to SSID: "));
-        Serial.println(wifiSsid);
+
+        LOG_INFO1(F("Attempting to connect to SSID:"), wifiSsid);
 
         // Connect to WPA/WPA2 network
         espStatus = WiFi.begin(wifiSsid, wifiPasswd);
 
-        if (espStatus == WL_CONNECTED) {
-            Serial.print(F("Connected to AP, ip: "));
-            IPAddress ip = WiFi.localIP();
-            ip.printTo(Serial);
-            Serial.println();
-        } else {
-            Serial.println(F("WiFi connection failed!"));
+        if (LOG_LEVEL >= LOGGER_LEVEL_INFO) {
+            if (espStatus == WL_CONNECTED) {
+                LOGGER_INFO.print(F("Connected to AP, ip: "));
+                IPAddress ip = WiFi.localIP();
+                ip.printTo(LOGGER_INFO);
+                LOGGER_INFO.println();
+            } else {
+                LOGGER_INFO.println(F("WiFi connection failed!"));
+            }
+            Logger.flush();
         }
     }
 }
@@ -49,7 +53,7 @@ inline void Network::initNetwork(bool force) {
 
         espStatus = WiFi.status();
         if (espStatus == WL_NO_SHIELD) {
-            Serial.println(F("WiFi shield not present"));
+            LOG_ERROR(F("WiFi shield not present!"));
         }
     }
 }
