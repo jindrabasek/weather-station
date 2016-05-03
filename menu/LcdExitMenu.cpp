@@ -37,13 +37,12 @@ void LcdExitMenu::exitMenu(bool fullExit) {
         state.getDrawOnDisplayTask().startAtEarliestOportunity();
         state.getDrawOnDisplayTask().setEnabled(true);
     } else {
-        ButtonHandler * voidHandler = &ButtonHandler::voidButtonHandler();
-        state.getButtons()[WeatherStation::Buttons::UP].setHandler(voidHandler);
-        state.getButtons()[WeatherStation::Buttons::DOWN].setHandler(voidHandler);
-        state.getButtons()[WeatherStation::Buttons::LEFT].setHandler(voidHandler);
-        state.getButtons()[WeatherStation::Buttons::RIGHT].setHandler(voidHandler);
+        state.getButtons()[WeatherStation::Buttons::UP].setHandler(&ButtonHandler::voidButtonHandler);
+        state.getButtons()[WeatherStation::Buttons::DOWN].setHandler(&ButtonHandler::voidButtonHandler);
+        state.getButtons()[WeatherStation::Buttons::LEFT].setHandler(&ButtonHandler::voidButtonHandler);
+        state.getButtons()[WeatherStation::Buttons::RIGHT].setHandler(&ButtonHandler::voidButtonHandler);
         state.getButtons()[WeatherStation::Buttons::ENTER].setHandler(enterMenuHandler);
-        state.getButtons()[WeatherStation::Buttons::ESC].setHandler(voidHandler);
+        state.getButtons()[WeatherStation::Buttons::ESC].setHandler(&ButtonHandler::voidButtonHandler);
         lcd.clear();
         state.getDrawOnDisplayTask().setEnabled(false);
     }

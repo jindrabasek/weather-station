@@ -17,10 +17,10 @@ class SetTaskFrequencyAction : public MenuAction {
 private:
     Task & target;
     unsigned int (ProgramSettings::*period)() const;
-    unsigned long multiplier;
+    uint8_t multiplierSec;
 public:
     SetTaskFrequencyAction(Task & target, unsigned int (ProgramSettings::*period)() const,
-                           unsigned long multiplier);
+                           uint8_t multiplierSec);
     virtual void doAction();
 };
 

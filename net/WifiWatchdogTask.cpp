@@ -7,13 +7,13 @@
 
 #include "WifiWatchdogTask.h"
 
-#include <HardwareSerial.h>
 #include <IPAddress.h>
+#include <stdbool.h>
 #include <WiFiEsp.h>
-#include <WString.h>
 
 #include "../Logger.h"
 #include "../ProgramState.h"
+#include "Network.h"
 
 WifiWatchdogTask::WifiWatchdogTask(unsigned long periodMs) : Task(periodMs) {
 }
@@ -31,7 +31,6 @@ void WifiWatchdogTask::run() {
         } else {
             LOG_INFO(F("HW reset not performed, doing SW and connecting..."));
         }
-        ProgramState & state = ProgramState::instance();
-        state.getNetwork().connect(state.getSettings(), true);
+        Network::connect(ProgramState::instance().getSettings(), true);
     }
 }

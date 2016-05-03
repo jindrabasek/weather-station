@@ -12,10 +12,8 @@
 #include <stdbool.h>
 #include <Task.h>
 #include <WiFiEspClient.h>
-#include <WString.h>
 
 #include "../Logger.h"
-#include "../ProgramState.h"
 #include "Network.h"
 
 NetworkTestTask::NetworkTestTask() :
@@ -24,11 +22,13 @@ NetworkTestTask::NetworkTestTask() :
 }
 
 void NetworkTestTask::run() {
-    if (ProgramState::instance().getNetwork().networkConnected()) {
+    if (Network::networkConnected()) {
         WiFiEspClient client;
         HttpClient http(client);
         LOG_INFO(F("Getting page...\n"));
+        client.beginPacket();
         int err = http.get("arduino.cc", 80, "/asciilogo.txt");
+        client.endPacket();
         http.receiveAndPrintResponse(err, Serial, LOGGER_INFO);
         http.stop();
         Logger.flush();

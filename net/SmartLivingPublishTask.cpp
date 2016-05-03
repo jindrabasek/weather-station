@@ -46,11 +46,10 @@ SmartLivingPublishTask::SmartLivingPublishTask(unsigned long periodMs) :
 }
 
 void SmartLivingPublishTask::run() {
-    ProgramState & state = ProgramState::instance();
-
-    if (state.getNetwork().networkConnected()) {
+    if (Network::networkConnected()) {
         LOG_DEBUG(F("Uploading data...\n"));
 
+        ProgramState & state = ProgramState::instance();
         for (uint8_t i = 0; i < WeatherStation::Sensors::sensorsEnumSize; i++) {
             SensorReading * sensorValue = state.getSensorValues()[i];
             char assetId[ASSET_ID_LENGTH + 1] = { 0 };
@@ -67,27 +66,42 @@ void SmartLivingPublishTask::run() {
                 char pathFormat[PATH_FORMAT_LENGTH + 1] = { 0 };
                 strcpy_P(pathFormat, (char*) pgm_read_word(&(assetIds[WeatherStation::Sensors::sensorsEnumSize])));
                 sprintf(path, pathFormat, assetId);
+                client.beginPacket();
                 int err = http.put("65.52.140.212", 443, path);
                 if (err == 0) {
+                    // to improve UI response
+                    yield();
                     client.println(F("Auth-ClientId: jindra"));
                     client.println(F("Auth-ClientKey: ***REMOVED***"));
                     client.print(F("Content-Length: "));
+                    // to improve UI response
+                    yield();
                     client.println(
                             WeatherStation::Sensors::PRINT_VALUE_STRING_LENGTH
                                     + FORMAT_TIME_LENGTH + 30);
                     client.println(F("Content-Type: application/json; charset=utf-8"));
                     http.endRequest();
 
+                    // to improve UI response
+                    yield();
                     client.println('{');
                     client.print(F("\"value\": "));
                     sensorValue->printValue(i, client);
                     client.println(',');
+                    // to improve UI response
+                    yield();
                     client.print(F("\"at\": \""));
                     formatTime(client, sensorValue->getTimeStamp());
                     client.println('\"');
                     client.println('}');
                     client.println();
+
+                    // to improve UI response
+                    yield();
                 }
+                client.endPacket();
+                // to improve UI response
+                yield();
                 http.receiveAndPrintResponse(err, LOGGER_DEBUG, LOGGER_DEBUG);
                 Logger.flush();
                 http.stop();

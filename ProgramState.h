@@ -108,7 +108,6 @@ private:
 
     SensorReading * sensorValues[WeatherStation::Sensors::sensorsEnumSize];
 
-    Network network;
     NetworkTestTask networkTestTask;
     TimeSyncTask timeSyncTask;
     SmartLivingPublishTask dataUploadTask;
@@ -185,10 +184,6 @@ public:
         return menu;
     }
 
-    Network& getNetwork() {
-        return network;
-    }
-
     TimeSyncTask& getTimeSyncTask() {
         return timeSyncTask;
     }
@@ -213,13 +208,13 @@ private:
 
             measureTempTask(DHT_PIN,
                     settings.getMeasureTempSecondFreq()
-                            * ProgramSettings::RESOLUTION_MEASURE_TEMP_FREQ),
+                            * ProgramSettings::USEC_RESOLUTION_MEASURE_TEMP_FREQ),
             measureAirPressureTask(
                     settings.getMeasurePressureSecondFreq()
-                            * ProgramSettings::RESOLUTION_MEASURE_PRESSURE_FREQ),
+                            * ProgramSettings::USEC_RESOLUTION_MEASURE_PRESSURE_FREQ),
             measureLightIntensityTask(
                     settings.getMeasureLightSecondFreq()
-                            * ProgramSettings::RESOLUTION_MEASURE_LIGHT_FREQ),
+                            * ProgramSettings::USEC_RESOLUTION_MEASURE_LIGHT_FREQ),
 
             tempScreen(measureTempTask.getLatestReading()),
             airPressureScreen(measureAirPressureTask.getLatestReading()),
@@ -228,7 +223,7 @@ private:
             backLightTask(disp.getLcd()),
             drawOnDisplayTask(
                     settings.getDisplayDrawSecondFreq()
-                            * ProgramSettings::RESOLUTION_DISPLAY_DRAW_FREQ,
+                            * ProgramSettings::USEC_RESOLUTION_DISPLAY_DRAW_FREQ,
                     disp.getLcd(), displayScreens[settings.getStartupScreen()]),
 
             menu(disp.getLcd(), this, settings),
@@ -240,11 +235,11 @@ private:
                     RIGHT_PIN, MODE_CLOSE_ON_PUSH, &nextScreen }, {
                     BACKLIGHT_PIN, MODE_CLOSE_ON_PUSH, &backLightHandler }, {
                     UP_PIN, MODE_CLOSE_ON_PUSH,
-                    &ButtonHandler::voidButtonHandler() }, { DOWN_PIN,
-                    MODE_CLOSE_ON_PUSH, &ButtonHandler::voidButtonHandler() },
+                    &ButtonHandler::voidButtonHandler }, { DOWN_PIN,
+                    MODE_CLOSE_ON_PUSH, &ButtonHandler::voidButtonHandler },
                     { ENTER_PIN, MODE_CLOSE_ON_PUSH, &menu.getEnterMenuHandler() },
                     { ESC_PIN, MODE_CLOSE_ON_PUSH,
-                            &ButtonHandler::voidButtonHandler() } },
+                            &ButtonHandler::voidButtonHandler } },
 
             serialVirtButtonsTask(100),
 
@@ -253,9 +248,9 @@ private:
             timeSyncTask(settings.getSyncTimeHourFreq()),
             dataUploadTask(
                     settings.getDataUploadMinutesFreq()
-                            * ProgramSettings::RESOLUTION_DATA_UPLOAD_MIN_FREQ),
+                            * ProgramSettings::USEC_RESOLUTION_DATA_UPLOAD_MIN_FREQ),
             wifiWatchDogTask(settings.getWifiWatchdogMinutesFreq()
-                    * ProgramSettings::RESOLUTION_WIFI_WATCHDOG_MIN_FREQ){
+                    * ProgramSettings::USEC_RESOLUTION_WIFI_WATCHDOG_MIN_FREQ){
 
         pinMode(LED_BUILTIN, OUTPUT);
 
@@ -288,7 +283,7 @@ private:
         measureLightIntensityTask.getLatestReading().registerSensorValues(
                 sensorValues);
 
-        network.connect(settings);
+        Network::connect(settings);
         networkTestTask.setThreadPool(&networkThread);
         timeSyncTask.setThreadPool(&networkThread);
         dataUploadTask.setThreadPool(&networkThread);

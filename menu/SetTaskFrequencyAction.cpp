@@ -14,13 +14,13 @@
 
 SetTaskFrequencyAction::SetTaskFrequencyAction(
         Task & target, unsigned int (ProgramSettings::*period)() const,
-        unsigned long multiplier) :
+        uint8_t multiplierSec) :
         target(target),
         period(period),
-        multiplier(multiplier) {
+        multiplierSec(multiplierSec) {
 }
 
 void SetTaskFrequencyAction::doAction() {
     target.setPeriodUs(
-            (ProgramState::instance().getSettings().*period)() * multiplier);
+            (long)((ProgramState::instance().getSettings().*period)()) * multiplierSec * ProgramSettings::ONE_SEC_IN_US);
 }

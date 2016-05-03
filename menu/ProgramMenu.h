@@ -45,7 +45,6 @@ private:
     SetTaskFrequencyAction setWifiWatchdogFreqAction;
     RestartWifiAction restartWifiAction;
 
-
     OMMenuMgr menu;
 
     static const unsigned int SEC_IN_MINUTE = 60;

@@ -32,7 +32,9 @@ void setup() {
 }
 
 void loop() {
-    SoftTimer::instance().run();
+    while(true) {
+        SoftTimer::instance().run();
+    }
 }
 
 // ******* Define PCI interrupt handlers on my own

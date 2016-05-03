@@ -14,7 +14,7 @@
 
 class MenuButtonsCache {
 private:
-    static const uint8_t MENU_KEY_STROKES_CACHE_SIZE = 10;
+    static const uint8_t MENU_KEY_STROKES_CACHE_SIZE = 6;
 
     volatile Button buttonsCache[MENU_KEY_STROKES_CACHE_SIZE];
     volatile uint8_t size;

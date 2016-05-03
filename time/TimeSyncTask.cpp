@@ -25,10 +25,10 @@ TimeSyncTask::TimeSyncTask(unsigned long periodHours, bool enabled) :
 
 void TimeSyncTask::run() {
 
-    if (ProgramState::instance().getNetwork().networkConnected()) {
+    if (Network::networkConnected()) {
 
         WiFiEspUDP udp;
-        static int udpInited = udp.begin(123); // open socket on arbitrary port
+        int udpInited = udp.begin(123); // open socket on arbitrary port
         const char timeServer[] = "pool.ntp.org";  // NTP server
 
         // Only the first four bytes of an outgoing NTP packet need to be set

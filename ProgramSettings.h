@@ -54,15 +54,29 @@ public:
     static const unsigned int MAX_WIFI_WATCHDOG_MIN_FREQ = 60;
 
     static const unsigned long ONE_SEC_IN_US = 1000000;
-    static const unsigned long ONE_MIN_IN_US = 60000000;
+    static const unsigned long ONE_MIN_IN_SEC = 60;
 
-    static const unsigned long RESOLUTION_MEASURE_TEMP_FREQ = ONE_SEC_IN_US;
-    static const unsigned long RESOLUTION_MEASURE_PRESSURE_FREQ = ONE_SEC_IN_US;
-    static const unsigned long RESOLUTION_MEASURE_LIGHT_FREQ = ONE_SEC_IN_US;
-    static const unsigned long RESOLUTION_DISPLAY_DRAW_FREQ = ONE_SEC_IN_US;
-    static const unsigned long RESOLUTION_DATA_UPLOAD_MIN_FREQ = ONE_MIN_IN_US;
-    static const unsigned long RESOLUTION_WIFI_WATCHDOG_MIN_FREQ = ONE_MIN_IN_US;
+    static const unsigned long SECOND_RESOLUTION_MEASURE_TEMP_FREQ = 1;
+    static const unsigned long SECOND_RESOLUTION_MEASURE_PRESSURE_FREQ = 1;
+    static const unsigned long SECOND_RESOLUTION_MEASURE_LIGHT_FREQ = 1;
+    static const unsigned long SECOND_RESOLUTION_DISPLAY_DRAW_FREQ = 1;
+    static const unsigned long SECOND_RESOLUTION_DATA_UPLOAD_MIN_FREQ =
+            ONE_MIN_IN_SEC;
+    static const unsigned long SECOND_RESOLUTION_WIFI_WATCHDOG_MIN_FREQ =
+            ONE_MIN_IN_SEC;
 
+    static const unsigned long USEC_RESOLUTION_MEASURE_TEMP_FREQ =
+            SECOND_RESOLUTION_MEASURE_TEMP_FREQ * ONE_SEC_IN_US;
+    static const unsigned long USEC_RESOLUTION_MEASURE_PRESSURE_FREQ =
+            SECOND_RESOLUTION_MEASURE_PRESSURE_FREQ * ONE_SEC_IN_US;
+    static const unsigned long USEC_RESOLUTION_MEASURE_LIGHT_FREQ =
+            SECOND_RESOLUTION_MEASURE_LIGHT_FREQ * ONE_SEC_IN_US;
+    static const unsigned long USEC_RESOLUTION_DISPLAY_DRAW_FREQ =
+            SECOND_RESOLUTION_DISPLAY_DRAW_FREQ * ONE_SEC_IN_US;
+    static const unsigned long USEC_RESOLUTION_DATA_UPLOAD_MIN_FREQ =
+            SECOND_RESOLUTION_DATA_UPLOAD_MIN_FREQ * ONE_SEC_IN_US;
+    static const unsigned long USEC_RESOLUTION_WIFI_WATCHDOG_MIN_FREQ =
+            SECOND_RESOLUTION_WIFI_WATCHDOG_MIN_FREQ * ONE_SEC_IN_US;
 
     static const int ALTITUDE_EPROM_ADDR = 16;
     static const int STARTUP_SCREEN_EPROM_ADDR = ALTITUDE_EPROM_ADDR
@@ -75,18 +89,18 @@ public:
             MEASURE_PRESSURE_FREQ_EPROM_ADDR + sizeof(unsigned int);
     static const int DISPLAY_DRAW_FREQ_EPROM_ADDR =
             MEASURE_LIGHT_FREQ_EPROM_ADDR + sizeof(unsigned int);
-    static const int WIFI_PASSWORD_EPROM_ADDR =
-            8 + DISPLAY_DRAW_FREQ_EPROM_ADDR + sizeof(unsigned int);
-    static const int WIFI_SSID_EPROM_ADDR =
-            WIFI_PASSWORD_EPROM_ADDR + WIFI_PASSWD_ARRAY_LENGTH;
-    static const int TIME_ZONE_EPROM_ADDR =
-            8 + WIFI_SSID_EPROM_ADDR + WIFI_SSID_ARRAY_LENGTH;
-    static const int SYNC_TIME_FREQ_EPROM_ADDR =
-            1 + TIME_ZONE_EPROM_ADDR + sizeof(int);
-    static const int DATA_UPLOAD_MIN_EPROM_ADDR =
-            SYNC_TIME_FREQ_EPROM_ADDR + sizeof(unsigned int);
-    static const int WIFI_WATCHDOG_MIN_EPROM_ADDR =
-            DATA_UPLOAD_MIN_EPROM_ADDR + sizeof(unsigned int);
+    static const int WIFI_PASSWORD_EPROM_ADDR = 8 + DISPLAY_DRAW_FREQ_EPROM_ADDR
+            + sizeof(unsigned int);
+    static const int WIFI_SSID_EPROM_ADDR = WIFI_PASSWORD_EPROM_ADDR
+            + WIFI_PASSWD_ARRAY_LENGTH;
+    static const int TIME_ZONE_EPROM_ADDR = 8 + WIFI_SSID_EPROM_ADDR
+            + WIFI_SSID_ARRAY_LENGTH;
+    static const int SYNC_TIME_FREQ_EPROM_ADDR = 1 + TIME_ZONE_EPROM_ADDR
+            + sizeof(int);
+    static const int DATA_UPLOAD_MIN_EPROM_ADDR = SYNC_TIME_FREQ_EPROM_ADDR
+            + sizeof(unsigned int);
+    static const int WIFI_WATCHDOG_MIN_EPROM_ADDR = DATA_UPLOAD_MIN_EPROM_ADDR
+            + sizeof(unsigned int);
 
     ProgramSettings();
 

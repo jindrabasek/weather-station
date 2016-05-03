@@ -16,6 +16,8 @@
 #include "../Logger.h"
 #include "../ProgramSettings.h"
 
+uint8_t Network::espStatus = WL_IDLE_STATUS;
+
 void Network::connect(ProgramSettings& settings, bool force) {
     initNetwork(force);
 

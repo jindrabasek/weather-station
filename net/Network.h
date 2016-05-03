@@ -19,24 +19,21 @@
 
 class Network {
 private:
-    uint8_t espStatus = WL_IDLE_STATUS;
+    static uint8_t espStatus;
 
 public:
-    Network() {
-    }
+    static void connect(ProgramSettings& settings, bool force = false);
 
-    void connect(ProgramSettings& settings, bool force = false);
-
-    bool networkInitialized() {
+    static bool networkInitialized() {
         return !(espStatus == WL_IDLE_STATUS || espStatus == WL_NO_SHIELD);
     }
 
-    bool networkConnected() {
+    static bool networkConnected() {
         return espStatus == WL_CONNECTED;
     }
 
 private:
-    void initNetwork(bool force);
+    static void initNetwork(bool force);
 
 };
 
