@@ -12,14 +12,14 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <utility/EspDrv.h>
-#include <WiFiEsp.h>
-#include <WString.h>
+#include <utility/SerialHolder.h>
 
 #include "../ProgramSettings.h"
 
 class Network {
 private:
     static uint8_t espStatus;
+    static SerialHolderT<HardwareSerial> serial;
 
 public:
     static void connect(ProgramSettings& settings, bool force = false);

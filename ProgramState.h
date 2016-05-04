@@ -261,18 +261,16 @@ private:
         drawOnDisplayTask.setThreadPool(&displayThread);
         backLightTask.setThreadPool(&displayThread);
 
-        SoftTimer & timer = SoftTimer::instance();
-        timer.add(&measureTempTask);
-        timer.add(&measureAirPressureTask);
-        timer.add(&measureLightIntensityTask);
-        timer.add(&drawOnDisplayTask);
-        timer.add(&backLightTask);
-        timer.add(&serialVirtButtonsTask);
+        SoftTimer.add(&measureTempTask);
+        SoftTimer.add(&measureAirPressureTask);
+        SoftTimer.add(&measureLightIntensityTask);
+        SoftTimer.add(&drawOnDisplayTask);
+        SoftTimer.add(&backLightTask);
+        SoftTimer.add(&serialVirtButtonsTask);
 
-        PciManager & pciManager = PciManager::instance();
         for (uint8_t i = 0; i < WeatherStation::Buttons::buttonsEnumSize;
                 i++) {
-            pciManager.registerListener(&buttons[i]);
+            PciManager.registerListener(&buttons[i]);
         }
 
         disp.doSetup();
@@ -288,12 +286,12 @@ private:
         timeSyncTask.setThreadPool(&networkThread);
         dataUploadTask.setThreadPool(&networkThread);
         wifiWatchDogTask.setThreadPool(&networkThread);
-        timer.add(&networkTestTask);
-        timer.add(&timeSyncTask);
-        timer.add(&dataUploadTask);
-        timer.add(&wifiWatchDogTask);
+        SoftTimer.add(&networkTestTask);
+        SoftTimer.add(&timeSyncTask);
+        SoftTimer.add(&dataUploadTask);
+        SoftTimer.add(&wifiWatchDogTask);
 
-        pciManager.setEnabled(true);
+        PciManager.setEnabled(true);
     }
 };
 

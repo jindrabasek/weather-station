@@ -33,7 +33,7 @@ void setup() {
 
 void loop() {
     while(true) {
-        SoftTimer::instance().run();
+        SoftTimer.run();
     }
 }
 
@@ -42,21 +42,21 @@ void loop() {
 #ifdef PCINT0_vect
 ISR(PCINT0_vect) {
     //SoftwareSerial::handle_interrupt();
-    PciManager::instance().callListeners(0);
+    PciManager.callListeners(0);
 }
 #endif
 
 #ifdef PCINT1_vect
 ISR(PCINT1_vect) {
     //SoftwareSerial::handle_interrupt();
-    PciManager::instance().callListeners(1);
+    PciManager.callListeners(1);
 }
 #endif
 
 #ifdef PCINT2_vect
 ISR(PCINT2_vect) {
     //SoftwareSerial::handle_interrupt();
-    PciManager::instance().callListeners(2);
+    PciManager.callListeners(2);
 }
 #endif
 
@@ -64,6 +64,6 @@ ISR(PCINT2_vect) {
 ISR(PCINT3_vect)
 {
     //SoftwareSerial::handle_interrupt();
-    PciManager::instance().callListeners(3);
+    PciManager.callListeners(3);
 }
 #endif

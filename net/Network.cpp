@@ -17,6 +17,7 @@
 #include "../ProgramSettings.h"
 
 uint8_t Network::espStatus = WL_IDLE_STATUS;
+SerialHolderT<HardwareSerial> Network::serial(&Serial1);
 
 void Network::connect(ProgramSettings& settings, bool force) {
     initNetwork(force);
@@ -51,7 +52,7 @@ void Network::connect(ProgramSettings& settings, bool force) {
 
 inline void Network::initNetwork(bool force) {
     if (force || !networkInitialized()) {
-        WiFi.init(&Serial1, 4800, 40, 115200);
+        WiFi.init(&serial, 4800, 40, 115200);
 
         espStatus = WiFi.status();
         if (espStatus == WL_NO_SHIELD) {

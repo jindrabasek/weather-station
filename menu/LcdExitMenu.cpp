@@ -29,7 +29,7 @@ LcdExitMenu::LcdExitMenu(LCD& lcd, EnterMenuHandler& enterMenuHandler,
 void LcdExitMenu::exitMenu(bool fullExit) {
     ProgramState & state = ProgramState::instance();
 
-    PciManager::instance().setEnabled(false);
+    PciManager.setEnabled(false);
     if (fullExit) {
         buttonsBackup.restoreHandlers();
         state.getDrawOnDisplayTask().setToDraw(
@@ -49,5 +49,5 @@ void LcdExitMenu::exitMenu(bool fullExit) {
 }
 
 void LcdExitMenu::exitMenuPostCallback() {
-    PciManager::instance().setEnabled(true);
+    PciManager.setEnabled(true);
 }
