@@ -26,19 +26,20 @@
 #include "../sensors/Sensors.h"
 #include "Network.h"
 
-const char PRESSURE_ID[] PROGMEM = "***REMOVED***";
-const char PRESSURE_SEAL_LEVEL_ID[] PROGMEM = "***REMOVED***";
-const char BMP_TEMPERATURE_ID[] PROGMEM = "***REMOVED***";
-const char LIGHT_INTENSITY_ID[] PROGMEM = "***REMOVED***";
-const char DHT_TEMPERTAURE_ID[] PROGMEM = "***REMOVED***";
-const char DHT_TEMPERTAURE_REAL_FEEL_ID[] PROGMEM = "***REMOVED***";
-const char DHT_HUMIDITY_ID[] PROGMEM = "***REMOVED***";
+static const char PRESSURE_ID[] PROGMEM = "***REMOVED***";
+static const char PRESSURE_SEAL_LEVEL_ID[] PROGMEM = "***REMOVED***";
+static const char BMP_TEMPERATURE_ID[] PROGMEM = "***REMOVED***";
+static const char LIGHT_INTENSITY_ID[] PROGMEM = "***REMOVED***";
+static const char DHT_TEMPERTAURE_ID[] PROGMEM = "***REMOVED***";
+static const char DHT_TEMPERTAURE_REAL_FEEL_ID[] PROGMEM = "***REMOVED***";
+static const char DHT_HUMIDITY_ID[] PROGMEM = "***REMOVED***";
 
-const char PATH_FORMAT[] PROGMEM = "/asset/%s/state";
+static const char PATH_FORMAT[] PROGMEM = "/asset/%s/state";
+static const char SMART_LIVING_IP[] PROGMEM = "65.52.140.212";
 
 const char* const assetIds[] PROGMEM = { PRESSURE_ID, PRESSURE_SEAL_LEVEL_ID,
         BMP_TEMPERATURE_ID, LIGHT_INTENSITY_ID, DHT_TEMPERTAURE_ID,
-        DHT_TEMPERTAURE_REAL_FEEL_ID, DHT_HUMIDITY_ID, PATH_FORMAT };
+        DHT_TEMPERTAURE_REAL_FEEL_ID, DHT_HUMIDITY_ID };
 
 SmartLivingPublishTask::SmartLivingPublishTask(unsigned long periodMs) :
         Task(periodMs) {
@@ -54,6 +55,8 @@ void SmartLivingPublishTask::run() {
             SensorReading * sensorValue = state.getSensorValues()[i];
             char assetId[ASSET_ID_LENGTH + 1] = { 0 };
             getAssetId(assetId, i);
+            char smartLivingIp[sizeof(SMART_LIVING_IP)];
+            strcpy_P(smartLivingIp, SMART_LIVING_IP);
             if (sensorValue->getReadState() == ReadState::READ_OK) {
                 LOG_INFO1(F("Sensor data uploading "), assetId);
 
@@ -62,12 +65,12 @@ void SmartLivingPublishTask::run() {
                 HttpClient http(client);
 
                 http.beginRequest();
-                char path[ASSET_ID_LENGTH + PATH_FORMAT_LENGTH + 1] = { 0 };
-                char pathFormat[PATH_FORMAT_LENGTH + 1] = { 0 };
-                strcpy_P(pathFormat, (char*) pgm_read_word(&(assetIds[WeatherStation::Sensors::sensorsEnumSize])));
+                char path[ASSET_ID_LENGTH + sizeof(PATH_FORMAT)] = { 0 };
+                char pathFormat[sizeof(PATH_FORMAT)];
+                strcpy_P(pathFormat, PATH_FORMAT);
                 sprintf(path, pathFormat, assetId);
                 client.beginPacket();
-                int err = http.put("65.52.140.212", 443, path);
+                int err = http.put(smartLivingIp, 443, path);
                 if (err == 0) {
                     // to improve UI response
                     yield();

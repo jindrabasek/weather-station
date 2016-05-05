@@ -7,6 +7,7 @@
 
 #include "NetworkTestTask.h"
 
+#include <avr/pgmspace.h>
 #include <HardwareSerial.h>
 #include <HttpClient.h>
 #include <stdbool.h>
@@ -15,6 +16,9 @@
 
 #include "../Logger.h"
 #include "Network.h"
+
+static const char ARDUINO_URL[] PROGMEM = "arduino.cc";
+static const char LOGO_PATH[] PROGMEM = "/asciilogo.txt";
 
 NetworkTestTask::NetworkTestTask() :
         Task(0) {
@@ -27,7 +31,13 @@ void NetworkTestTask::run() {
         HttpClient http(client);
         LOG_INFO(F("Getting page...\n"));
         client.beginPacket();
-        int err = http.get("arduino.cc", 80, "/asciilogo.txt");
+
+        char arduinoUrl[sizeof(ARDUINO_URL)];
+        strcpy_P(arduinoUrl, ARDUINO_URL);
+        char logoPath[sizeof(LOGO_PATH)];
+        strcpy_P(logoPath, LOGO_PATH);
+
+        int err = http.get(arduinoUrl, 80, logoPath);
         client.endPacket();
         http.receiveAndPrintResponse(err, Serial, LOGGER_INFO);
         http.stop();

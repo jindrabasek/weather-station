@@ -15,6 +15,8 @@
 
 #include "../Logger.h"
 
+static const char LOG_FILE_NAME[] PROGMEM = "log.txt";
+
 // Error messages stored in flash.
 #define error(msg) SdCard::sd.errorHalt(F(msg))
 
@@ -33,7 +35,10 @@ void SdCard::init() {
 }
 
 void SdCard::initSdLogger() {
-    if (!logFile.open("log.txt", O_CREAT | O_WRITE | O_APPEND )) {
+    char logFileName[sizeof(LOG_FILE_NAME)];
+    strcpy_P(logFileName, LOG_FILE_NAME);
+
+    if (!logFile.open(logFileName, O_CREAT | O_WRITE | O_APPEND )) {
         error("file.open");
     }
 

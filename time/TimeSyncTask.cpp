@@ -7,6 +7,7 @@
 
 #include "TimeSyncTask.h"
 
+#include <avr/pgmspace.h>
 #include <Arduino.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -17,6 +18,8 @@
 #include "../net/Network.h"
 #include "../ProgramSettings.h"
 #include "../ProgramState.h"
+
+static const char TIME_SERVER[] PROGMEM = "pool.ntp.org";
 
 TimeSyncTask::TimeSyncTask(unsigned long periodHours, bool enabled) :
         LongTask(periodHours, 0, enabled) {
@@ -29,7 +32,8 @@ void TimeSyncTask::run() {
 
         WiFiEspUDP udp;
         int udpInited = udp.begin(123); // open socket on arbitrary port
-        const char timeServer[] = "pool.ntp.org";  // NTP server
+        char timeServer[sizeof(TIME_SERVER)];
+        strcpy_P(timeServer, TIME_SERVER); // NTP server
 
         // Only the first four bytes of an outgoing NTP packet need to be set
         // appropriately, the rest can be whatever.

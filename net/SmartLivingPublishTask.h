@@ -23,7 +23,6 @@ public:
 
 private:
     static const int ASSET_ID_LENGTH = 24;
-    static const int PATH_FORMAT_LENGTH = 15;
     static const int FORMAT_TIME_LENGTH = 25;
 
     void getAssetId(char* buffer, uint8_t valueId);
