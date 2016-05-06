@@ -33,13 +33,14 @@ static const char LIGHT_INTENSITY_ID[] PROGMEM = "***REMOVED***";
 static const char DHT_TEMPERTAURE_ID[] PROGMEM = "***REMOVED***";
 static const char DHT_TEMPERTAURE_REAL_FEEL_ID[] PROGMEM = "***REMOVED***";
 static const char DHT_HUMIDITY_ID[] PROGMEM = "***REMOVED***";
+static const char ABSOLUTE_HUMIDITY_ID[] PROGMEM = "***REMOVED***";
 
 static const char PATH_FORMAT[] PROGMEM = "/asset/%s/state";
 static const char SMART_LIVING_IP[] PROGMEM = "65.52.140.212";
 
 const char* const assetIds[] PROGMEM = { PRESSURE_ID, PRESSURE_SEAL_LEVEL_ID,
         BMP_TEMPERATURE_ID, LIGHT_INTENSITY_ID, DHT_TEMPERTAURE_ID,
-        DHT_TEMPERTAURE_REAL_FEEL_ID, DHT_HUMIDITY_ID };
+        DHT_TEMPERTAURE_REAL_FEEL_ID, DHT_HUMIDITY_ID, ABSOLUTE_HUMIDITY_ID };
 
 SmartLivingPublishTask::SmartLivingPublishTask(unsigned long periodMs) :
         Task(periodMs) {

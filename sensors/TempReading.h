@@ -19,14 +19,16 @@
 class TempReading : public SensorReading {
 private:
     float humidity;
+    float humidityAbsolute;
     float temperatureCelsius;
     float heatIndexCelsius;
 
 //-----------------------------------------------------------------------------
 
 public:
-    TempReading(float humidity, float temperatureCelsius,
-                float heatIndexCelsius, unsigned long timeStamp);
+    TempReading(float humidity, float humidityAbsolute,
+                float temperatureCelsius, float heatIndexCelsius,
+                unsigned long timeStamp);
     TempReading(bool error = false, unsigned long timeStamp = 0);
 
     float getHeatIndexCelsius() const {
@@ -40,6 +42,11 @@ public:
     float getTemperatureCelsius() const {
         return temperatureCelsius;
     }
+
+    float getHumidityAbsolute() const {
+        return humidityAbsolute;
+    }
+
     void printValues(Print & out, NewLiner & newLine) const;
 
     virtual void registerSensorValues(SensorReading ** valueArray);

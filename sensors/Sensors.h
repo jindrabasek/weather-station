@@ -18,6 +18,7 @@ namespace WeatherStation {
         DHT_HUMIDITY,
         DHT_TEMPERTAURE_REAL_FEEL,
         DHT_TEMPERTAURE,
+        ABSOLUTE_HUMIDITY,
         sensorsEnumSize,
         PRINT_VALUE_STRING_LENGTH = 10
     };

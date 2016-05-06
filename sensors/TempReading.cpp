@@ -18,10 +18,11 @@
 #include "../PeripheryReading.h"
 #include "Sensors.h"
 
-TempReading::TempReading(float humidity, float temperatureCelsius,
+TempReading::TempReading(float humidity, float humidityAbsolute,float temperatureCelsius,
                          float heatIndexCelsius, unsigned long timeStamp) :
         SensorReading(ReadState::READ_OK, timeStamp),
         humidity(humidity),
+        humidityAbsolute(humidityAbsolute),
         temperatureCelsius(temperatureCelsius),
         heatIndexCelsius(heatIndexCelsius) {
 }
@@ -29,6 +30,7 @@ TempReading::TempReading(float humidity, float temperatureCelsius,
 TempReading::TempReading(bool error, unsigned long timeStamp) :
         SensorReading(error ? ReadState::READ_ERROR : ReadState::NOT_YET_READ, timeStamp),
         humidity(NAN),
+        humidityAbsolute(NAN),
         temperatureCelsius(NAN),
         heatIndexCelsius(NAN) {
 }
@@ -64,6 +66,7 @@ void TempReading::registerSensorValues(SensorReading** valueArray) {
     valueArray[WeatherStation::Sensors::DHT_HUMIDITY] = this;
     valueArray[WeatherStation::Sensors::DHT_TEMPERTAURE] = this;
     valueArray[WeatherStation::Sensors::DHT_TEMPERTAURE_REAL_FEEL] = this;
+    valueArray[WeatherStation::Sensors::ABSOLUTE_HUMIDITY] = this;
 }
 
 void TempReading::printValue(uint8_t valueId, Print& out) {
@@ -77,6 +80,9 @@ void TempReading::printValue(uint8_t valueId, Print& out) {
             break;
         case WeatherStation::Sensors::DHT_TEMPERTAURE_REAL_FEEL:
             dtostrf(heatIndexCelsius, WeatherStation::Sensors::PRINT_VALUE_STRING_LENGTH, 2, buffer);
+            break;
+        case WeatherStation::Sensors::ABSOLUTE_HUMIDITY:
+            dtostrf(humidityAbsolute, WeatherStation::Sensors::PRINT_VALUE_STRING_LENGTH, 1, buffer);
             break;
     }
     out.print(buffer);

@@ -28,12 +28,13 @@ void TempMeasureTask::run() {
         float t = dht.getTemperature();
 
         float hic = NAN;
-        // Check if any reads failed and exit early (to try again).
+        float absoluteHumidity = NAN;
         if (!isnan(h) && !isnan(t)) {
             hic = dht.computeHeatIndex(t, h);
+            absoluteHumidity = dht.computeAbsoluteHumidity(t, h);
         }
 
-        latestReading = TempReading(h, t, hic, state.getTimeStamp(true));
+        latestReading = TempReading(h, absoluteHumidity, t, hic, state.getTimeStamp(true));
     } else {
         latestReading = TempReading(true, state.getTimeStamp(true));
     }
