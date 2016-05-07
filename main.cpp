@@ -1,6 +1,7 @@
 // Do not remove the include below
 
 #include <avr/interrupt.h>
+#include <ApplicationMonitor.h>
 #include <Arduino.h>
 #include <HardwareSerial.h>
 #include <PciManager.h>
@@ -14,6 +15,8 @@
 #include "sd/SdCard.h"
 #include "time/Clock.h"
 
+Watchdog::CApplicationMonitor ApplicationMonitor;
+
 //The setup function is called once at startup of the sketch
 void setup() {
     Serial.begin(115200);
@@ -26,16 +29,27 @@ void setup() {
 
     Clock::getTime(true);
     SdCard::init();
+
+    ApplicationMonitor.Dump(Logger);
+
     ProgramState::instance();
+
+    ApplicationMonitor.EnableWatchdog(Watchdog::CApplicationMonitor::Timeout_8s);
 
     LOG_INFO(F("Init complete"));
 }
 
+void loggingCallback(Task * runningTask) {
+    ApplicationMonitor.SetData(reinterpret_cast<uint32_t>(runningTask));
+}
+
 void loop() {
     while(true) {
-        SoftTimer.run();
+        ApplicationMonitor.IAmAlive();
+        SoftTimer.run(loggingCallback);
     }
 }
+
 
 // ******* Define PCI interrupt handlers on my own
 // to allow multiple handlers to be registered
