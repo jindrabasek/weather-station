@@ -1,3 +1,5 @@
 Release/
 config.h
+.project
+.settings/org.eclipse.cdt.core.prefs
 
