@@ -1,0 +1,28 @@
+/*
+ * config.h
+ *
+ *  Created on: 9. 5. 2016
+ *      Author: jindra
+ */
+
+#ifndef CONFIG_H_
+#define CONFIG_H_
+
+
+#define DEFAULT_WIFI_PASSWORD ""
+#define DEFAULT_WIFI_SSID ""
+
+// take these values from your SmartLiving account
+#define SMART_LIVING_CLIENT_ID ""
+#define SMART_LIVING_CLIENT_KEY ""
+#define SMART_LIVING_SENSOR_ID_PRESSURE ""
+#define SMART_LIVING_SENSOR_ID_PRESSURE_SEAL_LEVEL ""
+#define SMART_LIVING_SENSOR_ID_BMP_TEMPERATURE ""
+#define SMART_LIVING_SENSOR_ID_LIGHT_INTENSITY ""
+#define SMART_LIVING_SENSOR_ID_DHT_TEMPERTAURE ""
+#define SMART_LIVING_SENSOR_ID_DHT_TEMPERTAURE_REAL_FEEL ""
+#define SMART_LIVING_SENSOR_ID_DHT_HUMIDITY ""
+#define SMART_LIVING_SENSOR_ID_ABSOLUTE_HUMIDITY ""
+
+
+#endif /* CONFIG_H_ */

@@ -18,6 +18,7 @@
 #include <WireRtcLib.h>
 #include <WString.h>
 
+#include "../config.h"
 #include "../Logger.h"
 #include "../PeripheryReading.h"
 #include "../ProgramSettings.h"
@@ -26,14 +27,21 @@
 #include "../sensors/Sensors.h"
 #include "Network.h"
 
-static const char PRESSURE_ID[] PROGMEM = "***REMOVED***";
-static const char PRESSURE_SEAL_LEVEL_ID[] PROGMEM = "***REMOVED***";
-static const char BMP_TEMPERATURE_ID[] PROGMEM = "***REMOVED***";
-static const char LIGHT_INTENSITY_ID[] PROGMEM = "***REMOVED***";
-static const char DHT_TEMPERTAURE_ID[] PROGMEM = "***REMOVED***";
-static const char DHT_TEMPERTAURE_REAL_FEEL_ID[] PROGMEM = "***REMOVED***";
-static const char DHT_HUMIDITY_ID[] PROGMEM = "***REMOVED***";
-static const char ABSOLUTE_HUMIDITY_ID[] PROGMEM = "***REMOVED***";
+static const char PRESSURE_ID[] PROGMEM = SMART_LIVING_SENSOR_ID_PRESSURE;
+static const char PRESSURE_SEAL_LEVEL_ID[] PROGMEM
+        = SMART_LIVING_SENSOR_ID_PRESSURE_SEAL_LEVEL;
+static const char BMP_TEMPERATURE_ID[] PROGMEM
+        = SMART_LIVING_SENSOR_ID_BMP_TEMPERATURE;
+static const char LIGHT_INTENSITY_ID[] PROGMEM
+        = SMART_LIVING_SENSOR_ID_LIGHT_INTENSITY;
+static const char DHT_TEMPERTAURE_ID[] PROGMEM
+        = SMART_LIVING_SENSOR_ID_DHT_TEMPERTAURE;
+static const char DHT_TEMPERTAURE_REAL_FEEL_ID[] PROGMEM
+        = SMART_LIVING_SENSOR_ID_DHT_TEMPERTAURE_REAL_FEEL;
+static const char DHT_HUMIDITY_ID[] PROGMEM
+        = SMART_LIVING_SENSOR_ID_DHT_HUMIDITY;
+static const char ABSOLUTE_HUMIDITY_ID[] PROGMEM
+        = SMART_LIVING_SENSOR_ID_ABSOLUTE_HUMIDITY;
 
 static const char PATH_FORMAT[] PROGMEM = "/asset/%s/state";
 static const char SMART_LIVING_IP[] PROGMEM = "65.52.140.212";
@@ -75,15 +83,17 @@ void SmartLivingPublishTask::run() {
                 if (err == 0) {
                     // to improve UI response
                     yield();
-                    client.println(F("Auth-ClientId: jindra"));
-                    client.println(F("Auth-ClientKey: ***REMOVED***"));
+                    client.println(F("Auth-ClientId: " SMART_LIVING_CLIENT_ID));
+                    client.println(
+                            F("Auth-ClientKey: " SMART_LIVING_CLIENT_KEY));
                     client.print(F("Content-Length: "));
                     // to improve UI response
                     yield();
                     client.println(
                             WeatherStation::Sensors::PRINT_VALUE_STRING_LENGTH
                                     + FORMAT_TIME_LENGTH + 30);
-                    client.println(F("Content-Type: application/json; charset=utf-8"));
+                    client.println(
+                            F("Content-Type: application/json; charset=utf-8"));
                     http.endRequest();
 
                     // to improve UI response
@@ -111,7 +121,8 @@ void SmartLivingPublishTask::run() {
                 http.stop();
 
             } else {
-                LOG_WARN1(F("Sensor data not uploaded. Error or not read "), assetId);
+                LOG_WARN1(F("Sensor data not uploaded. Error or not read "),
+                        assetId);
             }
             yield();
         }
