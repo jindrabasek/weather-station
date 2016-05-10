@@ -36,12 +36,12 @@ void SerialVirtButtonsTask::run() {
                 case DOWN_CHAR:
                     state.getButtons()[WeatherStation::Buttons::DOWN].getHandler()->onPressed();
                     break;
-                case LEFT_CHAR:
+                /*case LEFT_CHAR:
                     state.getButtons()[WeatherStation::Buttons::LEFT].getHandler()->onPressed();
                     break;
                 case RIGHT_CHAR:
                     state.getButtons()[WeatherStation::Buttons::RIGHT].getHandler()->onPressed();
-                    break;
+                    break;*/
                 case BACKLIGHT_CHAR:
                     state.getButtons()[WeatherStation::Buttons::BACKLIGHT].getHandler()->onPressed();
                     break;

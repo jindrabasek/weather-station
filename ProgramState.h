@@ -51,8 +51,8 @@ class ProgramState {
 public:
     static const int DHT_PIN = 30;
 
-    static const int LEFT_PIN = A12; //11;
-    static const int RIGHT_PIN = A13; //10;
+    //static const int LEFT_PIN = A12; //11;
+    //static const int RIGHT_PIN = A13; //10;
     static const int UP_PIN = A14; //12;
     static const int DOWN_PIN = A8; //9;
     static const int BACKLIGHT_PIN = A9; //5;
@@ -231,15 +231,13 @@ private:
             nextScreen(1),
             prevScreen(-1),
 
-            buttons { { LEFT_PIN, MODE_CLOSE_ON_PUSH, &prevScreen }, {
-                    RIGHT_PIN, MODE_CLOSE_ON_PUSH, &nextScreen }, {
-                    BACKLIGHT_PIN, MODE_CLOSE_ON_PUSH, &backLightHandler }, {
-                    UP_PIN, MODE_CLOSE_ON_PUSH,
-                    &ButtonHandler::voidButtonHandler }, { DOWN_PIN,
-                    MODE_CLOSE_ON_PUSH, &ButtonHandler::voidButtonHandler },
-                    { ENTER_PIN, MODE_CLOSE_ON_PUSH, &menu.getEnterMenuHandler() },
-                    { ESC_PIN, MODE_CLOSE_ON_PUSH,
-                            &ButtonHandler::voidButtonHandler } },
+            buttons { //{ LEFT_PIN, MODE_CLOSE_ON_PUSH, &prevScreen },
+                      //{ RIGHT_PIN, MODE_CLOSE_ON_PUSH, &nextScreen },
+                      { BACKLIGHT_PIN, MODE_CLOSE_ON_PUSH, &backLightHandler },
+                      { UP_PIN, MODE_CLOSE_ON_PUSH, &prevScreen },
+                      { DOWN_PIN, MODE_CLOSE_ON_PUSH, &nextScreen },
+                      { ENTER_PIN, MODE_CLOSE_ON_PUSH, &menu.getEnterMenuHandler() },
+                      { ESC_PIN, MODE_CLOSE_ON_PUSH, &ButtonHandler::voidButtonHandler } },
 
             serialVirtButtonsTask(100),
 

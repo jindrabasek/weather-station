@@ -41,8 +41,8 @@ void EnterMenuHandler::onPressed() {
 
     state.getButtons()[WeatherStation::Buttons::UP].setHandler(&up);
     state.getButtons()[WeatherStation::Buttons::DOWN].setHandler(&down);
-    state.getButtons()[WeatherStation::Buttons::LEFT].setHandler(&ButtonHandler::voidButtonHandler);
-    state.getButtons()[WeatherStation::Buttons::RIGHT].setHandler(&ButtonHandler::voidButtonHandler);
+    //state.getButtons()[WeatherStation::Buttons::LEFT].setHandler(&ButtonHandler::voidButtonHandler);
+    //state.getButtons()[WeatherStation::Buttons::RIGHT].setHandler(&ButtonHandler::voidButtonHandler);
     state.getButtons()[WeatherStation::Buttons::ENTER].setHandler(&enter);
     state.getButtons()[WeatherStation::Buttons::ESC].setHandler(&back);
 

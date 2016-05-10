@@ -39,8 +39,8 @@ void LcdExitMenu::exitMenu(bool fullExit) {
     } else {
         state.getButtons()[WeatherStation::Buttons::UP].setHandler(&ButtonHandler::voidButtonHandler);
         state.getButtons()[WeatherStation::Buttons::DOWN].setHandler(&ButtonHandler::voidButtonHandler);
-        state.getButtons()[WeatherStation::Buttons::LEFT].setHandler(&ButtonHandler::voidButtonHandler);
-        state.getButtons()[WeatherStation::Buttons::RIGHT].setHandler(&ButtonHandler::voidButtonHandler);
+        //state.getButtons()[WeatherStation::Buttons::LEFT].setHandler(&ButtonHandler::voidButtonHandler);
+        //state.getButtons()[WeatherStation::Buttons::RIGHT].setHandler(&ButtonHandler::voidButtonHandler);
         state.getButtons()[WeatherStation::Buttons::ENTER].setHandler(enterMenuHandler);
         state.getButtons()[WeatherStation::Buttons::ESC].setHandler(&ButtonHandler::voidButtonHandler);
         lcd.clear();
