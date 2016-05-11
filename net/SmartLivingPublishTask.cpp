@@ -29,19 +29,19 @@
 
 static const char PRESSURE_ID[] PROGMEM = SMART_LIVING_SENSOR_ID_PRESSURE;
 static const char PRESSURE_SEAL_LEVEL_ID[] PROGMEM
-        = SMART_LIVING_SENSOR_ID_PRESSURE_SEAL_LEVEL;
+= SMART_LIVING_SENSOR_ID_PRESSURE_SEAL_LEVEL;
 static const char BMP_TEMPERATURE_ID[] PROGMEM
-        = SMART_LIVING_SENSOR_ID_BMP_TEMPERATURE;
+= SMART_LIVING_SENSOR_ID_BMP_TEMPERATURE;
 static const char LIGHT_INTENSITY_ID[] PROGMEM
-        = SMART_LIVING_SENSOR_ID_LIGHT_INTENSITY;
+= SMART_LIVING_SENSOR_ID_LIGHT_INTENSITY;
 static const char DHT_TEMPERTAURE_ID[] PROGMEM
-        = SMART_LIVING_SENSOR_ID_DHT_TEMPERTAURE;
+= SMART_LIVING_SENSOR_ID_DHT_TEMPERTAURE;
 static const char DHT_TEMPERTAURE_REAL_FEEL_ID[] PROGMEM
-        = SMART_LIVING_SENSOR_ID_DHT_TEMPERTAURE_REAL_FEEL;
+= SMART_LIVING_SENSOR_ID_DHT_TEMPERTAURE_REAL_FEEL;
 static const char DHT_HUMIDITY_ID[] PROGMEM
-        = SMART_LIVING_SENSOR_ID_DHT_HUMIDITY;
+= SMART_LIVING_SENSOR_ID_DHT_HUMIDITY;
 static const char ABSOLUTE_HUMIDITY_ID[] PROGMEM
-        = SMART_LIVING_SENSOR_ID_ABSOLUTE_HUMIDITY;
+= SMART_LIVING_SENSOR_ID_ABSOLUTE_HUMIDITY;
 
 static const char PATH_FORMAT[] PROGMEM = "/asset/%s/state";
 static const char SMART_LIVING_IP[] PROGMEM = "65.52.140.212";
@@ -49,6 +49,14 @@ static const char SMART_LIVING_IP[] PROGMEM = "65.52.140.212";
 const char* const assetIds[] PROGMEM = { PRESSURE_ID, PRESSURE_SEAL_LEVEL_ID,
         BMP_TEMPERATURE_ID, LIGHT_INTENSITY_ID, DHT_TEMPERTAURE_ID,
         DHT_TEMPERTAURE_REAL_FEEL_ID, DHT_HUMIDITY_ID, ABSOLUTE_HUMIDITY_ID };
+
+//#define DATA_UPLOAD_TIME_MEASURE
+#ifdef DATA_UPLOAD_TIME_MEASURE
+#define perfMeasure() LOG_DEBUG2(F("T"), __LINE__, millis()-t); t = millis();
+#else
+#define  perfMeasure() ;
+#endif
+
 
 SmartLivingPublishTask::SmartLivingPublishTask(unsigned long periodMs) :
         Task(periodMs) {
@@ -61,6 +69,9 @@ void SmartLivingPublishTask::run() {
 
         ProgramState & state = ProgramState::instance();
         for (uint8_t i = 0; i < WeatherStation::Sensors::sensorsEnumSize; i++) {
+#ifdef DATA_UPLOAD_TIME_MEASURE
+            unsigned long t = millis();
+#endif
             SensorReading * sensorValue = state.getSensorValues()[i];
             char assetId[ASSET_ID_LENGTH + 1] = { 0 };
             getAssetId(assetId, i);
@@ -72,54 +83,58 @@ void SmartLivingPublishTask::run() {
                 WiFiEspClient client;
                 client.setUseSsl(true);
                 HttpClient http(client);
-
+                perfMeasure();
                 http.beginRequest();
                 char path[ASSET_ID_LENGTH + sizeof(PATH_FORMAT)] = { 0 };
                 char pathFormat[sizeof(PATH_FORMAT)];
                 strcpy_P(pathFormat, PATH_FORMAT);
                 sprintf(path, pathFormat, assetId);
                 client.beginPacket();
+
+                perfMeasure();
                 int err = http.put(smartLivingIp, 443, path);
+                perfMeasure();
                 if (err == 0) {
-                    // to improve UI response
-                    yield();
                     client.println(F("Auth-ClientId: " SMART_LIVING_CLIENT_ID));
                     client.println(
                             F("Auth-ClientKey: " SMART_LIVING_CLIENT_KEY));
                     client.print(F("Content-Length: "));
-                    // to improve UI response
-                    yield();
+                    perfMeasure();
+
                     client.println(
                             WeatherStation::Sensors::PRINT_VALUE_STRING_LENGTH
                                     + FORMAT_TIME_LENGTH + 30);
+
+                    perfMeasure();
+
                     client.println(
                             F("Content-Type: application/json; charset=utf-8"));
                     http.endRequest();
 
-                    // to improve UI response
-                    yield();
+                    perfMeasure();
+
                     client.println('{');
                     client.print(F("\"value\": "));
                     sensorValue->printValue(i, client);
                     client.println(',');
-                    // to improve UI response
-                    yield();
+                    perfMeasure();
                     client.print(F("\"at\": \""));
                     formatTime(client, sensorValue->getTimeStamp());
                     client.println('\"');
                     client.println('}');
                     client.println();
-
-                    // to improve UI response
-                    yield();
+                    perfMeasure();
                 }
                 client.endPacket();
+                perfMeasure();
                 // to improve UI response
                 yield();
+                perfMeasure();
                 http.receiveAndPrintResponse(err, LOGGER_DEBUG, LOGGER_DEBUG);
+                perfMeasure();
                 Logger.flush();
                 http.stop();
-
+                perfMeasure();
             } else {
                 LOG_WARN1(F("Sensor data not uploaded. Error or not read "),
                         assetId);

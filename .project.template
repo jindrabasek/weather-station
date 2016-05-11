@@ -107,9 +107,14 @@
 			<location>%ABSOLUTE_PATH_TO_ARDUINO_IDE_LIBRARIES_FOLDER%/SdFat</location>
 		</link>
 		<link>
-			<name>libraries/SoftTimer</name>
+			<name>libraries/SoftTimerBase</name>
 			<type>2</type>
-			<location>%ABSOLUTE_PATH_TO_ARDUINO_IDE_LIBRARIES_FOLDER%/SoftTimer</location>
+			<location>%ABSOLUTE_PATH_TO_ARDUINO_IDE_LIBRARIES_FOLDER%/SoftTimerBase</location>
+		</link>
+		<link>
+			<name>libraries/SoftTimerDebouncer</name>
+			<type>2</type>
+			<location>%ABSOLUTE_PATH_TO_ARDUINO_IDE_LIBRARIES_FOLDER%/SoftTimerDebouncer</location>
 		</link>
 		<link>
 			<name>libraries/WiFiEsp</name>

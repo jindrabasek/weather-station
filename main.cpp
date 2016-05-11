@@ -50,7 +50,6 @@ void loop() {
     }
 }
 
-
 // ******* Define PCI interrupt handlers on my own
 // to allow multiple handlers to be registered
 #ifdef PCINT0_vect
