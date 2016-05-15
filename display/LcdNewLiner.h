@@ -13,6 +13,12 @@
 
 #include "../NewLiner.h"
 
+// Do not define virtual destructor on purpose - class
+// and its children is not expected to need destructors,
+// it saves a lot of SRAM otherwise occupied by VTABLE
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wnon-virtual-dtor"
+
 class LcdNewLiner : public NewLiner {
     LCD & lcd;
 public:
@@ -25,9 +31,8 @@ public:
     virtual void clearLine() {
         lcd.print(F("                    "));
     }
-
-    virtual ~LcdNewLiner() {
-    }
 };
+
+#pragma GCC diagnostic pop
 
 #endif /* LCDNEWLINER_H_ */

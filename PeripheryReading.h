@@ -21,9 +21,6 @@ public:
             readState(readState) {
     }
 
-    virtual ~PeripheryReading() {
-    }
-
     ReadState getReadState() const {
         return readState;
     }

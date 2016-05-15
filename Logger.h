@@ -57,6 +57,13 @@
 #define LOGGER_INFO  LoggerClass::getLoggerForLevel(LOGGER_LEVEL_INFO)
 #define LOGGER_DEBUG LoggerClass::getLoggerForLevel(LOGGER_LEVEL_DEBUG)
 
+// Do not define virtual destructor on purpose - class
+// and its children is not expected to need destructors,
+// it saves a lot of SRAM otherwise occupied by VTABLE
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wnon-virtual-dtor"
+
+
 class LoggerClass : public Print {
 private:
     SdFile * sdLoggingFile = NULL;
@@ -64,9 +71,6 @@ private:
     void printTime();
 public:
     LoggerClass() {
-    }
-
-    virtual ~LoggerClass() {
     }
 
     virtual size_t write(uint8_t);
@@ -112,9 +116,6 @@ public:
     VoidPrintClass() {
     }
 
-    virtual ~VoidPrintClass() {
-    }
-
     virtual size_t write(uint8_t){
         return 1;
     }
@@ -126,5 +127,7 @@ public:
 
 extern LoggerClass Logger;
 extern VoidPrintClass VoidPrint;
+
+#pragma GCC diagnostic pop
 
 #endif /* LOGGER_H_ */
