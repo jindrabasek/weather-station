@@ -5,8 +5,6 @@
  *      Author: jindra
  */
 
-#include "TimeSyncTask.h"
-
 #include <avr/pgmspace.h>
 #include <Arduino.h>
 #include <stdbool.h>
@@ -18,18 +16,13 @@
 #include "../net/Network.h"
 #include "../ProgramSettings.h"
 #include "../ProgramState.h"
+#include "TimeSyncSchedulable.h"
 
 static const char TIME_SERVER[] PROGMEM = "pool.ntp.org";
 
-TimeSyncTask::TimeSyncTask(unsigned long periodHours, bool enabled) :
-        LongTask(periodHours, 0, enabled) {
-    startAtEarliestOportunity();
-}
-
-void TimeSyncTask::run() {
+void TimeSyncSchedulable::run(Task * task) {
 
     if (Network::networkConnected()) {
-
         WiFiEspUDP udp;
         int udpInited = udp.begin(123); // open socket on arbitrary port
         char timeServer[sizeof(TIME_SERVER)];

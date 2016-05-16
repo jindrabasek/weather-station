@@ -5,8 +5,6 @@
  *      Author: jindra
  */
 
-#include "NetworkTestTask.h"
-
 #include <avr/pgmspace.h>
 #include <HardwareSerial.h>
 #include <HttpClient.h>
@@ -16,16 +14,12 @@
 
 #include "../Logger.h"
 #include "Network.h"
+#include "NetworkTestSchedulable.h"
 
 static const char ARDUINO_URL[] PROGMEM = "arduino.cc";
 static const char LOGO_PATH[] PROGMEM = "/asciilogo.txt";
 
-NetworkTestTask::NetworkTestTask() :
-        Task(0) {
-    startAtEarliestOportunity();
-}
-
-void NetworkTestTask::run() {
+void NetworkTestSchedulable::run(Task * task) {
     if (Network::networkConnected()) {
         WiFiEspClient client;
         HttpClient http(client);
@@ -46,6 +40,6 @@ void NetworkTestTask::run() {
         LOG_WARN(F("Cannot test network, network not connected."));
     }
 
-    setEnabled(false);
-    remove();
+    task->setEnabled(false);
+    task->remove();
 }

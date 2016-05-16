@@ -11,7 +11,7 @@
 #include <stdint.h>
 
 #include "../ProgramState.h"
-#include "DrawOnDisplayTask.h"
+#include "DrawOnDisplaySchedulable.h"
 
 SwitchScreenHandler::SwitchScreenHandler(int8_t switchFor) :
         switchFor(switchFor) {
@@ -27,7 +27,7 @@ void SwitchScreenHandler::onPressed() {
                             state.getCurrentScreen() + switchFor) :
                     (state.getCurrentScreen() + switchFor)
                             % ProgramState::COUNT_OF_SCREENS);
-    state.getDrawOnDisplayTask().setToDraw(
+    state.getDrawOnDisplaySchedulable().setToDraw(
             state.getDisplayScreens()[state.getCurrentScreen()], true);
     state.getDrawOnDisplayTask().startAtEarliestOportunity();
 }

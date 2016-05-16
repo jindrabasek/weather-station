@@ -5,7 +5,7 @@
  *      Author: jindra
  */
 
-#include "AirPressureMeasureTask.h"
+#include "AirPressureMeasureSchedulable.h"
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -14,11 +14,7 @@
 #include "../ProgramSettings.h"
 #include "../ProgramState.h"
 
-AirPressureMeasureTask::AirPressureMeasureTask(unsigned long periodMs) :
-        Task(periodMs) {
-}
-
-void AirPressureMeasureTask::run() {
+void AirPressureMeasureSchedulable::run(Task * task) {
     bool err = false;
     if (latestReading.getReadState() == ReadState::NOT_YET_READ
             || latestReading.getReadState() == ReadState::READ_ERROR) {

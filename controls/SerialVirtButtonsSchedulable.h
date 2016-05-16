@@ -5,12 +5,12 @@
  *      Author: jindra
  */
 
-#ifndef SERIALVIRTBUTTONSTASK_H_
-#define SERIALVIRTBUTTONSTASK_H_
+#ifndef SERIALVIRTBUTTONSSCHEDULABLE_H_
+#define SERIALVIRTBUTTONSSCHEDULABLE_H_
 
-#include <Task.h>
+#include <Schedulable.h>
 
-class SerialVirtButtonsTask : public Task {
+class SerialVirtButtonsSchedulable : public Schedulable {
 private:
     static const char UP_CHAR = 'w';
     static const char DOWN_CHAR = 's';
@@ -21,8 +21,10 @@ private:
     static const char ESC_CHAR = 'q';
 
 public:
-    SerialVirtButtonsTask(unsigned long periodMs);
-    virtual void run();
+    SerialVirtButtonsSchedulable(){
+
+    }
+    virtual void run(Task * task);
 };
 
-#endif /* SERIALVIRTBUTTONSTASK_H_ */
+#endif /* SERIALVIRTBUTTONSSCHEDULABLE_H_ */

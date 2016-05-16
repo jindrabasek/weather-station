@@ -15,7 +15,7 @@
 
 #include "../controls/Buttons.h"
 #include "../controls/ButtonsBackup.h"
-#include "../display/DrawOnDisplayTask.h"
+#include "../display/DrawOnDisplaySchedulable.h"
 #include "../ProgramState.h"
 #include "EnterMenuHandler.h"
 
@@ -32,7 +32,7 @@ void LcdExitMenu::exitMenu(bool fullExit) {
     PciManager.setEnabled(false);
     if (fullExit) {
         buttonsBackup.restoreHandlers();
-        state.getDrawOnDisplayTask().setToDraw(
+        state.getDrawOnDisplaySchedulable().setToDraw(
                 state.getDisplayScreens()[state.getCurrentScreen()], true);
         state.getDrawOnDisplayTask().startAtEarliestOportunity();
         state.getDrawOnDisplayTask().setEnabled(true);

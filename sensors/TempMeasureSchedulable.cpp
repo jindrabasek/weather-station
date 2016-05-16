@@ -5,7 +5,7 @@
  *      Author: jindra
  */
 
-#include "TempMeasureTask.h"
+#include "TempMeasureSchedulable.h"
 
 #include <DHT.h>
 #include <math.h>
@@ -14,12 +14,11 @@
 
 #include "../ProgramState.h"
 
-TempMeasureTask::TempMeasureTask(uint8_t pin, unsigned long periodMs) :
-        Task(periodMs),
+TempMeasureSchedulable::TempMeasureSchedulable(uint8_t pin) :
         dht(pin){
 }
 
-void TempMeasureTask::run() {
+void TempMeasureSchedulable::run(Task * task) {
     DhtReadState dhtState = dht.read();
     ProgramState & state = ProgramState::instance();
     if (dhtState == DHT_GOOD) {

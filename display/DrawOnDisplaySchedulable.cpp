@@ -5,7 +5,7 @@
  *      Author: jindra
  */
 
-#include "DrawOnDisplayTask.h"
+#include "DrawOnDisplaySchedulable.h"
 
 #include <LCD.h>
 #include <stdbool.h>
@@ -14,15 +14,14 @@
 #include "LcdNewLiner.h"
 #include "ToDraw.h"
 
-DrawOnDisplayTask::DrawOnDisplayTask(unsigned long periodMs, LCD & display,
+DrawOnDisplaySchedulable::DrawOnDisplaySchedulable(LCD & display,
                                      ToDraw * toDraw) :
-        Task(periodMs),
         display(display),
         toDraw(toDraw),
         clear(false) {
 }
 
-void DrawOnDisplayTask::run() {
+void DrawOnDisplaySchedulable::run(Task * task) {
     if (clear) {
         clear = false;
         LcdNewLiner lcdClear(display);

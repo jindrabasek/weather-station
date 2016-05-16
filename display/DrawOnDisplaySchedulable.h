@@ -5,16 +5,16 @@
  *      Author: jindra
  */
 
-#ifndef DRAWONDISPLAYTASK_H_
-#define DRAWONDISPLAYTASK_H_
+#ifndef DRAWONDISPLAYSCHEDULABLE_H_
+#define DRAWONDISPLAYSCHEDULABLE_H_
 
 #include <LCD.h>
 #include <stdbool.h>
-#include <Task.h>
+#include <Schedulable.h>
 
 #include "ToDraw.h"
 
-class DrawOnDisplayTask : public Task {
+class DrawOnDisplaySchedulable : public Schedulable {
 private:
     LCD & display;
     ToDraw * toDraw;
@@ -23,12 +23,12 @@ private:
 //-----------------------------------------------------------------------------
 
 public:
-    DrawOnDisplayTask(unsigned long periodMs, LCD & display, ToDraw * toDraw);
+    DrawOnDisplaySchedulable(LCD & display, ToDraw * toDraw);
 
-    DrawOnDisplayTask(const DrawOnDisplayTask& that) = delete;
-    void operator=(const DrawOnDisplayTask& that) = delete;
+    DrawOnDisplaySchedulable(const DrawOnDisplaySchedulable& that) = delete;
+    void operator=(const DrawOnDisplaySchedulable& that) = delete;
 
-    virtual void run();
+    virtual void run(Task * task);
 
     void setToDraw(ToDraw * toDraw, bool clearFirst = false) {
         this->toDraw = toDraw;
@@ -36,4 +36,4 @@ public:
     }
 };
 
-#endif /* DRAWONDISPLAYTASK_H_ */
+#endif /* DRAWONDISPLAYSCHEDULABLE_H_ */

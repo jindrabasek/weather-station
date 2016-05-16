@@ -14,7 +14,7 @@
 
 #include "../controls/Buttons.h"
 #include "../controls/ButtonsBackup.h"
-#include "../display/DrawOnDisplayTask.h"
+#include "../display/DrawOnDisplaySchedulable.h"
 #include "../ProgramState.h"
 #include "MenuButtonsCache.h"
 #include "MenuScreen.h"
@@ -50,7 +50,7 @@ void EnterMenuHandler::onPressed() {
 
     buttonsCache.putPress(Button::BUTTON_NONE);
 
-    state.getDrawOnDisplayTask().setToDraw(&menuScreen, true);
+    state.getDrawOnDisplaySchedulable().setToDraw(&menuScreen, true);
     state.getDrawOnDisplayTask().startAtEarliestOportunity();
     state.getDrawOnDisplayTask().setEnabled(true);
 }

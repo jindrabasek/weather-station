@@ -21,29 +21,39 @@
 #include <Task.h>
 
 #include "controls/Buttons.h"
-#include "controls/SerialVirtButtonsTask.h"
+#include "controls/SerialVirtButtonsSchedulable.h"
 #include "display/BackLightHandler.h"
 #include "display/BackLightTask.h"
 #include "display/Display.h"
-#include "display/DrawOnDisplayTask.h"
+#include "display/DrawOnDisplaySchedulable.h"
 #include "display/SwitchScreenHandler.h"
 #include "display/ToDraw.h"
 #include "menu/ProgramMenu.h"
 #include "net/Network.h"
-#include "net/NetworkTestTask.h"
-#include "net/SmartLivingPublishTask.h"
-#include "net/WifiWatchdogTask.h"
+#include "net/NetworkTestSchedulable.h"
+#include "net/SmartLivingPublishSchedulable.h"
+#include "net/WifiWatchdogSchedulable.h"
 #include "ProgramSettings.h"
-#include "sensors/AirPressureMeasureTask.h"
-#include "sensors/LightIntensityMeasureTask.h"
+#include "sensors/AirPressureMeasureSchedulable.h"
+#include "sensors/LightIntensityMeasureSchedulable.h"
 #include "sensors/SensorReading.h"
 #include "sensors/SensorReadingScreen.h"
 #include "sensors/Sensors.h"
-#include "sensors/TempMeasureTask.h"
+#include "sensors/TempMeasureSchedulable.h"
 #include "time/Clock.h"
 #include "time/TimeReading.h"
 #include "time/TimeScreen.h"
-#include "time/TimeSyncTask.h"
+#include "time/TimeSyncSchedulable.h"
+
+/*
+ *Program:   61884 bytes (23.6% Full)
+(.text + .data + .bootloader)
+
+Data:       2797 bytes (34.1% Full)
+(.data + .bss + .noinit)
+ *
+ *
+ */
 
 class ToDraw;
 
@@ -77,9 +87,12 @@ private:
     SingleThreadPool displayThread;
     SingleThreadPool networkThread;
 
-    TempMeasureTask measureTempTask;
-    AirPressureMeasureTask measureAirPressureTask;
-    LightIntensityMeasureTask measureLightIntensityTask;
+    TempMeasureSchedulable measureTempSchedulable;
+    Task measureTempTask;
+    AirPressureMeasureSchedulable measureAirPressureSchedulable;
+    Task measureAirPressureTask;
+    LightIntensityMeasureSchedulable measureLightIntensitySchedulable;
+    Task measureLightIntensityTask;
 
     TimeScreen timeScreen;
     SensorReadingScreen tempScreen;
@@ -90,7 +103,8 @@ private:
             &airPressureScreen, &lightIntensityScreen };
 
     BackLightTask backLightTask;
-    DrawOnDisplayTask drawOnDisplayTask;
+    DrawOnDisplaySchedulable drawOnDisplaySchedulable;
+    Task drawOnDisplayTask;
 
     ProgramMenu menu;
 
@@ -100,7 +114,8 @@ private:
 
     Debouncer buttons[WeatherStation::Buttons::buttonsEnumSize];
 
-    SerialVirtButtonsTask serialVirtButtonsTask;
+    SerialVirtButtonsSchedulable serialVirtButtonsSchedulable;
+    Task serialVirtButtonsTask;
 
     volatile uint8_t currentScreen;
 
@@ -108,10 +123,16 @@ private:
 
     SensorReading * sensorValues[WeatherStation::Sensors::sensorsEnumSize];
 
-    NetworkTestTask networkTestTask;
-    TimeSyncTask timeSyncTask;
-    SmartLivingPublishTask dataUploadTask;
-    WifiWatchdogTask wifiWatchDogTask;
+    NetworkTestSchedulable networkTestSchedulable;
+    Task networkTestTask;
+    TimeSyncSchedulable timeSyncSchedulable;
+    LongTask timeSyncTask;
+    SmartLivingPublishSchedulable dataUploadSchedulable;
+    Task dataUploadTask;
+    WifiWatchdogSchedulable wifiWatchDogSchedulable;
+    Task wifiWatchDogTask;
+
+
 
 //-----------------------------------------------------------------------------
 
@@ -132,19 +153,23 @@ public:
         return displayScreens;
     }
 
-    DrawOnDisplayTask& getDrawOnDisplayTask() {
+    Task& getDrawOnDisplayTask() {
         return drawOnDisplayTask;
     }
 
-    AirPressureMeasureTask& getMeasureAirPressureTask() {
+    DrawOnDisplaySchedulable& getDrawOnDisplaySchedulable() {
+        return drawOnDisplaySchedulable;
+    }
+
+    Task& getMeasureAirPressureTask() {
         return measureAirPressureTask;
     }
 
-    LightIntensityMeasureTask& getMeasureLightIntensityTask() {
+    Task& getMeasureLightIntensityTask() {
         return measureLightIntensityTask;
     }
 
-    TempMeasureTask& getMeasureTempTask() {
+    Task& getMeasureTempTask() {
         return measureTempTask;
     }
 
@@ -184,7 +209,7 @@ public:
         return menu;
     }
 
-    TimeSyncTask& getTimeSyncTask() {
+    LongTask& getTimeSyncTask() {
         return timeSyncTask;
     }
 
@@ -192,12 +217,16 @@ public:
         return sensorValues;
     }
 
-    SmartLivingPublishTask& getDataUploadTask() {
+    Task& getDataUploadTask() {
         return dataUploadTask;
     }
 
-    WifiWatchdogTask& getWifiWatchDogTask() {
+    Task& getWifiWatchDogTask() {
         return wifiWatchDogTask;
+    }
+
+    WifiWatchdogSchedulable& getWifiWatchDogSchedulable() {
+        return wifiWatchDogSchedulable;
     }
 
 private:
@@ -206,25 +235,26 @@ private:
             displayThread(512),
             networkThread(512),
 
-            measureTempTask(DHT_PIN,
+            measureTempSchedulable(DHT_PIN),
+            measureTempTask(&measureTempSchedulable,
                     settings.getMeasureTempSecondFreq()
                             * ProgramSettings::USEC_RESOLUTION_MEASURE_TEMP_FREQ),
-            measureAirPressureTask(
+            measureAirPressureTask(&measureAirPressureSchedulable,
                     settings.getMeasurePressureSecondFreq()
                             * ProgramSettings::USEC_RESOLUTION_MEASURE_PRESSURE_FREQ),
-            measureLightIntensityTask(
+            measureLightIntensityTask(&measureLightIntensitySchedulable,
                     settings.getMeasureLightSecondFreq()
                             * ProgramSettings::USEC_RESOLUTION_MEASURE_LIGHT_FREQ),
 
-            tempScreen(measureTempTask.getLatestReading()),
-            airPressureScreen(measureAirPressureTask.getLatestReading()),
-            lightIntensityScreen(measureLightIntensityTask.getLatestReading()),
+            tempScreen(measureTempSchedulable.getLatestReading()),
+            airPressureScreen(measureAirPressureSchedulable.getLatestReading()),
+            lightIntensityScreen(measureLightIntensitySchedulable.getLatestReading()),
 
             backLightTask(disp.getLcd()),
-            drawOnDisplayTask(
+            drawOnDisplaySchedulable(disp.getLcd(), displayScreens[settings.getStartupScreen()]),
+            drawOnDisplayTask(&drawOnDisplaySchedulable,
                     settings.getDisplayDrawSecondFreq()
-                            * ProgramSettings::USEC_RESOLUTION_DISPLAY_DRAW_FREQ,
-                    disp.getLcd(), displayScreens[settings.getStartupScreen()]),
+                            * ProgramSettings::USEC_RESOLUTION_DISPLAY_DRAW_FREQ),
 
             menu(disp.getLcd(), this, settings),
 
@@ -239,15 +269,16 @@ private:
                       { ENTER_PIN, MODE_CLOSE_ON_PUSH, &menu.getEnterMenuHandler() },
                       { ESC_PIN, MODE_CLOSE_ON_PUSH, &ButtonHandler::voidButtonHandler } },
 
-            serialVirtButtonsTask(100),
+            serialVirtButtonsTask(&serialVirtButtonsSchedulable, 100),
 
             currentScreen(settings.getStartupScreen()),
             backLight(true),
-            timeSyncTask(settings.getSyncTimeHourFreq()),
-            dataUploadTask(
+            networkTestTask(&networkTestSchedulable, 0),
+            timeSyncTask(&timeSyncSchedulable, settings.getSyncTimeHourFreq(), 0),
+            dataUploadTask(&dataUploadSchedulable,
                     settings.getDataUploadMinutesFreq()
                             * ProgramSettings::USEC_RESOLUTION_DATA_UPLOAD_MIN_FREQ),
-            wifiWatchDogTask(settings.getWifiWatchdogMinutesFreq()
+            wifiWatchDogTask(&wifiWatchDogSchedulable, settings.getWifiWatchdogMinutesFreq()
                     * ProgramSettings::USEC_RESOLUTION_WIFI_WATCHDOG_MIN_FREQ){
 
         pinMode(LED_BUILTIN, OUTPUT);
@@ -273,16 +304,19 @@ private:
 
         disp.doSetup();
 
-        measureTempTask.getLatestReading().registerSensorValues(sensorValues);
-        measureAirPressureTask.getLatestReading().registerSensorValues(
+        measureTempSchedulable.getLatestReading().registerSensorValues(sensorValues);
+        measureAirPressureSchedulable.getLatestReading().registerSensorValues(
                 sensorValues);
-        measureLightIntensityTask.getLatestReading().registerSensorValues(
+        measureLightIntensitySchedulable.getLatestReading().registerSensorValues(
                 sensorValues);
 
         Network::connect(settings);
         networkTestTask.setThreadPool(&networkThread);
+        networkTestTask.startAtEarliestOportunity();
         timeSyncTask.setThreadPool(&networkThread);
+        timeSyncTask.startAtEarliestOportunity();
         dataUploadTask.setThreadPool(&networkThread);
+        dataUploadTask.startAtEarliestOportunity();
         wifiWatchDogTask.setThreadPool(&networkThread);
         SoftTimer.add(&networkTestTask);
         SoftTimer.add(&timeSyncTask);

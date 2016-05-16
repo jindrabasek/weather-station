@@ -5,20 +5,15 @@
  *      Author: jindra
  */
 
-#include "LightIntensityMeasureTask.h"
-
 #include <BH1750FVI.h>
 #include <stdbool.h>
 #include <stdint.h>
 
 #include "../PeripheryReading.h"
 #include "../ProgramState.h"
+#include "LightIntensityMeasureSchedulable.h"
 
-LightIntensityMeasureTask::LightIntensityMeasureTask(unsigned long periodMs) :
-        Task(periodMs) {
-}
-
-void LightIntensityMeasureTask::run() {
+void LightIntensityMeasureSchedulable::run(Task * task) {
     bool err = false;
     BH1750FVI bh;
     if (latestReading.getReadState() == ReadState::NOT_YET_READ

@@ -5,7 +5,7 @@
  *      Author: jindra
  */
 
-#include "WifiWatchdogTask.h"
+#include "WifiWatchdogSchedulable.h"
 
 #include <IPAddress.h>
 #include <stdbool.h>
@@ -15,10 +15,7 @@
 #include "../ProgramState.h"
 #include "Network.h"
 
-WifiWatchdogTask::WifiWatchdogTask(unsigned long periodMs) : Task(periodMs) {
-}
-
-void WifiWatchdogTask::run() {
+void WifiWatchdogSchedulable::run(Task * task) {
     IPAddress ip = WiFi.localIP();
     LOG_INFO(F("Checking WiFi online"));
     // If task is executed manually, restart wifi

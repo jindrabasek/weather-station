@@ -5,7 +5,7 @@
  *      Author: jindra
  */
 
-#include "SerialVirtButtonsTask.h"
+#include "SerialVirtButtonsSchedulable.h"
 
 #include <ButtonHandler.h>
 #include <Debouncer.h>
@@ -16,11 +16,7 @@
 #include "../ProgramState.h"
 #include "Buttons.h"
 
-SerialVirtButtonsTask::SerialVirtButtonsTask(unsigned long periodMs) :
-        Task(periodMs) {
-}
-
-void SerialVirtButtonsTask::run() {
+void SerialVirtButtonsSchedulable::run(Task * task) {
     // check if new serial input is available
     if (Serial.available()) {
         // read one char from input buffer

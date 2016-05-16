@@ -5,7 +5,7 @@
  *      Author: jindra
  */
 
-#include "SmartLivingPublishTask.h"
+#include "SmartLivingPublishSchedulable.h"
 
 #include <avr/pgmspace.h>
 #include <Arduino.h>
@@ -57,13 +57,7 @@ const char* const assetIds[] PROGMEM = { PRESSURE_ID, PRESSURE_SEAL_LEVEL_ID,
 #define  perfMeasure() ;
 #endif
 
-
-SmartLivingPublishTask::SmartLivingPublishTask(unsigned long periodMs) :
-        Task(periodMs) {
-    startAtEarliestOportunity();
-}
-
-void SmartLivingPublishTask::run() {
+void SmartLivingPublishSchedulable::run(Task * task) {
     if (Network::networkConnected()) {
         LOG_DEBUG(F("Uploading data...\n"));
 
@@ -147,12 +141,12 @@ void SmartLivingPublishTask::run() {
     }
 }
 
-void SmartLivingPublishTask::getAssetId(char* buffer, uint8_t valueId) {
+void SmartLivingPublishSchedulable::getAssetId(char* buffer, uint8_t valueId) {
     strcpy_P(buffer, (char*) pgm_read_word(&(assetIds[valueId])));
 }
 
 #define printTimePart(timePart, separator) if(timePart < 10) out.print('0'); itoa(timePart, buffer, 10); out.print(buffer); out.print(separator)
-void SmartLivingPublishTask::formatTime(Print & out, unsigned long timeStamp) {
+void SmartLivingPublishSchedulable::formatTime(Print & out, unsigned long timeStamp) {
     ProgramSettings & settings = ProgramState::instance().getSettings();
 
     WireRtcLib::tm time = WireRtcLib::breakTime(timeStamp);
