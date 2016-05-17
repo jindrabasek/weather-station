@@ -33,6 +33,17 @@ public:
         return lcd;
     }
 
+    static const uint16_t ROWS = 4;
+    static const uint16_t COLUMNS = 20;
+
+    static void newLine(LCD & lcd, uint8_t lineNumber) {
+        lcd.setCursor(0, lineNumber);
+    }
+    static void clearLine(LCD & lcd) {
+        for (uint8_t i = 0; i < COLUMNS; i++) {
+            lcd.write(' ');
+        }
+    }
 };
 
 #endif /* DISPLAY_H_ */

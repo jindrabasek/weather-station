@@ -98,7 +98,7 @@ private:
     SwitchScreenHandler prevScreen;
     BackLightHandler backLightHandler;
 
-    Debouncer buttons[WeatherStation::Buttons::buttonsEnumSize];
+    Debouncer buttons[WeatherStation::Buttons::ButtonsEnumSize];
 
     SerialVirtButtonsTask serialVirtButtonsTask;
 
@@ -106,7 +106,7 @@ private:
 
     volatile bool backLight;
 
-    SensorReading * sensorValues[WeatherStation::Sensors::sensorsEnumSize];
+    SensorReading * sensorValues[WeatherStation::SensorValueId::SensorsEnumSize];
 
     NetworkTestTask networkTestTask;
     TimeSyncTask timeSyncTask;
@@ -162,14 +162,6 @@ public:
 
     BackLightTask& getBackLightTask() {
         return backLightTask;
-    }
-
-    TimeReading & getTime(bool updateFirst = false) {
-        return Clock::getTime(updateFirst);
-    }
-
-    unsigned long getTimeStamp(bool updateFirst = false) {
-        return Clock::getTime(updateFirst).getTimeStamp();
     }
 
     ProgramSettings& getSettings() {
@@ -266,7 +258,7 @@ private:
         SoftTimer.add(&backLightTask);
         SoftTimer.add(&serialVirtButtonsTask);
 
-        for (uint8_t i = 0; i < WeatherStation::Buttons::buttonsEnumSize;
+        for (uint8_t i = 0; i < WeatherStation::Buttons::ButtonsEnumSize;
                 i++) {
             PciManager.registerListener(&buttons[i]);
         }

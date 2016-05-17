@@ -12,7 +12,8 @@
 #include <stdint.h>
 
 #include "../PeripheryReading.h"
-#include "../ProgramState.h"
+#include "../time/Clock.h"
+#include "../time/TimeReading.h"
 
 LightIntensityMeasureTask::LightIntensityMeasureTask(unsigned long periodMs) :
         Task(periodMs) {
@@ -30,18 +31,18 @@ void LightIntensityMeasureTask::run() {
         }
     }
 
-    ProgramState & state = ProgramState::instance();
     if (err) {
-        latestReading = LightIntensityReading(true, state.getTimeStamp(true));
+        latestReading = LightIntensityReading(true,
+                Clock::getTime(true).getTimeStamp());
     } else {
         int16_t intensity = bh.GetLightIntensity();
 
         if (intensity < 0) {
             latestReading = LightIntensityReading(true,
-                    state.getTimeStamp(true));
+                    Clock::getTime(true).getTimeStamp());
         } else {
             latestReading = LightIntensityReading(intensity,
-                    state.getTimeStamp(true));
+                    Clock::getTime(true).getTimeStamp());
         }
     }
 }

@@ -14,8 +14,8 @@
 #include <stdlib.h>
 #include <WString.h>
 
-#include "../NewLiner.h"
 #include "../PeripheryReading.h"
+#include "SensorReading.h"
 #include "Sensors.h"
 
 TempReading::TempReading(float humidity, float humidityAbsolute,float temperatureCelsius,
@@ -35,59 +35,88 @@ TempReading::TempReading(bool error, unsigned long timeStamp) :
         heatIndexCelsius(NAN) {
 }
 
-void TempReading::printValues(Print & out, NewLiner & newLine) const {
-    char buffer[13];
-    newLine.newLine(1);
-    out.print(F("Humidity:"));
-    dtostrf(humidity, 9, 1, buffer);
-    out.print(buffer);
-    out.print(F(" %"));
-    newLine.newLine(2);
-    out.print(F("Temp:"));
-    dtostrf(temperatureCelsius, 12, 2, buffer);
-    out.print(buffer);
-    out.print(F(" *C"));
-    newLine.newLine(3);
-    out.print(F("Real feel:"));
-    dtostrf(heatIndexCelsius, 7, 2, buffer);
-    out.print(buffer);
-    out.print(F(" *C"));
-}
-
-const __FlashStringHelper * TempReading::getErrText() const {
-    return F("temp");
-}
-
-const __FlashStringHelper * TempReading::getNotYetMeasuredText() const {
-    return F("Temp");
-}
-
 void TempReading::registerSensorValues(SensorReading** valueArray) {
-    valueArray[WeatherStation::Sensors::DHT_HUMIDITY] = this;
-    valueArray[WeatherStation::Sensors::DHT_TEMPERTAURE] = this;
-    valueArray[WeatherStation::Sensors::DHT_TEMPERTAURE_REAL_FEEL] = this;
-    valueArray[WeatherStation::Sensors::ABSOLUTE_HUMIDITY] = this;
+    valueArray[WeatherStation::SensorValueId::DHT_HUMIDITY] = this;
+    valueArray[WeatherStation::SensorValueId::DHT_TEMPERTAURE] = this;
+    valueArray[WeatherStation::SensorValueId::DHT_TEMPERTAURE_REAL_FEEL] = this;
+    valueArray[WeatherStation::SensorValueId::ABSOLUTE_HUMIDITY] = this;
 }
 
-void TempReading::printValue(uint8_t valueId, Print& out) {
-    char buffer[WeatherStation::Sensors::PRINT_VALUE_STRING_LENGTH + 1] = {0};
-    switch(valueId) {
-        case WeatherStation::Sensors::DHT_HUMIDITY:
-            dtostrf(humidity, WeatherStation::Sensors::PRINT_VALUE_STRING_LENGTH, 1, buffer);
-            break;
-        case WeatherStation::Sensors::DHT_TEMPERTAURE:
-            dtostrf(temperatureCelsius, WeatherStation::Sensors::PRINT_VALUE_STRING_LENGTH, 2, buffer);
-            break;
-        case WeatherStation::Sensors::DHT_TEMPERTAURE_REAL_FEEL:
-            dtostrf(heatIndexCelsius, WeatherStation::Sensors::PRINT_VALUE_STRING_LENGTH, 2, buffer);
-            break;
-        case WeatherStation::Sensors::ABSOLUTE_HUMIDITY:
-            dtostrf(humidityAbsolute, WeatherStation::Sensors::PRINT_VALUE_STRING_LENGTH, 1, buffer);
-            break;
-    }
-    out.print(buffer);
-}
-
-const __FlashStringHelper * TempReading::getHeaderText() const {
+const __FlashStringHelper* TempReading::getSensorName() const
+{
     return F("Thermometer");
+}
+
+uint8_t TempReading::valuesCount() const {
+    return TempHumiditySensorIdLocal::TempHumiditySensorIdLocalEnumSize;
+}
+
+void TempReading::printValue(uint8_t valueId, bool localId, Print& out,
+                                    uint8_t maxLength) const {
+    char buffer[maxLength + 1];
+
+    ifIdMatchThenDo(TempHumiditySensorIdLocal::L_DHT_HUMIDITY,
+            WeatherStation::SensorValueId::DHT_HUMIDITY,
+            dtostrf(humidity, maxLength, 1, buffer));
+
+    elseifIdMatchThenDo(TempHumiditySensorIdLocal::L_DHT_TEMPERTAURE,
+            WeatherStation::SensorValueId::DHT_TEMPERTAURE,
+            dtostrf(temperatureCelsius, maxLength, 2, buffer));
+
+    elseifIdMatchThenDo(TempHumiditySensorIdLocal::L_DHT_TEMPERTAURE_REAL_FEEL,
+            WeatherStation::SensorValueId::DHT_TEMPERTAURE_REAL_FEEL,
+            dtostrf(temperatureCelsius, maxLength, 2, buffer));
+
+    elseifIdMatchThenDo(TempHumiditySensorIdLocal::L_ABSOLUTE_HUMIDITY,
+            WeatherStation::SensorValueId::ABSOLUTE_HUMIDITY,
+            dtostrf(humidityAbsolute, maxLength, 1, buffer));
+
+    out.print(buffer);
+
+}
+
+uint8_t TempReading::printValueName(uint8_t valueId, bool localId,
+                                           Print& out) const {
+
+    uint8_t length = 0;
+
+    ifIdMatchThenDo(TempHumiditySensorIdLocal::L_DHT_HUMIDITY,
+            WeatherStation::SensorValueId::DHT_HUMIDITY,
+            length = out.print(F("Humidity")));
+
+    elseifIdMatchThenDo(TempHumiditySensorIdLocal::L_DHT_TEMPERTAURE,
+            WeatherStation::SensorValueId::DHT_TEMPERTAURE,
+            length = out.print(F("Temp")));
+
+    elseifIdMatchThenDo(TempHumiditySensorIdLocal::L_DHT_TEMPERTAURE_REAL_FEEL,
+            WeatherStation::SensorValueId::DHT_TEMPERTAURE_REAL_FEEL,
+            length = out.print(F("Real feel")));
+
+    elseifIdMatchThenDo(TempHumiditySensorIdLocal::L_ABSOLUTE_HUMIDITY,
+            WeatherStation::SensorValueId::ABSOLUTE_HUMIDITY,
+            length = out.print(F("Humidity abs")));
+
+    return length;
+}
+
+WeatherStation::SensorValueUnit TempReading::valueUnit(
+        uint8_t valueId, bool localId) const {
+
+    ifIdMatchThenDo(TempHumiditySensorIdLocal::L_DHT_HUMIDITY,
+            WeatherStation::SensorValueId::DHT_HUMIDITY,
+            return WeatherStation::SensorValueUnit::PERCENT);
+
+    ifIdMatchThenDo(TempHumiditySensorIdLocal::L_DHT_TEMPERTAURE,
+            WeatherStation::SensorValueId::DHT_TEMPERTAURE,
+            return WeatherStation::SensorValueUnit::DEGREE_CELSIUS);
+
+    ifIdMatchThenDo(TempHumiditySensorIdLocal::L_DHT_TEMPERTAURE_REAL_FEEL,
+            WeatherStation::SensorValueId::DHT_TEMPERTAURE_REAL_FEEL,
+            return WeatherStation::SensorValueUnit::DEGREE_CELSIUS);
+
+    ifIdMatchThenDo(TempHumiditySensorIdLocal::L_ABSOLUTE_HUMIDITY,
+            WeatherStation::SensorValueId::ABSOLUTE_HUMIDITY,
+            return WeatherStation::SensorValueUnit::G_PER_CUBIC_METER);
+
+    return WeatherStation::SensorValueUnit::N_A;
 }

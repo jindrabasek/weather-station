@@ -13,8 +13,8 @@
 #include <stdint.h>
 #include <WString.h>
 
-#include "../NewLiner.h"
 #include "SensorReading.h"
+#include "Sensors.h"
 
 class LightIntensityReading : public SensorReading {
 private:
@@ -23,21 +23,26 @@ private:
 //-----------------------------------------------------------------------------
 
 public:
+    enum LightSensorIdLocal {
+        L_LIGHT_INTENSITY,
+        LightSensorIdLocalEnumSize,
+    };
+
+
     LightIntensityReading(int16_t intensity, unsigned long timeStamp);
     LightIntensityReading(bool error = false, unsigned long timeStamp = 0);
 
     int16_t getIntensity() const {
         return intensity;
     }
-    void printValues(Print & out, NewLiner & newLine) const;
 
-    virtual void registerSensorValues(SensorReading ** valueArray);
-    virtual void printValue(uint8_t valueId, Print & out);
+    void registerSensorValues(SensorReading** valueArray);
 
-protected:
-    const __FlashStringHelper * getErrText() const;
-    const __FlashStringHelper * getNotYetMeasuredText() const;
-    const __FlashStringHelper * getHeaderText() const;
+    virtual const __FlashStringHelper * getSensorName() const;
+    virtual uint8_t valuesCount() const;
+    virtual void printValue(uint8_t valueId, bool localId, Print & out, uint8_t maxLength) const;
+    virtual uint8_t printValueName(uint8_t valueId, bool localId, Print & out) const;
+    virtual WeatherStation::SensorValueUnit valueUnit(uint8_t valueId, bool localId) const;
 
 };
 

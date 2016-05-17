@@ -43,12 +43,12 @@ static const char DHT_HUMIDITY_ID[] PROGMEM
 static const char ABSOLUTE_HUMIDITY_ID[] PROGMEM
 = SMART_LIVING_SENSOR_ID_ABSOLUTE_HUMIDITY;
 
-static const char PATH_FORMAT[] PROGMEM = "/asset/%s/state";
-static const char SMART_LIVING_IP[] PROGMEM = "65.52.140.212";
-
-const char* const assetIds[] PROGMEM = { PRESSURE_ID, PRESSURE_SEAL_LEVEL_ID,
+static const char* const assetIds[] PROGMEM = { PRESSURE_ID, PRESSURE_SEAL_LEVEL_ID,
         BMP_TEMPERATURE_ID, LIGHT_INTENSITY_ID, DHT_TEMPERTAURE_ID,
         DHT_TEMPERTAURE_REAL_FEEL_ID, DHT_HUMIDITY_ID, ABSOLUTE_HUMIDITY_ID };
+
+static const char PATH_FORMAT[] PROGMEM = "/asset/%s/state";
+static const char SMART_LIVING_IP[] PROGMEM = "65.52.140.212";
 
 //#define DATA_UPLOAD_TIME_MEASURE
 #ifdef DATA_UPLOAD_TIME_MEASURE
@@ -68,7 +68,7 @@ void SmartLivingPublishTask::run() {
         LOG_DEBUG(F("Uploading data...\n"));
 
         ProgramState & state = ProgramState::instance();
-        for (uint8_t i = 0; i < WeatherStation::Sensors::sensorsEnumSize; i++) {
+        for (uint8_t i = 0; i < WeatherStation::SensorValueId::SensorsEnumSize; i++) {
 #ifdef DATA_UPLOAD_TIME_MEASURE
             unsigned long t = millis();
 #endif
@@ -101,9 +101,7 @@ void SmartLivingPublishTask::run() {
                     client.print(F("Content-Length: "));
                     perfMeasure();
 
-                    client.println(
-                            WeatherStation::Sensors::PRINT_VALUE_STRING_LENGTH
-                                    + FORMAT_TIME_LENGTH + 30);
+                    client.println(PRINT_VALUE_STRING_LENGTH + FORMAT_TIME_LENGTH + 30);
 
                     perfMeasure();
 
@@ -115,7 +113,7 @@ void SmartLivingPublishTask::run() {
 
                     client.println('{');
                     client.print(F("\"value\": "));
-                    sensorValue->printValue(i, client);
+                    sensorValue->printValue(i, false, client, PRINT_VALUE_STRING_LENGTH);
                     client.println(',');
                     perfMeasure();
                     client.print(F("\"at\": \""));

@@ -30,6 +30,8 @@ void TimeSyncTask::run() {
 
     if (Network::networkConnected()) {
 
+        LOG_DEBUG(F("TimeSync"));
+
         WiFiEspUDP udp;
         int udpInited = udp.begin(123); // open socket on arbitrary port
         char timeServer[sizeof(TIME_SERVER)];
@@ -54,7 +56,7 @@ void TimeSyncTask::run() {
 
         // Wait for response; check every pollIntv ms up to maxPoll times
         const int pollIntv = 150;     // poll every this many ms
-        const uint8_t maxPoll = 15;      // poll up to this many times
+        const uint8_t maxPoll = 3;      // poll up to this many times
         int pktLen;               // received packet length
         for (uint8_t i = 0; i < maxPoll; i++) {
             if ((pktLen = udp.parsePacket()) == 48)

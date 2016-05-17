@@ -7,12 +7,17 @@
 
 #include "SensorReadingScreen.h"
 
+#include <Arduino.h>
 #include <LCD.h>
 #include <stdbool.h>
+#include <stdint.h>
+#include <WString.h>
 
-#include "../display/LcdNewLiner.h"
-#include "../ProgramState.h"
+#include "../display/Display.h"
+#include "../PeripheryReading.h"
+#include "../time/Clock.h"
 #include "SensorReading.h"
+#include "Sensors.h"
 
 SensorReadingScreen::SensorReadingScreen(SensorReading & toDraw) :
         toDraw(toDraw) {
@@ -20,12 +25,38 @@ SensorReadingScreen::SensorReadingScreen(SensorReading & toDraw) :
 
 void SensorReadingScreen::draw(LCD & display) {
     display.setCursor(0, 0);
-    display.print(toDraw.getHeaderText());
+    display.print(toDraw.getSensorName());
     char buffer[9];
-    ProgramState::instance().getTime(true).timeToStr(buffer);
+    Clock::getTime(true).timeToStr(buffer);
     display.setCursor(12, 0);
     display.print(buffer);
-    LcdNewLiner newLiner(display);
-    toDraw.printTo(display, newLiner);
+
+    if (toDraw.getReadState() == ReadState::READ_OK) {
+        for (uint8_t i = 1; i < min(Display::ROWS, toDraw.valuesCount() + 1); i++) {
+            Display::newLine(display, i);
+            uint8_t nameLength = toDraw.printValueName(i - 1, true, display);
+            display.print(':');
+            WeatherStation::SensorValueUnit valueUnit = toDraw.valueUnit(i - 1,
+                    true);
+            toDraw.printValue(i - 1, true, display,
+                    Display::COLUMNS - nameLength - 2
+                            - WeatherStation::Sensors::sensorUnitNameLength(
+                                    valueUnit));
+            display.print(' ');
+            WeatherStation::Sensors::printSensorUnit(valueUnit, display);
+        }
+    } else {
+        for (uint8_t i = 1; i < 4; i++) {
+            Display::newLine(display, i);
+            Display::clearLine(display);
+        }
+        Display::newLine(display, 2);
+        display.print(toDraw.getSensorName());
+        if (toDraw.getReadState() == ReadState::NOT_YET_READ) {
+            display.print(F(": N/A"));
+        } else {
+            display.print(F(": error"));
+        }
+    }
 }
 

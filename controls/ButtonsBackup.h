@@ -15,7 +15,7 @@
 
 class ButtonsBackup {
 private:
-    ButtonHandler * volatile buttonHandlers[WeatherStation::Buttons::buttonsEnumSize] = {
+    ButtonHandler * volatile buttonHandlers[WeatherStation::Buttons::ButtonsEnumSize] = {
     NULL };
 public:
     ButtonsBackup() {

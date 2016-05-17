@@ -13,6 +13,8 @@
 #include "../PeripheryReading.h"
 #include "../ProgramSettings.h"
 #include "../ProgramState.h"
+#include "../time/Clock.h"
+#include "../time/TimeReading.h"
 
 AirPressureMeasureTask::AirPressureMeasureTask(unsigned long periodMs) :
         Task(periodMs) {
@@ -25,10 +27,10 @@ void AirPressureMeasureTask::run() {
         err = !bmp.begin();
     }
 
-    ProgramState & state = ProgramState::instance();
     if (err) {
         AirPressureReading errReading(true);
-        latestReading = AirPressureReading(true, state.getTimeStamp(true));
+        latestReading = AirPressureReading(true,
+                Clock::getTime(true).getTimeStamp());
     } else {
         int32_t UT = bmp.readRawTemperature();
         int32_t UP = bmp.readRawPressure();
@@ -36,10 +38,11 @@ void AirPressureMeasureTask::run() {
         float pressurePa = bmp.correctPressure(UT, UP);
         float pressure = pressurePa / 100.0;
         float pressureSea = bmp.seaLevelForAltitude(
-                state.getSettings().getAltitude(), pressurePa) / 100.0;
+                ProgramState::instance().getSettings().getAltitude(),
+                pressurePa) / 100.0;
 
         latestReading = AirPressureReading(pressure, pressureSea, temperature,
-                state.getTimeStamp(true));
+                Clock::getTime(true).getTimeStamp());
 
     }
 }

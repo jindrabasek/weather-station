@@ -9,12 +9,13 @@
 
 #include <math.h>
 #include <Print.h>
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <WString.h>
 
-#include "../NewLiner.h"
 #include "../PeripheryReading.h"
+#include "SensorReading.h"
 #include "Sensors.h"
 
 AirPressureReading::AirPressureReading(float pressure, float pressureAtSeaLevel,
@@ -28,61 +29,82 @@ AirPressureReading::AirPressureReading(float pressure, float pressureAtSeaLevel,
 }
 
 AirPressureReading::AirPressureReading(bool error, unsigned long timeStamp) :
-        SensorReading(error ? ReadState::READ_ERROR : ReadState::NOT_YET_READ, timeStamp),
+        SensorReading(error ? ReadState::READ_ERROR : ReadState::NOT_YET_READ,
+                timeStamp),
         pressure(0),
         pressureAtSeaLevel(NAN),
         temperature(NAN) {
 }
 
-void AirPressureReading::printValues(Print & out, NewLiner & newLine) const {
-    char buffer[13];
-    newLine.newLine(1);
-    out.print(F("Absolute:"));
-    dtostrf(pressure, 7, 1, buffer);
-    out.print(buffer);
-    out.print(F(" hPa"));
-    newLine.newLine(2);
-    out.print(F("Sea lvl:"));
-    dtostrf(pressureAtSeaLevel, 8, 1, buffer);
-    out.print(buffer);
-    out.print(F(" hPa"));
-    newLine.newLine(3);
-    out.print(F("Temp:"));
-    dtostrf(temperature, 12, 2, buffer);
-    out.print(buffer);
-    out.print(F(" *C"));
+void AirPressureReading::registerSensorValues(SensorReading** valueArray) {
+    valueArray[WeatherStation::SensorValueId::PRESSURE] = this;
+    valueArray[WeatherStation::SensorValueId::PRESSURE_SEAL_LEVEL] = this;
+    valueArray[WeatherStation::SensorValueId::BMP_TEMPERATURE] = this;
 }
 
-const __FlashStringHelper * AirPressureReading::getErrText() const {
-    return F("press");
-}
-
-const __FlashStringHelper * AirPressureReading::getNotYetMeasuredText() const {
-    return F("Press");
-}
-
-const __FlashStringHelper * AirPressureReading::getHeaderText() const {
+const __FlashStringHelper* AirPressureReading::getSensorName() const
+{
     return F("Barometer");
 }
 
-void AirPressureReading::registerSensorValues(SensorReading** valueArray) {
-    valueArray[WeatherStation::Sensors::PRESSURE] = this;
-    valueArray[WeatherStation::Sensors::PRESSURE_SEAL_LEVEL] = this;
-    valueArray[WeatherStation::Sensors::BMP_TEMPERATURE] = this;
+uint8_t AirPressureReading::valuesCount() const {
+    return AirPressureSensorIdLocal::AirPressureSensorIdLocalEnumSize;
 }
 
-void AirPressureReading::printValue(uint8_t valueId, Print& out) {
-    char buffer[WeatherStation::Sensors::PRINT_VALUE_STRING_LENGTH + 1];
-    switch (valueId) {
-        case WeatherStation::Sensors::PRESSURE:
-            dtostrf(pressure, WeatherStation::Sensors::PRINT_VALUE_STRING_LENGTH, 1, buffer);
-            break;
-        case WeatherStation::Sensors::BMP_TEMPERATURE:
-            dtostrf(temperature, WeatherStation::Sensors::PRINT_VALUE_STRING_LENGTH, 2, buffer);
-            break;
-        case WeatherStation::Sensors::PRESSURE_SEAL_LEVEL:
-            dtostrf(pressureAtSeaLevel, WeatherStation::Sensors::PRINT_VALUE_STRING_LENGTH, 1, buffer);
-            break;
-    }
+void AirPressureReading::printValue(uint8_t valueId, bool localId, Print& out,
+                                    uint8_t maxLength) const {
+    char buffer[maxLength + 1];
+
+    ifIdMatchThenDo(AirPressureSensorIdLocal::L_PRESSURE,
+            WeatherStation::SensorValueId::PRESSURE,
+            dtostrf(pressure, maxLength, 1, buffer));
+
+    elseifIdMatchThenDo(AirPressureSensorIdLocal::L_BMP_TEMPERATURE,
+            WeatherStation::SensorValueId::BMP_TEMPERATURE,
+            dtostrf(temperature, maxLength, 2, buffer));
+
+    elseifIdMatchThenDo(AirPressureSensorIdLocal::L_PRESSURE_SEAL_LEVEL,
+            WeatherStation::SensorValueId::PRESSURE_SEAL_LEVEL,
+            dtostrf(pressureAtSeaLevel, maxLength, 1, buffer));
+
     out.print(buffer);
+
+}
+
+uint8_t AirPressureReading::printValueName(uint8_t valueId, bool localId,
+                                           Print& out) const {
+
+    uint8_t length = 0;
+
+    ifIdMatchThenDo(AirPressureSensorIdLocal::L_PRESSURE,
+            WeatherStation::SensorValueId::PRESSURE,
+            length = out.print(F("Absolute")));
+
+    elseifIdMatchThenDo(AirPressureSensorIdLocal::L_BMP_TEMPERATURE,
+            WeatherStation::SensorValueId::BMP_TEMPERATURE,
+            length = out.print(F("Temp")));
+
+    elseifIdMatchThenDo(AirPressureSensorIdLocal::L_PRESSURE_SEAL_LEVEL,
+            WeatherStation::SensorValueId::PRESSURE_SEAL_LEVEL,
+            length = out.print(F("Sea lvl")));
+
+    return length;
+}
+
+WeatherStation::SensorValueUnit AirPressureReading::valueUnit(
+        uint8_t valueId, bool localId) const {
+
+    ifIdMatchThenDo(AirPressureSensorIdLocal::L_PRESSURE,
+            WeatherStation::SensorValueId::PRESSURE,
+            return WeatherStation::SensorValueUnit::HECTOPASCAL);
+
+    ifIdMatchThenDo(AirPressureSensorIdLocal::L_BMP_TEMPERATURE,
+            WeatherStation::SensorValueId::BMP_TEMPERATURE,
+            return WeatherStation::SensorValueUnit::DEGREE_CELSIUS);
+
+    ifIdMatchThenDo(AirPressureSensorIdLocal::L_PRESSURE_SEAL_LEVEL,
+            WeatherStation::SensorValueId::PRESSURE_SEAL_LEVEL,
+            return WeatherStation::SensorValueUnit::HECTOPASCAL);
+
+    return WeatherStation::SensorValueUnit::N_A;
 }

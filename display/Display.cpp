@@ -11,7 +11,7 @@
 #include <LCD.h>
 
 void Display::doSetup() {
-    lcd.begin(20, 4);
+    lcd.begin(COLUMNS, ROWS);
 
     lcd.backlight();
     delay(250);

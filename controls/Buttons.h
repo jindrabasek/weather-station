@@ -11,7 +11,7 @@
 namespace WeatherStation {
 
     enum Buttons {
-        /*LEFT, RIGHT,*/ BACKLIGHT, UP, DOWN, ENTER, ESC, buttonsEnumSize
+        /*LEFT, RIGHT,*/ BACKLIGHT, UP, DOWN, ENTER, ESC, ButtonsEnumSize
     };
 
 } /* namespace WeatherStation */

@@ -13,8 +13,8 @@
 #include <stdlib.h>
 #include <WString.h>
 
-#include "../NewLiner.h"
 #include "../PeripheryReading.h"
+#include "SensorReading.h"
 #include "Sensors.h"
 
 LightIntensityReading::LightIntensityReading(int16_t intensity,
@@ -29,41 +29,47 @@ LightIntensityReading::LightIntensityReading(bool error,
         intensity(-1) {
 }
 
-void LightIntensityReading::printValues(Print & out, NewLiner & newLine) const {
-    char buffer[7];
-    newLine.newLine(1);
-    out.print(F("Intensity:"));
-    dtostrf(intensity, 6, 0, buffer);
-    out.print(buffer);
-    out.print(F(" lux"));
-    newLine.newLine(2);
-    newLine.clearLine();
-    newLine.newLine(3);
-    newLine.clearLine();
-}
-
-const __FlashStringHelper * LightIntensityReading::getErrText() const {
-    return F("light");
-}
-
-const __FlashStringHelper * LightIntensityReading::getNotYetMeasuredText() const {
-    return F("Light");
-}
-
 void LightIntensityReading::registerSensorValues(SensorReading** valueArray) {
-    valueArray[WeatherStation::Sensors::LIGHT_INTENSITY] = this;
+    valueArray[WeatherStation::SensorValueId::LIGHT_INTENSITY] = this;
 }
 
-void LightIntensityReading::printValue(uint8_t valueId, Print& out) {
-    char buffer[WeatherStation::Sensors::PRINT_VALUE_STRING_LENGTH + 1];
-    switch (valueId) {
-        case WeatherStation::Sensors::LIGHT_INTENSITY:
-            dtostrf(intensity, WeatherStation::Sensors::PRINT_VALUE_STRING_LENGTH, 0, buffer);
-            break;
-    }
+const __FlashStringHelper* LightIntensityReading::getSensorName() const
+{
+    return F("Light");
+}
+
+uint8_t LightIntensityReading::valuesCount() const {
+    return LightSensorIdLocal::LightSensorIdLocalEnumSize;
+}
+
+void LightIntensityReading::printValue(uint8_t valueId, bool localId, Print& out,
+                                    uint8_t maxLength) const {
+    char buffer[maxLength + 1];
+
+    ifIdMatchThenDo(LightSensorIdLocal::L_LIGHT_INTENSITY,
+            WeatherStation::SensorValueId::LIGHT_INTENSITY,
+            dtostrf(intensity, maxLength, 0, buffer));
+
     out.print(buffer);
 }
 
-const __FlashStringHelper * LightIntensityReading::getHeaderText() const {
-    return F("Light");
+uint8_t LightIntensityReading::printValueName(uint8_t valueId, bool localId,
+                                           Print& out) const {
+
+    uint8_t length = 0;
+
+    ifIdMatchThenDo(LightSensorIdLocal::L_LIGHT_INTENSITY,
+            WeatherStation::SensorValueId::LIGHT_INTENSITY,
+            length = out.print(F("Intensity")));
+    return length;
+}
+
+WeatherStation::SensorValueUnit LightIntensityReading::valueUnit(
+        uint8_t valueId, bool localId) const {
+
+    ifIdMatchThenDo(LightSensorIdLocal::L_LIGHT_INTENSITY,
+            WeatherStation::SensorValueId::LIGHT_INTENSITY,
+            return WeatherStation::SensorValueUnit::LIGHT_INTENSITY_LUX);
+
+    return WeatherStation::SensorValueUnit::N_A;
 }

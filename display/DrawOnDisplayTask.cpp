@@ -11,7 +11,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "LcdNewLiner.h"
+#include "Display.h"
 #include "ToDraw.h"
 
 DrawOnDisplayTask::DrawOnDisplayTask(unsigned long periodMs, LCD & display,
@@ -25,10 +25,9 @@ DrawOnDisplayTask::DrawOnDisplayTask(unsigned long periodMs, LCD & display,
 void DrawOnDisplayTask::run() {
     if (clear) {
         clear = false;
-        LcdNewLiner lcdClear(display);
-        for (uint8_t i = 0; i < 4; i++) {
-            lcdClear.newLine(i);
-            lcdClear.clearLine();
+        for (uint8_t i = 0; i < Display::ROWS; i++) {
+            Display::newLine(display, i);
+            Display::clearLine(display);
         }
     }
 

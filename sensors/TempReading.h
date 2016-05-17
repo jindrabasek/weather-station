@@ -13,8 +13,8 @@
 #include <stdint.h>
 #include <WString.h>
 
-#include "../NewLiner.h"
 #include "SensorReading.h"
+#include "Sensors.h"
 
 class TempReading : public SensorReading {
 private:
@@ -26,6 +26,15 @@ private:
 //-----------------------------------------------------------------------------
 
 public:
+    enum TempHumiditySensorIdLocal {
+        L_DHT_HUMIDITY,
+        L_DHT_TEMPERTAURE_REAL_FEEL,
+        L_DHT_TEMPERTAURE,
+        L_ABSOLUTE_HUMIDITY,
+        TempHumiditySensorIdLocalEnumSize,
+    };
+
+
     TempReading(float humidity, float humidityAbsolute,
                 float temperatureCelsius, float heatIndexCelsius,
                 unsigned long timeStamp);
@@ -47,15 +56,13 @@ public:
         return humidityAbsolute;
     }
 
-    void printValues(Print & out, NewLiner & newLine) const;
+    void registerSensorValues(SensorReading** valueArray);
 
-    virtual void registerSensorValues(SensorReading ** valueArray);
-    virtual void printValue(uint8_t valueId, Print & out);
-
-protected:
-    const __FlashStringHelper * getErrText() const;
-    const __FlashStringHelper * getNotYetMeasuredText() const;
-    const __FlashStringHelper * getHeaderText() const;
+    virtual const __FlashStringHelper * getSensorName() const;
+    virtual uint8_t valuesCount() const;
+    virtual void printValue(uint8_t valueId, bool localId, Print & out, uint8_t maxLength) const;
+    virtual uint8_t printValueName(uint8_t valueId, bool localId, Print & out) const;
+    virtual WeatherStation::SensorValueUnit valueUnit(uint8_t valueId, bool localId) const;
 };
 
 #endif /* TEMPREADING_H_ */

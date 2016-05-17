@@ -8,9 +8,12 @@
 #ifndef SENSORS_H_
 #define SENSORS_H_
 
+#include <Print.h>
+#include <stdint.h>
+
 namespace WeatherStation {
 
-    enum Sensors {
+    enum SensorValueId {
         PRESSURE,
         PRESSURE_SEAL_LEVEL,
         BMP_TEMPERATURE,
@@ -19,9 +22,28 @@ namespace WeatherStation {
         DHT_TEMPERTAURE_REAL_FEEL,
         DHT_TEMPERTAURE,
         ABSOLUTE_HUMIDITY,
-        sensorsEnumSize,
-        PRINT_VALUE_STRING_LENGTH = 10
+        SensorsEnumSize,
     };
+
+    enum SensorValueUnit {
+        N_A,
+        DEGREE_CELSIUS,
+        HECTOPASCAL,
+        LIGHT_INTENSITY_LUX,
+        PERCENT,
+        G_PER_CUBIC_METER,
+        SensorValueUnitsEnumSize,
+    };
+
+    class Sensors {
+    public:
+
+        static uint8_t sensorUnitNameLength(SensorValueUnit unitId);
+        static void printSensorUnit(SensorValueUnit unitId, Print & out);
+
+    };
+
+
 
 } /* namespace WeatherStation */
 

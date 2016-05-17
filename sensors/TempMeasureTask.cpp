@@ -12,16 +12,16 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "../ProgramState.h"
+#include "../time/Clock.h"
+#include "../time/TimeReading.h"
 
 TempMeasureTask::TempMeasureTask(uint8_t pin, unsigned long periodMs) :
         Task(periodMs),
-        dht(pin){
+        dht(pin) {
 }
 
 void TempMeasureTask::run() {
     DhtReadState dhtState = dht.read();
-    ProgramState & state = ProgramState::instance();
     if (dhtState == DHT_GOOD) {
         float h = dht.getHumidity();
         // Read temperature as Celsius (the default)
@@ -34,9 +34,10 @@ void TempMeasureTask::run() {
             absoluteHumidity = dht.computeAbsoluteHumidity(t, h);
         }
 
-        latestReading = TempReading(h, absoluteHumidity, t, hic, state.getTimeStamp(true));
+        latestReading = TempReading(h, absoluteHumidity, t, hic,
+                Clock::getTime(true).getTimeStamp());
     } else {
-        latestReading = TempReading(true, state.getTimeStamp(true));
+        latestReading = TempReading(true, Clock::getTime(true).getTimeStamp());
     }
 }
 

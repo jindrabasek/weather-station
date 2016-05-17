@@ -46,6 +46,7 @@
 #define LOG_INFO(x)     if(LOG_LEVEL>LOGGER_LEVEL_WARN) { Logger.log(x); }
 #define LOG_INFO0(x)    if(LOG_LEVEL>LOGGER_LEVEL_WARN) { Logger.print(x); }
 #define LOG_INFO1(x,y)  if(LOG_LEVEL>LOGGER_LEVEL_WARN) { Logger.log(x,y); }
+#define LOG_INFO2(x,y,z)  if(LOG_LEVEL>LOGGER_LEVEL_WARN) { Logger.log(x,y,z); }
 
 #define LOG_DEBUG(x)      if(LOG_LEVEL>LOGGER_LEVEL_INFO) { Logger.log(x); }
 #define LOG_DEBUG0(x)     if(LOG_LEVEL>LOGGER_LEVEL_INFO) { Logger.print(x); }

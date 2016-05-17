@@ -10,17 +10,16 @@
 #include <LCD.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include <WireRtcLib.h>
 #include <WString.h>
 
 #include "../PeripheryReading.h"
-#include "../ProgramState.h"
+#include "Clock.h"
 #include "TimeReading.h"
 
 void TimeScreen::draw(LCD & display) {
     char buffer[11];
 
-    TimeReading & actualTime = ProgramState::instance().getTime(true);
+    TimeReading & actualTime = Clock::getTime(true);
 
     if (actualTime.getReadState() == ReadState::READ_OK) {
         snprintf_P(buffer, 9, (const char *) F("%02d:%02d:%02d"),

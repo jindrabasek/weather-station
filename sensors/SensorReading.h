@@ -12,8 +12,24 @@
 #include <stdint.h>
 #include <WString.h>
 
-#include "../NewLiner.h"
 #include "../PeripheryReading.h"
+#include "Sensors.h"
+
+#define ifIdMatchThenDo(lcId,gbId,doWork)  \
+{                                                   \
+    if ((localId && valueId == lcId) || \
+            (!localId && valueId == gbId)) {\
+        doWork; \
+    } \
+}
+
+#define elseifIdMatchThenDo(lcId,gbId,doWork)  \
+{                                                   \
+    if ((localId && valueId == lcId) || \
+            (!localId && valueId == gbId)) {\
+        doWork; \
+    } \
+}
 
 // Do not define virtual destructor on purpose - class
 // and its children is not expected to need destructors,
@@ -35,16 +51,11 @@ public:
         return timeStamp;
     }
 
-    virtual const __FlashStringHelper * getHeaderText() const =0;
-    void printTo(Print & out, NewLiner & newLine) const;
-
-    virtual void registerSensorValues(SensorReading ** valueArray) =0;
-    virtual void printValue(uint8_t valueId, Print & out) =0;
-
-protected:
-    virtual void printValues(Print & out, NewLiner & newLine) const =0;
-    virtual const __FlashStringHelper * getErrText() const =0;
-    virtual const __FlashStringHelper * getNotYetMeasuredText() const =0;
+    virtual const __FlashStringHelper * getSensorName() const =0;
+    virtual uint8_t valuesCount() const =0;
+    virtual void printValue(uint8_t valueId, bool localId, Print & out, uint8_t maxLength) const =0;
+    virtual uint8_t printValueName(uint8_t valueId, bool localId, Print & out) const =0;
+    virtual WeatherStation::SensorValueUnit valueUnit(uint8_t valueId, bool localId) const =0;
 
 };
 
