@@ -113,6 +113,8 @@ private:
     SmartLivingPublishTask dataUploadTask;
     WifiWatchdogTask wifiWatchDogTask;
 
+    void setStateRef();
+
 //-----------------------------------------------------------------------------
 
 public:
@@ -218,7 +220,7 @@ private:
                             * ProgramSettings::USEC_RESOLUTION_DISPLAY_DRAW_FREQ,
                     disp.getLcd(), displayScreens[settings.getStartupScreen()]),
 
-            menu(disp.getLcd(), this, settings),
+            menu(disp.getLcd(), this),
 
             nextScreen(1),
             prevScreen(-1),
@@ -282,6 +284,8 @@ private:
         SoftTimer.add(&wifiWatchDogTask);
 
         PciManager.setEnabled(true);
+
+        setStateRef();
     }
 };
 

@@ -57,6 +57,7 @@ static const char SMART_LIVING_IP[] PROGMEM = "65.52.140.212";
 #define  perfMeasure() ;
 #endif
 
+extern ProgramState *state;
 
 SmartLivingPublishTask::SmartLivingPublishTask(unsigned long periodMs) :
         Task(periodMs) {
@@ -67,12 +68,11 @@ void SmartLivingPublishTask::run() {
     if (Network::networkConnected()) {
         LOG_DEBUG(F("Uploading data...\n"));
 
-        ProgramState & state = ProgramState::instance();
         for (uint8_t i = 0; i < WeatherStation::SensorValueId::SensorsEnumSize; i++) {
 #ifdef DATA_UPLOAD_TIME_MEASURE
             unsigned long t = millis();
 #endif
-            SensorReading * sensorValue = state.getSensorValues()[i];
+            SensorReading * sensorValue = state->getSensorValues()[i];
             char assetId[ASSET_ID_LENGTH + 1] = { 0 };
             getAssetId(assetId, i);
             char smartLivingIp[sizeof(SMART_LIVING_IP)];
@@ -151,7 +151,7 @@ void SmartLivingPublishTask::getAssetId(char* buffer, uint8_t valueId) {
 
 #define printTimePart(timePart, separator) if(timePart < 10) out.print('0'); itoa(timePart, buffer, 10); out.print(buffer); out.print(separator)
 void SmartLivingPublishTask::formatTime(Print & out, unsigned long timeStamp) {
-    ProgramSettings & settings = ProgramState::instance().getSettings();
+    ProgramSettings & settings = state->getSettings();
 
     WireRtcLib::tm time = WireRtcLib::breakTime(timeStamp);
     char buffer[5];

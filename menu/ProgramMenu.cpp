@@ -7,10 +7,10 @@
 
 #include "ProgramMenu.h"
 
-#include <Arduino.h>
 #include <LCD.h>
 #include <MenuValueHolder.h>
 #include <OMMenuMgr.h>
+#include <stddef.h>
 
 #include "../ProgramSettings.h"
 #include "../ProgramState.h"
@@ -155,12 +155,12 @@ static MENU_LIST root_list[]   = { &startupScreen, &measureFreqency, &displaySet
 
 static MENU_ITEM menu_root     = { {"Root"}, ITEM_MENU, MENU_SIZE(root_list), MENU_TARGET(&root_list) };
 
-ProgramMenu::ProgramMenu(LCD & lcd, ProgramState * state, ProgramSettings & settings) :
+ProgramMenu::ProgramMenu(LCD & lcd, ProgramState * state) :
 	lcd (lcd),
-	menuScreen(buttonsCache, menu),
-	enterMenuHandler(buttonsCache, menuScreen, buttonsBackup),
+	menuScreen(*this),
+	enterMenuHandler(*this),
 	menuDraw(lcd),
-	menuExit(lcd, enterMenuHandler, buttonsBackup),
+	menuExit(*this),
         setTempMeasureFreqAction(state->getMeasureTempTask(),
                 &ProgramSettings::getMeasureTempSecondFreq,
                 ProgramSettings::SECOND_RESOLUTION_MEASURE_TEMP_FREQ),

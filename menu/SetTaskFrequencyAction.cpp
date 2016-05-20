@@ -12,6 +12,8 @@
 #include "../ProgramSettings.h"
 #include "../ProgramState.h"
 
+extern ProgramState *state;
+
 SetTaskFrequencyAction::SetTaskFrequencyAction(
         Task & target, unsigned int (ProgramSettings::*period)() const,
         uint8_t multiplierSec) :
@@ -22,5 +24,5 @@ SetTaskFrequencyAction::SetTaskFrequencyAction(
 
 void SetTaskFrequencyAction::doAction() {
     target.setPeriodUs(
-            (long)((ProgramState::instance().getSettings().*period)()) * multiplierSec * ProgramSettings::ONE_SEC_IN_US);
+            (long)((state->getSettings().*period)()) * multiplierSec * ProgramSettings::ONE_SEC_IN_US);
 }

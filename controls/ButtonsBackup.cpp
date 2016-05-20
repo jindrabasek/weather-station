@@ -14,18 +14,16 @@
 #include "../ProgramState.h"
 #include "Buttons.h"
 
-void ButtonsBackup::backupHandlers() {
-    ProgramState & state = ProgramState::instance();
+extern ProgramState *state;
 
+void ButtonsBackup::backupHandlers() {
     for (uint8_t i = 0; i < WeatherStation::Buttons::ButtonsEnumSize; i++) {
-        buttonHandlers[i] = state.getButtons()[i].getHandler();
+        buttonHandlers[i] = state->getButtons()[i].getHandler();
     }
 }
 
 void ButtonsBackup::restoreHandlers() {
-    ProgramState & state = ProgramState::instance();
-
     for (uint8_t i = 0; i < WeatherStation::Buttons::ButtonsEnumSize; i++) {
-        state.getButtons()[i].setHandler(buttonHandlers[i]);
+        state->getButtons()[i].setHandler(buttonHandlers[i]);
     }
 }

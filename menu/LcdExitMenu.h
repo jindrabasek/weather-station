@@ -15,14 +15,13 @@
 #include "../controls/ButtonsBackup.h"
 #include "EnterMenuHandler.h"
 
+class ProgramMenu;
+
 class LcdExitMenu : public MenuExitHandler {
 private:
-    LCD & lcd;
-    EnterMenuHandler * enterMenuHandler;
-    ButtonsBackup & buttonsBackup;
+    ProgramMenu & menu;
 public:
-    LcdExitMenu(LCD & lcd, EnterMenuHandler & enterMenuHandler,
-                ButtonsBackup & buttonsBackup);
+    LcdExitMenu(ProgramMenu & menu);
     virtual void exitMenu(bool fullExit);
     virtual void exitMenuPostCallback();
 };

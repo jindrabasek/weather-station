@@ -9,8 +9,10 @@
 
 #include "../ProgramState.h"
 
+extern ProgramState *state;
+
 void RestartWifiAction::doAction() {
-    WifiWatchdogTask& task = ProgramState::instance().getWifiWatchDogTask();
+    WifiWatchdogTask& task = state->getWifiWatchDogTask();
     task.forceWifiRestart();
     task.startAtEarliestOportunity();
 }

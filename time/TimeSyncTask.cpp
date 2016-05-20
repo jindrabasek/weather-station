@@ -21,6 +21,8 @@
 
 static const char TIME_SERVER[] PROGMEM = "pool.ntp.org";
 
+extern ProgramState *state;
+
 TimeSyncTask::TimeSyncTask(unsigned long periodHours, bool enabled) :
         LongTask(periodHours, 0, enabled) {
     startAtEarliestOportunity();
@@ -94,7 +96,7 @@ void TimeSyncTask::run() {
         // convert NTP time to Unix time
         long timeUnix = time - 2208988800ul;
         // adjust time with time zone
-        timeUnix += (ProgramState::instance().getSettings().getTimeZone() * 3600);
+        timeUnix += (state->getSettings().getTimeZone() * 3600);
         WireRtcLib rtc;
         rtc.setTime(WireRtcLib::breakTime(timeUnix));
         LOG_INFO1(F("TimeSync: synced "), timeUnix);

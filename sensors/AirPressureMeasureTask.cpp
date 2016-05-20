@@ -16,6 +16,8 @@
 #include "../time/Clock.h"
 #include "../time/TimeReading.h"
 
+extern ProgramState *state;
+
 AirPressureMeasureTask::AirPressureMeasureTask(unsigned long periodMs) :
         Task(periodMs) {
 }
@@ -37,8 +39,8 @@ void AirPressureMeasureTask::run() {
         float temperature = bmp.correctTemperature(UT);
         float pressurePa = bmp.correctPressure(UT, UP);
         float pressure = pressurePa / 100.0;
-        float pressureSea = bmp.seaLevelForAltitude(
-                ProgramState::instance().getSettings().getAltitude(),
+        float pressureSea = Adafruit_BMP085::seaLevelForAltitude(
+                state->getSettings().getAltitude(),
                 pressurePa) / 100.0;
 
         latestReading = AirPressureReading(pressure, pressureSea, temperature,

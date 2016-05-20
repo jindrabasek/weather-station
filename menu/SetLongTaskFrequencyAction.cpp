@@ -12,6 +12,8 @@
 #include "../ProgramSettings.h"
 #include "../ProgramState.h"
 
+extern ProgramState *state;
+
 SetLongTaskFrequencyAction::SetLongTaskFrequencyAction(
         LongTask & target, unsigned int (ProgramSettings::*periodHours)() const) :
         target(target),
@@ -20,5 +22,5 @@ SetLongTaskFrequencyAction::SetLongTaskFrequencyAction(
 
 void SetLongTaskFrequencyAction::doAction() {
     target.setPeriod(
-                (ProgramState::instance().getSettings().*periodHours)(), 0);
+                (state->getSettings().*periodHours)(), 0);
 }

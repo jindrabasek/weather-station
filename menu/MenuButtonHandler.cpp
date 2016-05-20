@@ -14,6 +14,8 @@
 #include "../ProgramState.h"
 #include "MenuButtonsCache.h"
 
+extern ProgramState *state;
+
 MenuButtonHandler::MenuButtonHandler(Button button,
                                      MenuButtonsCache& buttonsCache) :
         button(button),
@@ -22,7 +24,6 @@ MenuButtonHandler::MenuButtonHandler(Button button,
 
 void MenuButtonHandler::onPressed() {
     buttonsCache.putPress(button);
-    ProgramState & state = ProgramState::instance();
-    state.getDrawOnDisplayTask().startAtEarliestOportunity();
-    state.getDrawOnDisplayTask().setEnabled(true);
+    state->getDrawOnDisplayTask().startAtEarliestOportunity();
+    state->getDrawOnDisplayTask().setEnabled(true);
 }

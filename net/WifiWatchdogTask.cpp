@@ -15,6 +15,8 @@
 #include "../ProgramState.h"
 #include "Network.h"
 
+extern ProgramState *state;
+
 WifiWatchdogTask::WifiWatchdogTask(unsigned long periodMs) : Task(periodMs) {
 }
 
@@ -31,6 +33,6 @@ void WifiWatchdogTask::run() {
         } else {
             LOG_INFO(F("HW reset not performed, doing SW and connecting..."));
         }
-        Network::connect(ProgramState::instance().getSettings(), true);
+        Network::connect(state->getSettings(), true);
     }
 }

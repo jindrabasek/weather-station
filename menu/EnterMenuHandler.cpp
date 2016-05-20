@@ -13,44 +13,39 @@
 #include <Task.h>
 
 #include "../controls/Buttons.h"
-#include "../controls/ButtonsBackup.h"
 #include "../display/DrawOnDisplayTask.h"
 #include "../ProgramState.h"
-#include "MenuButtonsCache.h"
 #include "MenuScreen.h"
+#include "ProgramMenu.h"
 
-EnterMenuHandler::EnterMenuHandler(MenuButtonsCache& buttonsCache,
-                                   MenuScreen & menuScreen,
-                                   ButtonsBackup & buttonsBackup) :
-        buttonsCache(buttonsCache),
-        menuScreen(menuScreen),
-        buttonsBackup(buttonsBackup),
-        up(Button::BUTTON_INCREASE, buttonsCache),
-        down(Button::BUTTON_DECREASE, buttonsCache),
-        back(Button::BUTTON_BACK, buttonsCache),
-        enter(Button::BUTTON_SELECT, buttonsCache) {
+extern ProgramState *state;
+
+EnterMenuHandler::EnterMenuHandler(ProgramMenu & menu) :
+        menu(menu),
+        up(Button::BUTTON_INCREASE, menu.getButtonsCache()),
+        down(Button::BUTTON_DECREASE, menu.getButtonsCache()),
+        back(Button::BUTTON_BACK, menu.getButtonsCache()),
+        enter(Button::BUTTON_SELECT, menu.getButtonsCache()) {
 }
 
 void EnterMenuHandler::onPressed() {
-    ProgramState & state = ProgramState::instance();
-
-    if (!menuScreen.getMenu().isInMenu()) {
-        buttonsBackup.backupHandlers();
-        menuScreen.getMenu().setInMenu(true);
+    if (!menu.getMenu().isInMenu()) {
+        menu.getButtonsBackup().backupHandlers();
+        menu.getMenu().setInMenu(true);
     }
 
-    state.getButtons()[WeatherStation::Buttons::UP].setHandler(&up);
-    state.getButtons()[WeatherStation::Buttons::DOWN].setHandler(&down);
-    //state.getButtons()[WeatherStation::Buttons::LEFT].setHandler(&ButtonHandler::voidButtonHandler);
-    //state.getButtons()[WeatherStation::Buttons::RIGHT].setHandler(&ButtonHandler::voidButtonHandler);
-    state.getButtons()[WeatherStation::Buttons::ENTER].setHandler(&enter);
-    state.getButtons()[WeatherStation::Buttons::ESC].setHandler(&back);
+    state->getButtons()[WeatherStation::Buttons::UP].setHandler(&up);
+    state->getButtons()[WeatherStation::Buttons::DOWN].setHandler(&down);
+    //state->getButtons()[WeatherStation::Buttons::LEFT].setHandler(&ButtonHandler::voidButtonHandler);
+    //state->getButtons()[WeatherStation::Buttons::RIGHT].setHandler(&ButtonHandler::voidButtonHandler);
+    state->getButtons()[WeatherStation::Buttons::ENTER].setHandler(&enter);
+    state->getButtons()[WeatherStation::Buttons::ESC].setHandler(&back);
 
-    buttonsCache.clear();
+    menu.getButtonsCache().clear();
 
-    buttonsCache.putPress(Button::BUTTON_NONE);
+    menu.getButtonsCache().putPress(Button::BUTTON_NONE);
 
-    state.getDrawOnDisplayTask().setToDraw(&menuScreen, true);
-    state.getDrawOnDisplayTask().startAtEarliestOportunity();
-    state.getDrawOnDisplayTask().setEnabled(true);
+    state->getDrawOnDisplayTask().setToDraw(&menu.getMenuScreen(), true);
+    state->getDrawOnDisplayTask().startAtEarliestOportunity();
+    state->getDrawOnDisplayTask().setEnabled(true);
 }

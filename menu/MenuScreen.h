@@ -14,17 +14,14 @@
 #include "../display/ToDraw.h"
 #include "MenuButtonsCache.h"
 
+class ProgramMenu;
+
 class MenuScreen : public ToDraw {
 private:
-    MenuButtonsCache & buttonsCache;
-    OMMenuMgr & menu;
+    ProgramMenu & menu;
 public:
-    MenuScreen(MenuButtonsCache & buttonsCache, OMMenuMgr & menu);
+    MenuScreen(ProgramMenu & menu);
     virtual void draw(LCD & display);
-
-    OMMenuMgr & getMenu() {
-        return menu;
-    }
 };
 
 #endif /* MENUSCREEN_H_ */

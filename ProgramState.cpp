@@ -7,6 +7,14 @@
 
 #include "ProgramState.h"
 
+#include <stddef.h>
+
+ProgramState *state = NULL;
+
+void ProgramState::setStateRef() {
+    state = this;
+}
+
 ProgramState& ProgramState::instance() {
     static ProgramState state;
     return state;

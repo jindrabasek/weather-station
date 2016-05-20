@@ -22,7 +22,6 @@
 #include "SetTaskFrequencyAction.h"
 
 class ProgramState;
-class ProgramSettings;
 
 class ProgramMenu {
 private:
@@ -52,7 +51,7 @@ public:
     ProgramMenu(const ProgramMenu& that) = delete;
     void operator=(const ProgramMenu& that) = delete;
 
-    ProgramMenu(LCD & lcd, ProgramState * state, ProgramSettings & settings);
+    ProgramMenu(LCD & lcd, ProgramState * state);
 
     MenuButtonsCache& getButtonsCache() {
         return buttonsCache;
@@ -68,6 +67,22 @@ public:
 
     LcdExitMenu& getMenuExit() {
         return menuExit;
+    }
+
+    ButtonsBackup& getButtonsBackup() {
+        return buttonsBackup;
+    }
+
+    OMMenuMgr& getMenu() {
+        return menu;
+    }
+
+    MenuScreen& getMenuScreen() {
+        return menuScreen;
+    }
+
+    LCD& getLcd() {
+        return lcd;
     }
 };
 

@@ -12,10 +12,10 @@
 
 #include "../ProgramState.h"
 
-void BackLightHandler::onPressed() {
-    ProgramState & state = ProgramState::instance();
+extern ProgramState *state;
 
-    state.setBackLight(!state.isBackLight());
-    state.getBackLightTask().startAtEarliestOportunity();
-    state.getBackLightTask().setEnabled(true);
+void BackLightHandler::onPressed() {
+    state->setBackLight(!state->isBackLight());
+    state->getBackLightTask().startAtEarliestOportunity();
+    state->getBackLightTask().setEnabled(true);
 }

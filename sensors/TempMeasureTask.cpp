@@ -30,8 +30,8 @@ void TempMeasureTask::run() {
         float hic = NAN;
         float absoluteHumidity = NAN;
         if (!isnan(h) && !isnan(t)) {
-            hic = dht.computeHeatIndex(t, h);
-            absoluteHumidity = dht.computeAbsoluteHumidity(t, h);
+            hic = DHT::computeHeatIndex(t, h);
+            absoluteHumidity = DHT::computeAbsoluteHumidity(t, h);
         }
 
         latestReading = TempReading(h, absoluteHumidity, t, hic,

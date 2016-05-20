@@ -13,13 +13,15 @@
 
 #include "../ProgramState.h"
 
+extern ProgramState *state;
+
 BackLightTask::BackLightTask(LCD & display) :
         Task(0, false),
         display(display) {
 }
 
 void BackLightTask::run() {
-    if (ProgramState::instance().isBackLight()) {
+    if (state->isBackLight()) {
         display.backlight();
     } else {
         display.noBacklight();

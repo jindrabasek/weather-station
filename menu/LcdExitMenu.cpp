@@ -8,43 +8,39 @@
 #include "LcdExitMenu.h"
 
 #include <Debouncer.h>
-#include <LCD.h>
 #include <PciManager.h>
 #include <stdbool.h>
 #include <Task.h>
 
 #include "../controls/Buttons.h"
-#include "../controls/ButtonsBackup.h"
 #include "../display/DrawOnDisplayTask.h"
 #include "../ProgramState.h"
 #include "EnterMenuHandler.h"
+#include "ProgramMenu.h"
 
-LcdExitMenu::LcdExitMenu(LCD& lcd, EnterMenuHandler& enterMenuHandler,
-                         ButtonsBackup & buttonsBackup) :
-        lcd(lcd),
-        enterMenuHandler(&enterMenuHandler),
-        buttonsBackup(buttonsBackup) {
+extern ProgramState *state;
+
+LcdExitMenu::LcdExitMenu(ProgramMenu & menu) :
+        menu(menu) {
 }
 
 void LcdExitMenu::exitMenu(bool fullExit) {
-    ProgramState & state = ProgramState::instance();
-
     PciManager.setEnabled(false);
     if (fullExit) {
-        buttonsBackup.restoreHandlers();
-        state.getDrawOnDisplayTask().setToDraw(
-                state.getDisplayScreens()[state.getCurrentScreen()], true);
-        state.getDrawOnDisplayTask().startAtEarliestOportunity();
-        state.getDrawOnDisplayTask().setEnabled(true);
+        menu.getButtonsBackup().restoreHandlers();
+        state->getDrawOnDisplayTask().setToDraw(
+                state->getDisplayScreens()[state->getCurrentScreen()], true);
+        state->getDrawOnDisplayTask().startAtEarliestOportunity();
+        state->getDrawOnDisplayTask().setEnabled(true);
     } else {
-        state.getButtons()[WeatherStation::Buttons::UP].setHandler(&ButtonHandler::voidButtonHandler);
-        state.getButtons()[WeatherStation::Buttons::DOWN].setHandler(&ButtonHandler::voidButtonHandler);
-        //state.getButtons()[WeatherStation::Buttons::LEFT].setHandler(&ButtonHandler::voidButtonHandler);
-        //state.getButtons()[WeatherStation::Buttons::RIGHT].setHandler(&ButtonHandler::voidButtonHandler);
-        state.getButtons()[WeatherStation::Buttons::ENTER].setHandler(enterMenuHandler);
-        state.getButtons()[WeatherStation::Buttons::ESC].setHandler(&ButtonHandler::voidButtonHandler);
-        lcd.clear();
-        state.getDrawOnDisplayTask().setEnabled(false);
+        state->getButtons()[WeatherStation::Buttons::UP].setHandler(&ButtonHandler::voidButtonHandler);
+        state->getButtons()[WeatherStation::Buttons::DOWN].setHandler(&ButtonHandler::voidButtonHandler);
+        //state->getButtons()[WeatherStation::Buttons::LEFT].setHandler(&ButtonHandler::voidButtonHandler);
+        //state->getButtons()[WeatherStation::Buttons::RIGHT].setHandler(&ButtonHandler::voidButtonHandler);
+        state->getButtons()[WeatherStation::Buttons::ENTER].setHandler(&menu.getEnterMenuHandler());
+        state->getButtons()[WeatherStation::Buttons::ESC].setHandler(&ButtonHandler::voidButtonHandler);
+        menu.getLcd().clear();
+        state->getDrawOnDisplayTask().setEnabled(false);
     }
 }
 

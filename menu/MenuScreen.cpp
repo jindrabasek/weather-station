@@ -16,34 +16,32 @@
 #include "../ProgramState.h"
 #include "LcdExitMenu.h"
 #include "LcdMenuDraw.h"
-#include "MenuButtonsCache.h"
 #include "ProgramMenu.h"
 
-MenuScreen::MenuScreen(MenuButtonsCache& buttonsCache, OMMenuMgr& menu) :
-        buttonsCache(buttonsCache),
+extern ProgramState *state;
+
+MenuScreen::MenuScreen(ProgramMenu & menu) :
         menu(menu) {
 }
 
 void MenuScreen::draw(LCD& display) {
-    ProgramState & state = ProgramState::instance();
-
     Button button;
     {
         PciManagerLock lock;
-        button = buttonsCache.getPress();
+        button = menu.getButtonsCache().getPress();
     }
 
-    menu.handleMenu(button, ProgramState::instance().getMenu().getMenuDraw(),
-            ProgramState::instance().getMenu().getMenuExit());
+    menu.getMenu().handleMenu(button, state->getMenu().getMenuDraw(),
+            state->getMenu().getMenuExit());
 
     {
         PciManagerLock lock;
-        if (menu.isInMenu()) {
-            bool empty = buttonsCache.isEmpty();
+        if (menu.getMenu().isInMenu()) {
+            bool empty = menu.getButtonsCache().isEmpty();
             if (empty) {
-                state.getDrawOnDisplayTask().setEnabled(false);
+                state->getDrawOnDisplayTask().setEnabled(false);
             } else {
-                state.getDrawOnDisplayTask().startAtEarliestOportunity();
+                state->getDrawOnDisplayTask().startAtEarliestOportunity();
             }
         }
     }

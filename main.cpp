@@ -24,7 +24,7 @@ void setup() {
     // Let everything stabilize after powering up
     delay(2000);
 
-    Scheduler.begin(512);
+    Scheduler::begin(512);
     Wire.begin();
 
     Clock::getTime(true);

@@ -13,11 +13,11 @@
 #include "MenuButtonsCache.h"
 #include "MenuScreen.h"
 
+class ProgramMenu;
+
 class EnterMenuHandler : public ButtonHandler {
 private:
-    MenuButtonsCache & buttonsCache;
-    MenuScreen & menuScreen;
-    ButtonsBackup & buttonsBackup;
+    ProgramMenu & menu;
 
     MenuButtonHandler up;
     MenuButtonHandler down;
@@ -25,8 +25,7 @@ private:
     MenuButtonHandler enter;
 
 public:
-    EnterMenuHandler(MenuButtonsCache & buttonsCache, MenuScreen & menuScreen,
-                     ButtonsBackup & buttonsBackup);
+    EnterMenuHandler(ProgramMenu & menu);
     virtual void onPressed();
 };
 
