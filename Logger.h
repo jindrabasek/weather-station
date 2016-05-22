@@ -58,6 +58,8 @@
 #define LOGGER_INFO  LoggerClass::getLoggerForLevel(LOGGER_LEVEL_INFO)
 #define LOGGER_DEBUG LoggerClass::getLoggerForLevel(LOGGER_LEVEL_DEBUG)
 
+
+
 // Do not define virtual destructor on purpose - class
 // and its children is not expected to need destructors,
 // it saves a lot of SRAM otherwise occupied by VTABLE
@@ -69,16 +71,18 @@ class LoggerClass : public Print {
 private:
     SdFile * sdLoggingFile = NULL;
 
-    void printTime();
+
 public:
     LoggerClass() {
     }
 
+    void printTime();
+
     virtual size_t write(uint8_t);
     virtual size_t write(const uint8_t *buffer, size_t size);
-    void flush();
+    virtual void flush();
 
-    static Print& getLoggerForLevel(uint8_t level);
+    static LoggerClass& getLoggerForLevel(uint8_t level);
 
     template <typename T>
     void log(T message) {
@@ -112,7 +116,7 @@ public:
     }
 };
 
-class VoidPrintClass : public Print {
+class VoidPrintClass : public LoggerClass {
 public:
     VoidPrintClass() {
     }
@@ -122,6 +126,10 @@ public:
     }
     virtual size_t write(const uint8_t *buffer, size_t size){
         return size;
+    }
+
+    virtual void flush() {
+
     }
 };
 

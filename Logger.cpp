@@ -58,7 +58,7 @@ void LoggerClass::flush() {
 #endif
 }
 
-Print& LoggerClass::getLoggerForLevel(uint8_t level) {
+LoggerClass& LoggerClass::getLoggerForLevel(uint8_t level) {
     if (level <= LOG_LEVEL) {
         return Logger;
     }

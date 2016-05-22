@@ -53,6 +53,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimerDebouncer/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimerBase}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimerBase/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/digitalWriteFast}&quot;"/>
 								</option>
 								<inputType id="it.baeyens.arduino.compiler.cpp.sketch.input.1126043895" name="CPP source files" superClass="it.baeyens.arduino.compiler.cpp.sketch.input"/>
 							</tool>
@@ -87,6 +88,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/HttpClient}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireConcurrent}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireConcurrent/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/digitalWriteFast}&quot;"/>
 								</option>
 								<inputType id="it.baeyens.arduino.compiler.c.sketch.input.22390311" name="C Source Files" superClass="it.baeyens.arduino.compiler.c.sketch.input"/>
 							</tool>
@@ -157,6 +159,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimerBase/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireConcurrent}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireConcurrent/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/digitalWriteFast}&quot;"/>
 								</option>
 								<inputType id="it.baeyens.arduino.compiler.cpp.sketch.input.1297296522" name="CPP source files" superClass="it.baeyens.arduino.compiler.cpp.sketch.input"/>
 							</tool>
@@ -189,6 +192,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimerBase/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireConcurrent}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireConcurrent/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/digitalWriteFast}&quot;"/>
 								</option>
 								<inputType id="it.baeyens.arduino.compiler.c.sketch.input.239996089" name="C Source Files" superClass="it.baeyens.arduino.compiler.c.sketch.input"/>
 							</tool>

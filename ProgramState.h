@@ -40,8 +40,7 @@
 #include "sensors/SensorReadingScreen.h"
 #include "sensors/Sensors.h"
 #include "sensors/TempMeasureTask.h"
-#include "time/Clock.h"
-#include "time/TimeReading.h"
+#include "sensors/Wireless433MhzTask.h"
 #include "time/TimeScreen.h"
 #include "time/TimeSyncTask.h"
 
@@ -80,6 +79,7 @@ private:
     TempMeasureTask measureTempTask;
     AirPressureMeasureTask measureAirPressureTask;
     LightIntensityMeasureTask measureLightIntensityTask;
+    Wireless433MhzTask wireless433MhzTask;
 
     TimeScreen timeScreen;
     SensorReadingScreen tempScreen;
@@ -249,6 +249,7 @@ private:
         measureTempTask.setThreadPool(&measureThread);
         measureAirPressureTask.setThreadPool(&measureThread);
         measureLightIntensityTask.setThreadPool(&measureThread);
+        wireless433MhzTask.setThreadPool(&measureThread);
 
         drawOnDisplayTask.setThreadPool(&displayThread);
         backLightTask.setThreadPool(&displayThread);
@@ -256,6 +257,7 @@ private:
         SoftTimer.add(&measureTempTask);
         SoftTimer.add(&measureAirPressureTask);
         SoftTimer.add(&measureLightIntensityTask);
+        SoftTimer.add(&wireless433MhzTask);
         SoftTimer.add(&drawOnDisplayTask);
         SoftTimer.add(&backLightTask);
         SoftTimer.add(&serialVirtButtonsTask);
