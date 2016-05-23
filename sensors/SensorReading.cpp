@@ -7,9 +7,7 @@
 
 #include "SensorReading.h"
 
-#include "../PeripheryReading.h"
-
 SensorReading::SensorReading(ReadState readState, unsigned long timeStamp) :
-        PeripheryReading(readState),
+        readState(readState),
         timeStamp(timeStamp) {
 }

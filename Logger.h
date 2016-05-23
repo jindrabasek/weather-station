@@ -43,6 +43,7 @@
 #define LOG_WARN(x)     if(LOG_LEVEL>LOGGER_LEVEL_ERROR) { Logger.log(x); }
 #define LOG_WARN0(x)    if(LOG_LEVEL>LOGGER_LEVEL_ERROR) { Logger.print(x); }
 #define LOG_WARN1(x,y)  if(LOG_LEVEL>LOGGER_LEVEL_ERROR) { Logger.log(x,y); }
+#define LOG_WARN2(x,y,z)  if(LOG_LEVEL>LOGGER_LEVEL_ERROR) { Logger.log(x,y,z); }
 #define LOG_INFO(x)     if(LOG_LEVEL>LOGGER_LEVEL_WARN) { Logger.log(x); }
 #define LOG_INFO0(x)    if(LOG_LEVEL>LOGGER_LEVEL_WARN) { Logger.print(x); }
 #define LOG_INFO1(x,y)  if(LOG_LEVEL>LOGGER_LEVEL_WARN) { Logger.log(x,y); }

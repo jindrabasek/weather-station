@@ -13,7 +13,6 @@
 #include <stdint.h>
 
 #include "../time/Clock.h"
-#include "../time/TimeReading.h"
 
 TempMeasureTask::TempMeasureTask(uint8_t pin, unsigned long periodMs) :
         Task(periodMs),
@@ -35,9 +34,9 @@ void TempMeasureTask::run() {
         }
 
         latestReading = TempReading(h, absoluteHumidity, t, hic,
-                Clock::getTime(true).getTimeStamp());
+                Clock::getTime(true).timeStamp);
     } else {
-        latestReading = TempReading(true, Clock::getTime(true).getTimeStamp());
+        latestReading = TempReading(true, Clock::getTime(true).timeStamp);
     }
 }
 

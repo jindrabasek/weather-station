@@ -13,7 +13,6 @@
 #include <stdlib.h>
 #include <WString.h>
 
-#include "../PeripheryReading.h"
 #include "SensorReading.h"
 #include "Sensors.h"
 
@@ -33,9 +32,9 @@ void LightIntensityReading::registerSensorValues(SensorReading** valueArray) {
     valueArray[WeatherStation::SensorValueId::LIGHT_INTENSITY] = this;
 }
 
-const __FlashStringHelper* LightIntensityReading::getSensorName() const
+uint8_t LightIntensityReading::printSensorName(Print & out) const
 {
-    return F("Light");
+    return out.print(F("Light"));
 }
 
 uint8_t LightIntensityReading::valuesCount() const {
@@ -45,6 +44,7 @@ uint8_t LightIntensityReading::valuesCount() const {
 void LightIntensityReading::printValue(uint8_t valueId, bool localId, Print& out,
                                     uint8_t maxLength) const {
     char buffer[maxLength + 1];
+    buffer[0] = 0;
 
     ifIdMatchThenDo(LightSensorIdLocal::L_LIGHT_INTENSITY,
             WeatherStation::SensorValueId::LIGHT_INTENSITY,

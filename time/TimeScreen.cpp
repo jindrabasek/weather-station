@@ -10,26 +10,25 @@
 #include <LCD.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <WireRtcLib.h>
 #include <WString.h>
 
-#include "../PeripheryReading.h"
 #include "Clock.h"
-#include "TimeReading.h"
 
 void TimeScreen::draw(LCD & display) {
     char buffer[11];
 
-    TimeReading & actualTime = Clock::getTime(true);
+    WireRtcLib::tm & actualTime = Clock::getTime(true);
 
-    if (actualTime.getReadState() == ReadState::READ_OK) {
+    if (!actualTime.error) {
         snprintf_P(buffer, 9, (const char *) F("%02d:%02d:%02d"),
-                actualTime.getTime().hour, actualTime.getTime().min,
-                actualTime.getTime().sec);
+                actualTime.hour, actualTime.min,
+                actualTime.sec);
         display.setCursor(6, 1);
         display.print(buffer);
         snprintf_P(buffer, 11, (const char *) F("%02d.%02d.%04d"),
-                actualTime.getTime().mday, actualTime.getTime().mon,
-                actualTime.getTime().year);
+                actualTime.mday, actualTime.mon,
+                actualTime.year);
         display.setCursor(5, 2);
         display.print(buffer);
     } else {

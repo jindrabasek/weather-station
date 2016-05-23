@@ -9,27 +9,30 @@
 #define SENSORREADING_H_
 
 #include <Print.h>
+#include <stdbool.h>
 #include <stdint.h>
-#include <WString.h>
 
-#include "../PeripheryReading.h"
 #include "Sensors.h"
 
 #define ifIdMatchThenDo(lcId,gbId,doWork)  \
 {                                                   \
-    if ((localId && valueId == lcId) || \
-            (!localId && valueId == gbId)) {\
+    if ((localId && valueId == (lcId)) || \
+            (!localId && valueId == (gbId))) {\
         doWork; \
     } \
 }
 
 #define elseifIdMatchThenDo(lcId,gbId,doWork)  \
 {                                                   \
-    if ((localId && valueId == lcId) || \
-            (!localId && valueId == gbId)) {\
+    if ((localId && valueId == (lcId)) || \
+            (!localId && valueId == (gbId))) {\
         doWork; \
     } \
 }
+
+enum class ReadState {
+    NOT_YET_READ, READ_OK, READ_ERROR
+};
 
 // Do not define virtual destructor on purpose - class
 // and its children is not expected to need destructors,
@@ -37,9 +40,10 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wnon-virtual-dtor"
 
-class SensorReading : public PeripheryReading {
+class SensorReading {
 
 private:
+    ReadState readState;
     unsigned long timeStamp;
 
 //-----------------------------------------------------------------------------
@@ -51,7 +55,11 @@ public:
         return timeStamp;
     }
 
-    virtual const __FlashStringHelper * getSensorName() const =0;
+    ReadState getReadState() const {
+        return readState;
+    }
+
+    virtual uint8_t printSensorName(Print & out) const =0;
     virtual uint8_t valuesCount() const =0;
     virtual void printValue(uint8_t valueId, bool localId, Print & out, uint8_t maxLength) const =0;
     virtual uint8_t printValueName(uint8_t valueId, bool localId, Print & out) const =0;

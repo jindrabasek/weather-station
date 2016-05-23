@@ -10,11 +10,9 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "../PeripheryReading.h"
 #include "../ProgramSettings.h"
 #include "../ProgramState.h"
 #include "../time/Clock.h"
-#include "../time/TimeReading.h"
 
 extern ProgramState *state;
 
@@ -32,7 +30,7 @@ void AirPressureMeasureTask::run() {
     if (err) {
         AirPressureReading errReading(true);
         latestReading = AirPressureReading(true,
-                Clock::getTime(true).getTimeStamp());
+                Clock::getTime(true).timeStamp);
     } else {
         int32_t UT = bmp.readRawTemperature();
         int32_t UP = bmp.readRawPressure();
@@ -44,7 +42,7 @@ void AirPressureMeasureTask::run() {
                 pressurePa) / 100.0;
 
         latestReading = AirPressureReading(pressure, pressureSea, temperature,
-                Clock::getTime(true).getTimeStamp());
+                Clock::getTime(true).timeStamp);
 
     }
 }

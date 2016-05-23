@@ -14,7 +14,6 @@
 #include <WString.h>
 
 #include "../display/Display.h"
-#include "../PeripheryReading.h"
 #include "../time/Clock.h"
 #include "SensorReading.h"
 #include "Sensors.h"
@@ -25,9 +24,9 @@ SensorReadingScreen::SensorReadingScreen(SensorReading & toDraw) :
 
 void SensorReadingScreen::draw(LCD & display) {
     display.setCursor(0, 0);
-    display.print(toDraw.getSensorName());
+    toDraw.printSensorName(display);
     char buffer[9];
-    Clock::getTime(true).timeToStr(buffer);
+    Clock::timeToStr(Clock::getTime(true), buffer);
     display.setCursor(12, 0);
     display.print(buffer);
 
@@ -51,7 +50,7 @@ void SensorReadingScreen::draw(LCD & display) {
             Display::clearLine(display);
         }
         Display::newLine(display, 2);
-        display.print(toDraw.getSensorName());
+        toDraw.printSensorName(display);
         if (toDraw.getReadState() == ReadState::NOT_YET_READ) {
             display.print(F(": N/A"));
         } else {

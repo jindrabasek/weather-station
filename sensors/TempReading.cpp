@@ -14,7 +14,6 @@
 #include <stdlib.h>
 #include <WString.h>
 
-#include "../PeripheryReading.h"
 #include "SensorReading.h"
 #include "Sensors.h"
 
@@ -42,9 +41,9 @@ void TempReading::registerSensorValues(SensorReading** valueArray) {
     valueArray[WeatherStation::SensorValueId::ABSOLUTE_HUMIDITY] = this;
 }
 
-const __FlashStringHelper* TempReading::getSensorName() const
+uint8_t TempReading::printSensorName(Print & out) const
 {
-    return F("Thermometer");
+    return out.print(F("Thermometer"));
 }
 
 uint8_t TempReading::valuesCount() const {
@@ -54,6 +53,7 @@ uint8_t TempReading::valuesCount() const {
 void TempReading::printValue(uint8_t valueId, bool localId, Print& out,
                                     uint8_t maxLength) const {
     char buffer[maxLength + 1];
+    buffer[0] = 0;
 
     ifIdMatchThenDo(TempHumiditySensorIdLocal::L_DHT_HUMIDITY,
             WeatherStation::SensorValueId::DHT_HUMIDITY,
@@ -65,7 +65,7 @@ void TempReading::printValue(uint8_t valueId, bool localId, Print& out,
 
     elseifIdMatchThenDo(TempHumiditySensorIdLocal::L_DHT_TEMPERTAURE_REAL_FEEL,
             WeatherStation::SensorValueId::DHT_TEMPERTAURE_REAL_FEEL,
-            dtostrf(temperatureCelsius, maxLength, 2, buffer));
+            dtostrf(heatIndexCelsius, maxLength, 2, buffer));
 
     elseifIdMatchThenDo(TempHumiditySensorIdLocal::L_ABSOLUTE_HUMIDITY,
             WeatherStation::SensorValueId::ABSOLUTE_HUMIDITY,

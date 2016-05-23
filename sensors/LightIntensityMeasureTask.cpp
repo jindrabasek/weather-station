@@ -11,9 +11,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "../PeripheryReading.h"
 #include "../time/Clock.h"
-#include "../time/TimeReading.h"
 
 LightIntensityMeasureTask::LightIntensityMeasureTask(unsigned long periodMs) :
         Task(periodMs) {
@@ -33,16 +31,16 @@ void LightIntensityMeasureTask::run() {
 
     if (err) {
         latestReading = LightIntensityReading(true,
-                Clock::getTime(true).getTimeStamp());
+                Clock::getTime(true).timeStamp);
     } else {
         int16_t intensity = bh.GetLightIntensity();
 
         if (intensity < 0) {
             latestReading = LightIntensityReading(true,
-                    Clock::getTime(true).getTimeStamp());
+                    Clock::getTime(true).timeStamp);
         } else {
             latestReading = LightIntensityReading(intensity,
-                    Clock::getTime(true).getTimeStamp());
+                    Clock::getTime(true).timeStamp);
         }
     }
 }

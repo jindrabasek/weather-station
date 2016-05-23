@@ -6,8 +6,10 @@
 #include <HardwareSerial.h>
 #include <PciManager.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <Scheduler.h>
 #include <SoftTimer.h>
+#include <Task.h>
 #include <Wire.h>
 
 #include "Logger.h"

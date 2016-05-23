@@ -22,6 +22,9 @@ namespace WeatherStation {
         DHT_TEMPERTAURE_REAL_FEEL,
         DHT_TEMPERTAURE,
         ABSOLUTE_HUMIDITY,
+        WIRELESS_TEMPERTAURE_SWSTS_CH1,
+        WIRELESS_TEMPERTAURE_SWSTS_CH2,
+        WIRELESS_TEMPERTAURE_SWSTS_CH3,
         SensorsEnumSize,
     };
 

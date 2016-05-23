@@ -14,7 +14,6 @@
 #include <stdlib.h>
 #include <WString.h>
 
-#include "../PeripheryReading.h"
 #include "SensorReading.h"
 #include "Sensors.h"
 
@@ -42,9 +41,9 @@ void AirPressureReading::registerSensorValues(SensorReading** valueArray) {
     valueArray[WeatherStation::SensorValueId::BMP_TEMPERATURE] = this;
 }
 
-const __FlashStringHelper* AirPressureReading::getSensorName() const
+uint8_t AirPressureReading::printSensorName(Print & out) const
 {
-    return F("Barometer");
+    return out.print(F("Barometer"));
 }
 
 uint8_t AirPressureReading::valuesCount() const {
@@ -54,6 +53,7 @@ uint8_t AirPressureReading::valuesCount() const {
 void AirPressureReading::printValue(uint8_t valueId, bool localId, Print& out,
                                     uint8_t maxLength) const {
     char buffer[maxLength + 1];
+    buffer[0] = 0;
 
     ifIdMatchThenDo(AirPressureSensorIdLocal::L_PRESSURE,
             WeatherStation::SensorValueId::PRESSURE,

@@ -15,6 +15,7 @@
 #include <pins_arduino.h>
 #include <PciManager.h>
 #include <stdbool.h>
+#include <stddef.h>
 #include <stdint.h>
 #include <SingleThreadPool.h>
 #include <SoftTimer.h>
@@ -106,7 +107,7 @@ private:
 
     volatile bool backLight;
 
-    SensorReading * sensorValues[WeatherStation::SensorValueId::SensorsEnumSize];
+    SensorReading * sensorValues[WeatherStation::SensorValueId::SensorsEnumSize] = {NULL};
 
     NetworkTestTask networkTestTask;
     TimeSyncTask timeSyncTask;
@@ -194,6 +195,10 @@ public:
         return wifiWatchDogTask;
     }
 
+    Wireless433MhzTask& getWireless433MhzTask() {
+        return wireless433MhzTask;
+    }
+
 private:
     ProgramState() :
             measureThread(512),
@@ -273,6 +278,8 @@ private:
         measureAirPressureTask.getLatestReading().registerSensorValues(
                 sensorValues);
         measureLightIntensityTask.getLatestReading().registerSensorValues(
+                sensorValues);
+        wireless433MhzTask.getLatestReading(2).registerSensorValues(
                 sensorValues);
 
         Network::connect(settings);

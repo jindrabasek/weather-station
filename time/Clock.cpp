@@ -9,14 +9,15 @@
 
 #include <Arduino.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <WireRtcLib.h>
+#include <WString.h>
 
-#include "../PeripheryReading.h"
 
-TimeReading Clock::actualTime;
+WireRtcLib::tm Clock::actualTime;
 unsigned long Clock::timeAge = 0;
 
-TimeReading& Clock::getTime(bool updateFirst) {
+WireRtcLib::tm& Clock::getTime(bool updateFirst) {
     if (updateFirst) {
         readTimeFromRtc();
     }
@@ -25,17 +26,24 @@ TimeReading& Clock::getTime(bool updateFirst) {
 
 void Clock::readTimeFromRtc() {
     if (timeAge - millis() > READ_AT_MOST_EVERY_N_MS || timeAge - millis() < 0
-            || actualTime.getReadState() == ReadState::NOT_YET_READ
-            || actualTime.getReadState() == ReadState::READ_ERROR) {
+            || actualTime.error) {
 
         WireRtcLib rtc;
 
-        if (actualTime.getReadState() == ReadState::NOT_YET_READ
-                || actualTime.getReadState() == ReadState::READ_ERROR) {
+        if (actualTime.error) {
             rtc.begin();
         }
 
         timeAge = millis();
-        actualTime = TimeReading(rtc.getTime());
+        actualTime = rtc.getTime();
+    }
+}
+
+void Clock::timeToStr(const WireRtcLib::tm & time, char * buffer) {
+    if (!time.error) {
+        snprintf_P(buffer, 9, (const char *) F("%02d:%02d:%02d"), time.hour,
+                time.min, time.sec);
+    } else {
+        snprintf_P(buffer, 9, (const char *) F("??:??:??"));
     }
 }
