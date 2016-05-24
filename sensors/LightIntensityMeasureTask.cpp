@@ -17,6 +17,8 @@ LightIntensityMeasureTask::LightIntensityMeasureTask(unsigned long periodMs) :
         Task(periodMs) {
 }
 
+using namespace WeatherStation;
+
 void LightIntensityMeasureTask::run() {
     bool err = false;
     BH1750FVI bh;
@@ -43,5 +45,8 @@ void LightIntensityMeasureTask::run() {
                     Clock::getTime(true).timeStamp);
         }
     }
+
+    // indicate sensor reading was refreshed
+    Sensors::writeFlag(SensorValueId::LIGHT_INTENSITY, false);
 }
 

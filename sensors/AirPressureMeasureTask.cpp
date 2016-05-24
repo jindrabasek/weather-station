@@ -20,6 +20,8 @@ AirPressureMeasureTask::AirPressureMeasureTask(unsigned long periodMs) :
         Task(periodMs) {
 }
 
+using namespace WeatherStation;
+
 void AirPressureMeasureTask::run() {
     bool err = false;
     if (latestReading.getReadState() == ReadState::NOT_YET_READ
@@ -43,7 +45,11 @@ void AirPressureMeasureTask::run() {
 
         latestReading = AirPressureReading(pressure, pressureSea, temperature,
                 Clock::getTime(true).timeStamp);
-
     }
+
+    // indicate sensor reading was refreshed
+    Sensors::writeFlag(SensorValueId::BMP_TEMPERATURE, false);
+    Sensors::writeFlag(SensorValueId::PRESSURE, false);
+    Sensors::writeFlag(SensorValueId::PRESSURE_SEAL_LEVEL, false);
 }
 

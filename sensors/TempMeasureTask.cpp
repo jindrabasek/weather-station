@@ -19,6 +19,8 @@ TempMeasureTask::TempMeasureTask(uint8_t pin, unsigned long periodMs) :
         dht(pin) {
 }
 
+using namespace WeatherStation;
+
 void TempMeasureTask::run() {
     DhtReadState dhtState = dht.read();
     if (dhtState == DHT_GOOD) {
@@ -38,5 +40,11 @@ void TempMeasureTask::run() {
     } else {
         latestReading = TempReading(true, Clock::getTime(true).timeStamp);
     }
+
+    // indicate sensor reading was refreshed
+    Sensors::writeFlag(SensorValueId::ABSOLUTE_HUMIDITY, false);
+    Sensors::writeFlag(SensorValueId::DHT_HUMIDITY, false);
+    Sensors::writeFlag(SensorValueId::DHT_TEMPERTAURE, false);
+    Sensors::writeFlag(SensorValueId::DHT_TEMPERTAURE_REAL_FEEL, false);
 }
 

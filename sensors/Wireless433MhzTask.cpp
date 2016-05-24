@@ -43,6 +43,8 @@ volatile byte Wireless433MhzTask::isrFlags = 0;             // Various flag bits
 
 extern ProgramState *state;
 
+using namespace WeatherStation;
+
 void Wireless433MhzTask::run() {
     // We have at least 2 consecutive matching reads
 
@@ -84,6 +86,11 @@ void Wireless433MhzTask::run() {
 
         latestReadings[channel - 1] = WirelessTempSensorSwsTsReading(channel,
                 temperature, Clock::getTime(true).timeStamp);
+
+        // indicate sensor reading was refreshed
+        Sensors::writeFlag(
+                (SensorValueId) (SensorValueId::WIRELESS_TEMPERTAURE_SWSTS_CH1
+                        + (channel - 1)), false);
     } else {
         if (LOG_LEVEL >= LOGGER_LEVEL_INFO) {
             LOGGER_INFO.println();

@@ -57,6 +57,11 @@
 			<location>%ABSOLUTE_PATH_TO_ARDUINO_IDE_LIBRARIES_FOLDER%/BH1750FVI</location>
 		</link>
 		<link>
+			<name>libraries/BitBool</name>
+			<type>2</type>
+			<location>%ABSOLUTE_PATH_TO_ARDUINO_IDE_LIBRARIES_FOLDER%/BitBool</location>
+		</link>
+		<link>
 			<name>libraries/CrashTracking</name>
 			<type>2</type>
 			<location>%ABSOLUTE_PATH_TO_ARDUINO_IDE_LIBRARIES_FOLDER%/CrashTracking</location>

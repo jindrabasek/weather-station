@@ -8,6 +8,7 @@
 #ifndef SENSORS_H_
 #define SENSORS_H_
 
+#include <BitBool.h>
 #include <Print.h>
 #include <stdint.h>
 
@@ -38,8 +39,18 @@ namespace WeatherStation {
         SensorValueUnitsEnumSize,
     };
 
+    enum ReadingUploader {
+        SMART_LIVING,
+        ReadingUploaderSize,
+    };
+
     class Sensors {
+    private:
+        static BitBool<SensorsEnumSize> sensorFlags[ReadingUploaderSize];
+
     public:
+        static void writeFlag(SensorValueId sensorId, bool value, ReadingUploader uploader = ReadingUploaderSize);
+        static bool isFlag(SensorValueId sensorId, ReadingUploader uploader);
 
         static uint8_t sensorUnitNameLength(SensorValueUnit unitId);
         static void printSensorUnit(SensorValueUnit unitId, Print & out);
