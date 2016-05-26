@@ -22,6 +22,7 @@ public:
     Wireless433MhzTask() :
             Task(0, false) {
         pinMode(3, INPUT);
+        pinMode(LED_BUILTIN, OUTPUT);
         attachInterrupt(digitalPinToInterrupt(3), PinChangeISR0, CHANGE);
     }
 
@@ -42,9 +43,9 @@ private:
             myNum = myNum << (sizeof(T) * 8 - NumberOfBits);
             for (int i = 0; i < NumberOfBits; i++) {
                 if (bitRead(myNum,(sizeof(T) * 8) - 1) == 1)
-                    Serial.print("1");
+                    out.print("1");
                 else
-                    Serial.print("0");
+                    out.print("0");
                 myNum = myNum << 1;
             }
         }

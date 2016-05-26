@@ -101,6 +101,7 @@ void Wireless433MhzTask::run() {
 }
 
 void Wireless433MhzTask::PinChangeISR0() { // Pin 2 (Interrupt 0) service routine
+    digitalWriteFast(LED_BUILTIN, HIGH);
     unsigned long timeT = micros();                          // Get current time
     if (!digitalReadFast(3)) {
         // Falling edge
@@ -163,4 +164,5 @@ void Wireless433MhzTask::PinChangeISR0() { // Pin 2 (Interrupt 0) service routin
             rise_Time = timeT;                                // Store rise time
         }
     }
+    digitalWriteFast(LED_BUILTIN, LOW);
 }
