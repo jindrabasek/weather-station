@@ -1,5 +1,9 @@
-Release/
-config.h
-.project
-.settings/org.eclipse.cdt.core.prefs
+WeatherStation/Release/
+WeatherStation/config.h
+WeatherStation/.project
+WeatherStation/.settings/org.eclipse.cdt.core.prefs
+WeatherStationRemoteSensor/Release/
+WeatherStationRemoteSensor/.project
+WeatherStationRemoteSensor/.settings/org.eclipse.cdt.core.prefs
+
 
