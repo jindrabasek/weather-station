@@ -43,6 +43,12 @@ void TempMeasureTask::run() {
         float hic = NAN;
         float absoluteHumidity = NAN;
         if (!isnan(h) && !isnan(t)) {
+#ifdef DHT_HUMIDITY_CORRECTION
+            h += (DHT_HUMIDITY_CORRECTION);
+#endif
+#ifdef DHT_TEMPERATURE_CORRECTION
+            t += (DHT_TEMPERATURE_CORRECTION);
+#endif
             hic = DHT::computeHeatIndex(t, h);
             absoluteHumidity = DHT::computeAbsoluteHumidity(t, h);
         }

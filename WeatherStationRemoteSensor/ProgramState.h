@@ -26,8 +26,8 @@ class ToDraw;
 class ProgramState {
 public:
     static const int DHT_PIN = 4;
-    static const unsigned long DHT_MEASURE_FREQ = 30000000;
-    static const unsigned long LIGHT_MEASURE_FREQ = 30000000;
+    static const unsigned long DHT_MEASURE_FREQ = 10000000;
+    static const unsigned long LIGHT_MEASURE_FREQ = 10000000;
     static const unsigned long PRINT_VALUES_FREQ = 30000000;
 
 //-----------------------------------------------------------------------------
