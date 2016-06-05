@@ -18,8 +18,8 @@
 #include <SensorIds.h>
 #include <SoftTimer.h>
 
-#include "../../../eclipse/eclipseArduino3/eclipseArduino/arduinoPlugin/packages/arduino/hardware/avr/1.6.10/variants/standard/pins_arduino.h"
 #include "LogReadingsTask.h"
+#include "WirelessSend433MhzTask.h"
 
 class ToDraw;
 
@@ -29,6 +29,7 @@ public:
     static const unsigned long DHT_MEASURE_FREQ = 10000000;
     static const unsigned long LIGHT_MEASURE_FREQ = 10000000;
     static const unsigned long PRINT_VALUES_FREQ = 30000000;
+    static const unsigned long SEND_VALUES_FREQ = 30000000;
 
 //-----------------------------------------------------------------------------
 
@@ -36,6 +37,7 @@ private:
     TempMeasureTask measureTempTask;
     LightIntensityMeasureTask measureLightIntensityTask;
     LogReadingsTask logReadingsTask;
+    WirelessSend433MhzTask wirelessSend433MhzTask;
 
     SensorReading * sensorValues[WeatherStation::SensorValueId::SensorsEnumSize] =
             { NULL };
@@ -53,18 +55,33 @@ public:
         return sensorValues;
     }
 
+    LightIntensityMeasureTask& getMeasureLightIntensityTask() {
+        return measureLightIntensityTask;
+    }
+
+    TempMeasureTask& getMeasureTempTask() {
+        return measureTempTask;
+    }
+
 private:
     ProgramState() :
             measureTempTask(DHT_PIN, DHT_MEASURE_FREQ),
             measureLightIntensityTask(LIGHT_MEASURE_FREQ),
-            logReadingsTask(PRINT_VALUES_FREQ)
+            logReadingsTask(PRINT_VALUES_FREQ),
+            wirelessSend433MhzTask(SEND_VALUES_FREQ)
     {
 
         pinMode(LED_BUILTIN, OUTPUT);
 
+        measureTempTask.startAtEarliestOportunity();
+        measureLightIntensityTask.startAtEarliestOportunity();
+        logReadingsTask.startAtEarliestOportunity();
+        wirelessSend433MhzTask.startAtEarliestOportunity();
+
         SoftTimer.add(&measureTempTask);
         SoftTimer.add(&measureLightIntensityTask);
         SoftTimer.add(&logReadingsTask);
+        SoftTimer.add(&wirelessSend433MhzTask);
 
         measureTempTask.getLatestReading().registerSensorValues(sensorValues);
         measureLightIntensityTask.getLatestReading().registerSensorValues(

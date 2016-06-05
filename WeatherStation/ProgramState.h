@@ -107,11 +107,12 @@ private:
 
     volatile bool backLight;
 
-    SensorReading * sensorValues[WeatherStation::SensorValueId::SensorsEnumSize] = {NULL};
+    SensorReading * sensorValues[WeatherStation::SensorValueId::SensorsEnumSize] =
+            { NULL };
 
     NetworkTestTask networkTestTask;
     TimeSyncTask timeSyncTask;
-    LogReadingsTask dataUploadTask;
+    SmartLivingPublishTask dataUploadTask;
     WifiWatchdogTask wifiWatchDogTask;
 
     void setStateRef();
@@ -187,7 +188,7 @@ public:
         return sensorValues;
     }
 
-    LogReadingsTask& getDataUploadTask() {
+    SmartLivingPublishTask& getDataUploadTask() {
         return dataUploadTask;
     }
 
@@ -232,11 +233,12 @@ private:
 
             buttons { //{ LEFT_PIN, MODE_CLOSE_ON_PUSH, &prevScreen },
                       //{ RIGHT_PIN, MODE_CLOSE_ON_PUSH, &nextScreen },
-                      { BACKLIGHT_PIN, MODE_CLOSE_ON_PUSH, &backLightHandler },
-                      { UP_PIN, MODE_CLOSE_ON_PUSH, &prevScreen },
-                      { DOWN_PIN, MODE_CLOSE_ON_PUSH, &nextScreen },
-                      { ENTER_PIN, MODE_CLOSE_ON_PUSH, &menu.getEnterMenuHandler() },
-                      { ESC_PIN, MODE_CLOSE_ON_PUSH, &ButtonHandler::voidButtonHandler } },
+            { BACKLIGHT_PIN, MODE_CLOSE_ON_PUSH, &backLightHandler }, { UP_PIN,
+                    MODE_CLOSE_ON_PUSH, &prevScreen }, { DOWN_PIN,
+                    MODE_CLOSE_ON_PUSH, &nextScreen }, { ENTER_PIN,
+                    MODE_CLOSE_ON_PUSH, &menu.getEnterMenuHandler() }, {
+                    ESC_PIN, MODE_CLOSE_ON_PUSH,
+                    &ButtonHandler::voidButtonHandler } },
 
             serialVirtButtonsTask(100),
 
@@ -246,8 +248,9 @@ private:
             dataUploadTask(
                     settings.getDataUploadMinutesFreq()
                             * ProgramSettings::USEC_RESOLUTION_DATA_UPLOAD_MIN_FREQ),
-            wifiWatchDogTask(settings.getWifiWatchdogMinutesFreq()
-                    * ProgramSettings::USEC_RESOLUTION_WIFI_WATCHDOG_MIN_FREQ){
+            wifiWatchDogTask(
+                    settings.getWifiWatchdogMinutesFreq()
+                            * ProgramSettings::USEC_RESOLUTION_WIFI_WATCHDOG_MIN_FREQ) {
 
         pinMode(LED_BUILTIN, OUTPUT);
 
@@ -267,8 +270,7 @@ private:
         SoftTimer.add(&backLightTask);
         SoftTimer.add(&serialVirtButtonsTask);
 
-        for (uint8_t i = 0; i < WeatherStation::Buttons::ButtonsEnumSize;
-                i++) {
+        for (uint8_t i = 0; i < WeatherStation::Buttons::ButtonsEnumSize; i++) {
             PciManager.registerListener(&buttons[i]);
         }
 
@@ -281,6 +283,10 @@ private:
                 sensorValues);
         wireless433MhzTask.getLatestReading(2).registerSensorValues(
                 sensorValues);
+        wireless433MhzTask.getLatestReadingIntensityOutdoor()
+                .registerSensorValues(sensorValues);
+        wireless433MhzTask.getLatestReadingTemperatueOutdoor()
+                .registerSensorValues(sensorValues);
 
         Network::connect(settings);
         networkTestTask.setThreadPool(&networkThread);

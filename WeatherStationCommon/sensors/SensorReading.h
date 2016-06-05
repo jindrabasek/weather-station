@@ -21,14 +21,6 @@
     } \
 }
 
-#define elseifIdMatchThenDo(lcId,gbId,doWork)  \
-{                                                   \
-    if ((localId && valueId == (lcId)) || \
-            (!localId && valueId == (gbId))) {\
-        doWork; \
-    } \
-}
-
 enum class ReadState {
     NOT_YET_READ, READ_OK, READ_ERROR
 };

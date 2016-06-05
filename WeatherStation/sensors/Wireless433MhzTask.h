@@ -9,8 +9,10 @@
 #define WIRELESS433MHZTASK_H_
 
 #include <Arduino.h>
-#include <HardwareSerial.h>
 #include <pins_arduino.h>
+#include <Print.h>
+#include <sensors/LightIntensityReading.h>
+#include <sensors/TempReading.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <Task.h>
@@ -19,17 +21,20 @@
 
 class Wireless433MhzTask : public Task {
 public:
-    Wireless433MhzTask() :
-            Task(0, false) {
-        pinMode(3, INPUT);
-        pinMode(LED_BUILTIN, OUTPUT);
-        attachInterrupt(digitalPinToInterrupt(3), PinChangeISR0, CHANGE);
-    }
+    Wireless433MhzTask();
 
     virtual void run();
 
     WirelessTempSensorSwsTsReading& getLatestReading(uint8_t channel) {
         return latestReadings[channel - 1];
+    }
+
+    LightIntensityReading& getLatestReadingIntensityOutdoor() {
+        return latestReadingIntensityOutdoor;
+    }
+
+    TempReading& getLatestReadingTemperatueOutdoor() {
+        return latestReadingTemperatueOutdoor;
     }
 
 private:
@@ -51,13 +56,15 @@ private:
         }
     }
 
+    static int16_t parse12bitNumber(uint64_t& dataReceived, uint8_t startBit);
+    static uint8_t parse8bitNumber(uint64_t& dataReceived, uint8_t startBit);
+
     static const uint8_t MAX_CHANNELS_SENCOR = 3;
 
     // Constants
     static const unsigned long sync_MIN = 4300; // Minimum Sync time in micro seconds
     static const unsigned long sync_MAX = 4700;
 
-    // Constants
     static const unsigned long sync_FALL_MIN = 4020; // Minimum Sync time in micro seconds
     static const unsigned long sync_FALL_MAX = 4110;
 
@@ -80,6 +87,8 @@ private:
     static volatile byte isrFlags;                          // Various flag bits
 
     WirelessTempSensorSwsTsReading latestReadings[MAX_CHANNELS_SENCOR] = { {1}, {2}, {3} };
+    LightIntensityReading latestReadingIntensityOutdoor;
+    TempReading latestReadingTemperatueOutdoor;
 };
 
 #endif /* WIRELESS433MHZTASK_H_ */

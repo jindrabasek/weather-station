@@ -60,11 +60,11 @@ void AirPressureReading::printValue(uint8_t valueId, bool localId, Print& out,
             WeatherStation::SensorValueId::PRESSURE,
             dtostrf(pressure, maxLength, 1, buffer));
 
-    elseifIdMatchThenDo(AirPressureSensorIdLocal::L_BMP_TEMPERATURE,
+    ifIdMatchThenDo(AirPressureSensorIdLocal::L_BMP_TEMPERATURE,
             WeatherStation::SensorValueId::BMP_TEMPERATURE,
             dtostrf(temperature, maxLength, 2, buffer));
 
-    elseifIdMatchThenDo(AirPressureSensorIdLocal::L_PRESSURE_SEAL_LEVEL,
+    ifIdMatchThenDo(AirPressureSensorIdLocal::L_PRESSURE_SEAL_LEVEL,
             WeatherStation::SensorValueId::PRESSURE_SEAL_LEVEL,
             dtostrf(pressureAtSeaLevel, maxLength, 1, buffer));
 
@@ -81,11 +81,11 @@ uint8_t AirPressureReading::printValueName(uint8_t valueId, bool localId,
             WeatherStation::SensorValueId::PRESSURE,
             length = out.print(F("Absolute")));
 
-    elseifIdMatchThenDo(AirPressureSensorIdLocal::L_BMP_TEMPERATURE,
+    ifIdMatchThenDo(AirPressureSensorIdLocal::L_BMP_TEMPERATURE,
             WeatherStation::SensorValueId::BMP_TEMPERATURE,
             length = out.print(F("Temp")));
 
-    elseifIdMatchThenDo(AirPressureSensorIdLocal::L_PRESSURE_SEAL_LEVEL,
+    ifIdMatchThenDo(AirPressureSensorIdLocal::L_PRESSURE_SEAL_LEVEL,
             WeatherStation::SensorValueId::PRESSURE_SEAL_LEVEL,
             length = out.print(F("Sea lvl")));
 

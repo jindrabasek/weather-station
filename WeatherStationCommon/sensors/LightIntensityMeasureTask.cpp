@@ -21,11 +21,12 @@
 #include <Arduino.h>
 #endif
 
-LightIntensityMeasureTask::LightIntensityMeasureTask(unsigned long periodMs) :
-        Task(periodMs) {
-}
-
 using namespace WeatherStation;
+
+LightIntensityMeasureTask::LightIntensityMeasureTask(unsigned long periodMs) :
+        Task(periodMs),
+        latestReading(SensorValueId::LIGHT_INTENSITY) {
+}
 
 #ifdef USE_RTC
 #define timeStamp() Clock::getTime(true).timeStamp
@@ -46,16 +47,17 @@ void LightIntensityMeasureTask::run() {
     }
 
     if (err) {
-        latestReading = LightIntensityReading(true,
+        latestReading = LightIntensityReading(SensorValueId::LIGHT_INTENSITY,
+                true,
                 timeStamp());
     } else {
         int16_t intensity = bh.GetLightIntensity();
 
         if (intensity < 0) {
-            latestReading = LightIntensityReading(true,
+            latestReading = LightIntensityReading(SensorValueId::LIGHT_INTENSITY, true,
                     timeStamp());
         } else {
-            latestReading = LightIntensityReading(intensity,
+            latestReading = LightIntensityReading(SensorValueId::LIGHT_INTENSITY, intensity,
                     timeStamp());
         }
     }

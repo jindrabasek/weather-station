@@ -13,10 +13,12 @@
 #include <sensors/SensorValueUnits.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <SensorIds.h>
 
 
 class TempReading : public SensorReading {
 private:
+    uint8_t firstGlobalSensorId;
     float humidity;
     float humidityAbsolute;
     float temperatureCelsius;
@@ -34,10 +36,11 @@ public:
     };
 
 
-    TempReading(float humidity, float humidityAbsolute,
-                float temperatureCelsius, float heatIndexCelsius,
+    TempReading(WeatherStation::SensorValueId firstGlobalSensorId,
+                float humidity, float temperatureCelsius,
                 unsigned long timeStamp);
-    TempReading(bool error = false, unsigned long timeStamp = 0);
+    TempReading(WeatherStation::SensorValueId firstGlobalSensorId,
+                bool error = false, unsigned long timeStamp = 0);
 
     float getHeatIndexCelsius() const {
         return heatIndexCelsius;

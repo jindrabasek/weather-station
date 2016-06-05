@@ -27,6 +27,10 @@
 //   |         |  |      |  |   |  |
 //   |_________|  |______|  |___|  |
 //
+//             |  |
+//             |  |
+//              500 us
+//
 //   |  Sync      |    1    |  0   |
 //   |  4500us    | 2500us  | 1500us
 
@@ -47,6 +51,36 @@ extern ProgramState *state;
 
 using namespace WeatherStation;
 
+Wireless433MhzTask::Wireless433MhzTask() :
+        Task(0, false),
+        latestReadingIntensityOutdoor(SensorValueId::LIGHT_INTENSITY_OUTDOOR),
+        latestReadingTemperatueOutdoor(SensorValueId::DHT_HUMIDITY_OUTDOOR) {
+    pinMode(3, INPUT);
+    pinMode(LED_BUILTIN, OUTPUT);
+    attachInterrupt(digitalPinToInterrupt(3), PinChangeISR0, CHANGE);
+}
+
+
+int16_t Wireless433MhzTask::parse12bitNumber(uint64_t& dataReceived,
+                                              uint8_t startBit) {
+    // OR MMMM & LLLL nibbles together
+    byte ML = ((dataReceived >> startBit) & 0xF0)  // Get MMMM
+    | ((dataReceived >> startBit) & 0xF);  // Get LLLL
+
+    byte H = (dataReceived >> (startBit + 8)) & 0x7;        // Get HHHH
+    int8_t sign = 1;
+    if (((dataReceived >> (startBit + 11)) & 0x1) == 1) { //12 bit
+        sign = -1;
+    }
+    return ((H << 8) | ML) * sign; // Combine HHHH MMMMLLLL
+}
+
+uint8_t Wireless433MhzTask::parse8bitNumber(uint64_t& dataReceived,
+                                            uint8_t startBit) {
+    return ((dataReceived >> startBit) & 0xF0)  // Get MMMM
+    | ((dataReceived >> startBit) & 0xF);  // Get LLLL
+}
+
 void Wireless433MhzTask::run() {
     // We have at least 2 consecutive matching reads
 
@@ -65,18 +99,41 @@ void Wireless433MhzTask::run() {
         LOGGER_INFO.print(dataType);
     }
 
-    if (dataType == 3) {
+    if (dataType == 2 && dataLength == 40) {
+        // 0011 011110 01  0 001 00000001  111100001001, Length = 36 - Data Type = 3; Channel = 2; Temperature = 25.7 *C
+
+        float humidity = parse12bitNumber(dataReceived, 0) / 10.0;
+        float temperature = parse12bitNumber(dataReceived, 12) / 10.0;
+        int16_t lightIntensity = parse12bitNumber(dataReceived, 24);
+
+        if (LOG_LEVEL >= LOGGER_LEVEL_INFO) {
+            LOGGER_INFO.print(F("; Light intensity = "));
+            LOGGER_INFO.print(lightIntensity);
+            LOGGER_INFO.print(F(" Lux; Temperature = "));
+            LOGGER_INFO.print(temperature, 1);
+            LOGGER_INFO.print(F(" *C; Humidity = "));
+            LOGGER_INFO.print(humidity, 1);
+            LOGGER_INFO.println(F(" %"));
+        }
+
+        latestReadingTemperatueOutdoor = TempReading(SensorValueId::DHT_HUMIDITY_OUTDOOR, humidity, temperature,
+                Clock::getTime(true).timeStamp);
+
+        latestReadingIntensityOutdoor = LightIntensityReading(SensorValueId::LIGHT_INTENSITY_OUTDOOR, lightIntensity,
+                Clock::getTime(true).timeStamp);
+
+        SensorFlags::writeFlag(SensorValueId::DHT_HUMIDITY_OUTDOOR, false);
+        SensorFlags::writeFlag(SensorValueId::DHT_TEMPERTAURE_REAL_FEEL_OUTDOOR, false);
+        SensorFlags::writeFlag(SensorValueId::DHT_TEMPERTAURE_OUTDOOR, false);
+        SensorFlags::writeFlag(SensorValueId::ABSOLUTE_HUMIDITY_OUTDOOR, false);
+
+        SensorFlags::writeFlag(SensorValueId::LIGHT_INTENSITY_OUTDOOR, false);
+
+
+    } else if (dataType == 3 && dataLength == 36) {
         byte channel = ((dataReceived >> 24) & 0x3) + 1;      // Get Channel
 
-        byte ML = (dataReceived >> 12) & 0xF0; // Get MMMM
-        byte H = (dataReceived >> 12) & 0xF;        // Get LLLL
-        ML = ML | H;                      // OR MMMM & LLLL nibbles together
-        H = (dataReceived >> 20) & 0xF;        // Get HHHH
-        byte HH = 0;
-        if (((dataReceived >> 23) & 0x1) == 1) { //23 bit
-            HH = 0xF;
-        }
-        float temperature = ((H << 8) | (HH << 12) | ML) / 10.0; // Combine HHHH MMMMLLLL
+        float temperature = parse12bitNumber(dataReceived, 12) / 10.0; // Combine HHHH MMMMLLLL
 
         if (LOG_LEVEL >= LOGGER_LEVEL_INFO) {
             LOGGER_INFO.print(F("; Channel = "));
@@ -107,8 +164,8 @@ void Wireless433MhzTask::PinChangeISR0() { // Pin 2 (Interrupt 0) service routin
     unsigned long timeT = micros();                          // Get current time
     if (!digitalReadFast(3)) {
         // Falling edge
-        if (timeT > (rise_Time + glitch_Length)
-                || (timeT < rise_Time
+        if (timeT >= (rise_Time + glitch_Length)
+                || (timeT <= rise_Time
                         && ((4294967295L - rise_Time) + timeT) > glitch_Length)) {
             // Not a glitch
             unsigned long pulseWidth;
@@ -159,8 +216,8 @@ void Wireless433MhzTask::PinChangeISR0() { // Pin 2 (Interrupt 0) service routin
         }
     } else {
         // Rising edge
-        if (timeT > (fall_Time + glitch_Length)
-                || (timeT < fall_Time
+        if (timeT >= (fall_Time + glitch_Length)
+                || (timeT <= fall_Time
                         && ((4294967295L - fall_Time) + timeT) > glitch_Length)) {
             // Not a glitch
             rise_Time = timeT;                                // Store rise time

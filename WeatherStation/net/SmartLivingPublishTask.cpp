@@ -44,11 +44,23 @@ static const char ABSOLUTE_HUMIDITY_ID[] PROGMEM
 = SMART_LIVING_SENSOR_ID_ABSOLUTE_HUMIDITY;
 static const char TEMPERATURE_SENCOR_CH2_ID[] PROGMEM
 = SMART_LIVING_SENSOR_ID_TEMPERATURE_SENCOR_CH2;
+static const char LIGHT_INTENSITY_OUTDOOR_ID[] PROGMEM
+= SMART_LIVING_SENSOR_ID_LIGHT_INTENSITY_OUTDOOR;
+static const char DHT_HUMIDITY_OUTDOOR_ID[] PROGMEM
+= SMART_LIVING_SENSOR_ID_DHT_HUMIDITY_OUTDOOR;
+static const char DHT_TEMPERTAURE_REAL_FEEL_OUTDOOR_ID[] PROGMEM
+= SMART_LIVING_SENSOR_ID_DHT_TEMPERTAURE_REAL_FEEL_OUTDOOR;
+static const char DHT_TEMPERTAURE_OUTDOOR_ID[] PROGMEM
+= SMART_LIVING_SENSOR_ID_DHT_TEMPERTAURE_OUTDOOR;
+static const char ABSOLUTE_HUMIDITY_OUTDOOR_ID[] PROGMEM
+= SMART_LIVING_SENSOR_ID_ABSOLUTE_HUMIDITY_OUTDOOR;
 
 static const char* const assetIds[] PROGMEM = { PRESSURE_ID,
         PRESSURE_SEAL_LEVEL_ID, BMP_TEMPERATURE_ID, LIGHT_INTENSITY_ID,
         DHT_TEMPERTAURE_ID, DHT_TEMPERTAURE_REAL_FEEL_ID, DHT_HUMIDITY_ID,
-        ABSOLUTE_HUMIDITY_ID, TEMPERATURE_SENCOR_CH2_ID };
+        ABSOLUTE_HUMIDITY_ID, TEMPERATURE_SENCOR_CH2_ID, LIGHT_INTENSITY_OUTDOOR_ID,
+        DHT_HUMIDITY_OUTDOOR_ID, DHT_TEMPERTAURE_REAL_FEEL_OUTDOOR_ID, DHT_TEMPERTAURE_OUTDOOR_ID,
+        ABSOLUTE_HUMIDITY_OUTDOOR_ID };
 
 static const char PATH_FORMAT[] PROGMEM = "/asset/%s/state";
 static const char SMART_LIVING_IP[] PROGMEM = "65.52.140.212";
@@ -62,14 +74,14 @@ static const char SMART_LIVING_IP[] PROGMEM = "65.52.140.212";
 
 extern ProgramState *state;
 
-LogReadingsTask::LogReadingsTask(unsigned long periodMs) :
+SmartLivingPublishTask::SmartLivingPublishTask(unsigned long periodMs) :
         Task(periodMs) {
     startAtEarliestOportunity();
 }
 
 using namespace WeatherStation;
 
-void LogReadingsTask::run() {
+void SmartLivingPublishTask::run() {
     if (Network::networkConnected()) {
         LOG_DEBUG(F("Uploading data...\n"));
 
@@ -187,12 +199,12 @@ void LogReadingsTask::run() {
     }
 }
 
-void LogReadingsTask::getAssetId(char* buffer, uint8_t valueId) {
+void SmartLivingPublishTask::getAssetId(char* buffer, uint8_t valueId) {
     strcpy_P(buffer, (char*) pgm_read_word(&(assetIds[valueId])));
 }
 
 #define printTimePart(timePart, separator) if(timePart < 10) out.print('0'); itoa(timePart, buffer, 10); out.print(buffer); out.print(separator)
-void LogReadingsTask::formatTime(Print & out, unsigned long timeStamp) {
+void SmartLivingPublishTask::formatTime(Print & out, unsigned long timeStamp) {
     ProgramSettings & settings = state->getSettings();
 
     WireRtcLib::tm time = WireRtcLib::breakTime(timeStamp);

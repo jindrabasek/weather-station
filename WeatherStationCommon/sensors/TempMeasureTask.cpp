@@ -20,12 +20,13 @@
 #include <Arduino.h>
 #endif
 
+using namespace WeatherStation;
+
 TempMeasureTask::TempMeasureTask(uint8_t pin, unsigned long periodMs) :
         Task(periodMs),
+        latestReading(SensorValueId::DHT_HUMIDITY),
         dht(pin) {
 }
-
-using namespace WeatherStation;
 
 #ifdef USE_RTC
 #define timeStamp() Clock::getTime(true).timeStamp
@@ -40,31 +41,18 @@ void TempMeasureTask::run() {
         // Read temperature as Celsius (the default)
         float t = dht.getTemperature();
 
-        float hic = NAN;
-        float absoluteHumidity = NAN;
-        if (!isnan(h) && !isnan(t)) {
-#ifdef DHT_HUMIDITY_CORRECTION
-            h += (DHT_HUMIDITY_CORRECTION);
-#endif
-#ifdef DHT_TEMPERATURE_CORRECTION
-            t += (DHT_TEMPERATURE_CORRECTION);
-#endif
-            hic = DHT::computeHeatIndex(t, h);
-            absoluteHumidity = DHT::computeAbsoluteHumidity(t, h);
-        }
-
-        latestReading = TempReading(h, absoluteHumidity, t, hic,
+        latestReading = TempReading(SensorValueId::DHT_HUMIDITY, h, t,
                 timeStamp());
     } else {
-        latestReading = TempReading(true, timeStamp());
+        latestReading = TempReading(SensorValueId::DHT_HUMIDITY, true, timeStamp());
     }
 
 #ifdef USE_SENSOR_FLAGS
     // indicate sensor reading was refreshed
-    SensorFlags::writeFlag(SensorValueId::ABSOLUTE_HUMIDITY, false);
     SensorFlags::writeFlag(SensorValueId::DHT_HUMIDITY, false);
-    SensorFlags::writeFlag(SensorValueId::DHT_TEMPERTAURE, false);
     SensorFlags::writeFlag(SensorValueId::DHT_TEMPERTAURE_REAL_FEEL, false);
+    SensorFlags::writeFlag(SensorValueId::DHT_TEMPERTAURE, false);
+    SensorFlags::writeFlag(SensorValueId::ABSOLUTE_HUMIDITY, false);
 #endif
 }
 

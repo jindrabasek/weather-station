@@ -13,10 +13,12 @@
 #include <sensors/SensorValueUnits.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <SensorIds.h>
 
 
 class LightIntensityReading : public SensorReading {
 private:
+    uint8_t firstGlobalSensorId;
     int16_t intensity;
 
 //-----------------------------------------------------------------------------
@@ -28,8 +30,10 @@ public:
     };
 
 
-    LightIntensityReading(int16_t intensity, unsigned long timeStamp);
-    LightIntensityReading(bool error = false, unsigned long timeStamp = 0);
+    LightIntensityReading(WeatherStation::SensorValueId firstGlobalSensorId,
+                          int16_t intensity, unsigned long timeStamp);
+    LightIntensityReading(WeatherStation::SensorValueId firstGlobalSensorId,
+                          bool error = false, unsigned long timeStamp = 0);
 
     int16_t getIntensity() const {
         return intensity;

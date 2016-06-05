@@ -12,12 +12,12 @@
 #include <stdint.h>
 #include <Task.h>
 
-class LogReadingsTask  : public Task {
+class SmartLivingPublishTask  : public Task {
 public:
-    LogReadingsTask(unsigned long periodMs);
+    SmartLivingPublishTask(unsigned long periodMs);
 
-    LogReadingsTask(const LogReadingsTask& that) = delete;
-    void operator=(const LogReadingsTask& that) = delete;
+    SmartLivingPublishTask(const SmartLivingPublishTask& that) = delete;
+    void operator=(const SmartLivingPublishTask& that) = delete;
 
     virtual void run();
 

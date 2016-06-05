@@ -17,25 +17,29 @@
 #include <WString.h>
 
 
-LightIntensityReading::LightIntensityReading(int16_t intensity,
+LightIntensityReading::LightIntensityReading(WeatherStation::SensorValueId firstGlobalSensorId,
+                                             int16_t intensity,
                                              unsigned long timeStamp) :
         SensorReading(ReadState::READ_OK, timeStamp),
+        firstGlobalSensorId((uint8_t)firstGlobalSensorId),
         intensity(intensity) {
 }
 
-LightIntensityReading::LightIntensityReading(bool error,
+LightIntensityReading::LightIntensityReading(WeatherStation::SensorValueId firstGlobalSensorId,
+                                             bool error,
                                              unsigned long timeStamp) :
         SensorReading(error ? ReadState::READ_ERROR : ReadState::NOT_YET_READ, timeStamp),
+        firstGlobalSensorId((uint8_t)firstGlobalSensorId),
         intensity(-1) {
 }
 
 void LightIntensityReading::registerSensorValues(SensorReading** valueArray) {
-    valueArray[WeatherStation::SensorValueId::LIGHT_INTENSITY] = this;
+    valueArray[firstGlobalSensorId + LightSensorIdLocal::L_LIGHT_INTENSITY] = this;
 }
 
 uint8_t LightIntensityReading::printSensorName(Print & out) const
 {
-    return out.print(F("Light"));
+    return out.print(F("Light ")) + out.print(firstGlobalSensorId);
 }
 
 uint8_t LightIntensityReading::valuesCount() const {
@@ -48,7 +52,7 @@ void LightIntensityReading::printValue(uint8_t valueId, bool localId, Print& out
     buffer[0] = 0;
 
     ifIdMatchThenDo(LightSensorIdLocal::L_LIGHT_INTENSITY,
-            WeatherStation::SensorValueId::LIGHT_INTENSITY,
+            firstGlobalSensorId + LightSensorIdLocal::L_LIGHT_INTENSITY,
             dtostrf(intensity, maxLength, 0, buffer));
 
     out.print(buffer);
@@ -60,7 +64,7 @@ uint8_t LightIntensityReading::printValueName(uint8_t valueId, bool localId,
     uint8_t length = 0;
 
     ifIdMatchThenDo(LightSensorIdLocal::L_LIGHT_INTENSITY,
-            WeatherStation::SensorValueId::LIGHT_INTENSITY,
+            firstGlobalSensorId + LightSensorIdLocal::L_LIGHT_INTENSITY,
             length = out.print(F("Intensity")));
     return length;
 }
@@ -69,7 +73,7 @@ WeatherStation::SensorValueUnit LightIntensityReading::valueUnit(
         uint8_t valueId, bool localId) const {
 
     ifIdMatchThenDo(LightSensorIdLocal::L_LIGHT_INTENSITY,
-            WeatherStation::SensorValueId::LIGHT_INTENSITY,
+            firstGlobalSensorId + LightSensorIdLocal::L_LIGHT_INTENSITY,
             return WeatherStation::SensorValueUnit::LIGHT_INTENSITY_LUX);
 
     return WeatherStation::SensorValueUnit::N_A;
