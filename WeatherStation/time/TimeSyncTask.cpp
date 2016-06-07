@@ -53,8 +53,10 @@ void TimeSyncTask::run() {
         if (!(udp.beginPacket(timeServer, 123) // 123 is the NTP port
         && udp.write((uint8_t *) &ntpFirstFourBytes, 48) == 48 && udp.endPacket())) {
             LOG_WARN(F("TimeSync: request failed"));
+            WifiWatchdogTask::aliveOrNot(false);
             return;               // sending request failed
         }
+        WifiWatchdogTask::aliveOrNot(true);
 
         // Wait for response; check every pollIntv ms up to maxPoll times
         const int pollIntv = 150;     // poll every this many ms

@@ -58,6 +58,15 @@ void LightIntensityReading::printValue(uint8_t valueId, bool localId, Print& out
     out.print(buffer);
 }
 
+double LightIntensityReading::getValue(uint8_t valueId, bool localId) const {
+
+    ifIdMatchThenDo(LightSensorIdLocal::L_LIGHT_INTENSITY,
+            firstGlobalSensorId + LightSensorIdLocal::L_LIGHT_INTENSITY,
+            return intensity);
+
+   return 0;
+}
+
 uint8_t LightIntensityReading::printValueName(uint8_t valueId, bool localId,
                                            Print& out) const {
 

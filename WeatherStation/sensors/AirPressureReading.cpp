@@ -72,6 +72,22 @@ void AirPressureReading::printValue(uint8_t valueId, bool localId, Print& out,
 
 }
 
+double AirPressureReading::getValue(uint8_t valueId, bool localId) const {
+    ifIdMatchThenDo(AirPressureSensorIdLocal::L_PRESSURE,
+            WeatherStation::SensorValueId::PRESSURE,
+            return pressure);
+
+    ifIdMatchThenDo(AirPressureSensorIdLocal::L_BMP_TEMPERATURE,
+            WeatherStation::SensorValueId::BMP_TEMPERATURE,
+            return temperature);
+
+    ifIdMatchThenDo(AirPressureSensorIdLocal::L_PRESSURE_SEAL_LEVEL,
+            WeatherStation::SensorValueId::PRESSURE_SEAL_LEVEL,
+            return pressureAtSeaLevel);
+
+    return 0;
+}
+
 uint8_t AirPressureReading::printValueName(uint8_t valueId, bool localId,
                                            Print& out) const {
 

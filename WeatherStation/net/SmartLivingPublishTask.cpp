@@ -58,8 +58,9 @@ static const char ABSOLUTE_HUMIDITY_OUTDOOR_ID[] PROGMEM
 static const char* const assetIds[] PROGMEM = { PRESSURE_ID,
         PRESSURE_SEAL_LEVEL_ID, BMP_TEMPERATURE_ID, LIGHT_INTENSITY_ID,
         DHT_TEMPERTAURE_ID, DHT_TEMPERTAURE_REAL_FEEL_ID, DHT_HUMIDITY_ID,
-        ABSOLUTE_HUMIDITY_ID, TEMPERATURE_SENCOR_CH2_ID, LIGHT_INTENSITY_OUTDOOR_ID,
-        DHT_HUMIDITY_OUTDOOR_ID, DHT_TEMPERTAURE_REAL_FEEL_OUTDOOR_ID, DHT_TEMPERTAURE_OUTDOOR_ID,
+        ABSOLUTE_HUMIDITY_ID, TEMPERATURE_SENCOR_CH2_ID,
+        LIGHT_INTENSITY_OUTDOOR_ID, DHT_HUMIDITY_OUTDOOR_ID,
+        DHT_TEMPERTAURE_REAL_FEEL_OUTDOOR_ID, DHT_TEMPERTAURE_OUTDOOR_ID,
         ABSOLUTE_HUMIDITY_OUTDOOR_ID };
 
 static const char PATH_FORMAT[] PROGMEM = "/asset/%s/state";
@@ -85,7 +86,9 @@ void SmartLivingPublishTask::run() {
     if (Network::networkConnected()) {
         LOG_DEBUG(F("Uploading data...\n"));
 
-        int sensorIdIdx = 0;
+        uint8_t sensorIdIdx = 0;
+        uint8_t toUpload = 0;
+        uint8_t uploadSucceded = 0;
         for (uint8_t i = 0; i < WeatherStation::SensorValueId::SensorsEnumSize;
                 i++) {
 #ifdef DATA_UPLOAD_TIME_MEASURE
@@ -101,6 +104,7 @@ void SmartLivingPublishTask::run() {
                     char smartLivingIp[sizeof(SMART_LIVING_IP)];
                     strcpy_P(smartLivingIp, SMART_LIVING_IP);
                     if (sensorValue->getReadState() == ReadState::READ_OK) {
+                        toUpload++;
                         LOG_INFO2(F("Sensor data uploading"), i, assetId);
 
                         WiFiEspClient client;
@@ -114,12 +118,14 @@ void SmartLivingPublishTask::run() {
                         sprintf(path, pathFormat, assetId);
                         client.beginPacket();
 
+                        double value = sensorValue->getValue(i, false);
+                        uint8_t valueLenght = numberOfDigits(value);
+
                         if (LOG_LEVEL >= LOGGER_LEVEL_DEBUG) {
                             LOGGER_DEBUG.printTime();
                             LOGGER_DEBUG.print(path);
                             LOGGER_DEBUG.print(' ');
-                            sensorValue->printValue(i, false, LOGGER_DEBUG,
-                                    PRINT_VALUE_STRING_LENGTH);
+                            LOGGER_DEBUG.print(value, FLOAT_DIGITS);
                             LOGGER_DEBUG.print(' ');
                             formatTime(LOGGER_DEBUG, sensorValue->getTimeStamp());
                             LOGGER_DEBUG.println();
@@ -137,8 +143,7 @@ void SmartLivingPublishTask::run() {
                             perfMeasure();
 
                             client.println(
-                                    PRINT_VALUE_STRING_LENGTH
-                                            + FORMAT_TIME_LENGTH + 30);
+                                    valueLenght + FORMAT_TIME_LENGTH + 30);
                             perfMeasure();
 
                             client.println(
@@ -149,9 +154,7 @@ void SmartLivingPublishTask::run() {
 
                             client.println('{');
                             client.print(F("\"value\": "));
-                            sensorValue->printValue(i, false, client,
-                                    PRINT_VALUE_STRING_LENGTH);
-
+                            client.print(value, FLOAT_DIGITS);
                             client.println(',');
                             perfMeasure();
                             client.print(F("\"at\": \""));
@@ -167,6 +170,7 @@ void SmartLivingPublishTask::run() {
                         yield();
                         perfMeasure();
                         if (err == 0) {
+                            uploadSucceded++;
                             // mark reading was uploaded
                             SensorFlags::writeFlag((SensorValueId) i, true,
                                     ReadingUploader::SMART_LIVING);
@@ -193,6 +197,9 @@ void SmartLivingPublishTask::run() {
             }
             yield();
         }
+
+        WifiWatchdogTask::aliveOrNot(toUpload == uploadSucceded);
+
         LOG_INFO(F("Sensor data uploaded"));
     } else {
         LOG_WARN(F("Cannot upload data, network not connected."));
@@ -219,3 +226,27 @@ void SmartLivingPublishTask::formatTime(Print & out, unsigned long timeStamp) {
     printTimePart(settings.getTimeZone(), F(":00"));
 }
 
+size_t SmartLivingPublishTask::numberOfDigits(double number) {
+    size_t n = 0;
+
+    if (isnan(number) || isinf(number) || number > 4294967040.0
+            || number < -4294967040.0) {
+        return 3;
+    }
+
+    // Handle negative numbers
+    if (number < 0.0) {
+        n++;
+    }
+
+    unsigned long int_part = (unsigned long) number;
+
+    do {
+        n++;
+        int_part /= 10;
+    } while (int_part);
+
+    n +=2;
+
+    return n;
+}

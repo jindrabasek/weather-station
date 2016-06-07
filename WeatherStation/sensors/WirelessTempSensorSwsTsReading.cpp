@@ -63,6 +63,15 @@ void WirelessTempSensorSwsTsReading::printValue(uint8_t valueId, bool localId,
 
 }
 
+double WirelessTempSensorSwsTsReading::getValue(uint8_t valueId, bool localId) const {
+
+    ifIdMatchThenDo(
+            WirelessTempSensorSwsTsIdLocal::L_WIRELESS_TEMPERTAURE_SWSTS,
+            GLOBAL_SENSOR_ID, return temperature);
+
+    return 0;
+}
+
 uint8_t WirelessTempSensorSwsTsReading::printValueName(uint8_t valueId,
 bool localId,
                                                        Print& out) const {

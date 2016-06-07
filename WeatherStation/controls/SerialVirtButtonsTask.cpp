@@ -20,6 +20,13 @@ extern ProgramState *state;
 
 SerialVirtButtonsTask::SerialVirtButtonsTask(unsigned long periodMs) :
         Task(periodMs) {
+    pinMode(DO_RESET_PIN, OUTPUT);
+}
+
+void SerialVirtButtonsTask::doReset() {
+    Serial.println(F("Device will reboot."));
+    delay(RESET_DELAY);
+    digitalWrite(DO_RESET_PIN, HIGH);
 }
 
 void SerialVirtButtonsTask::run() {
@@ -51,6 +58,9 @@ void SerialVirtButtonsTask::run() {
                     break;
                 case ESC_CHAR:
                     state->getButtons()[WeatherStation::Buttons::ESC].getHandler()->onPressed();
+                    break;
+                case RESET_CHAR:
+                    doReset();
                     break;
                 default:
                     break;

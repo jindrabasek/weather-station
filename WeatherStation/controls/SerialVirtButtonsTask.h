@@ -19,6 +19,12 @@ private:
     static const char BACKLIGHT_CHAR = 'b';
     static const char ENTER_CHAR = 'e';
     static const char ESC_CHAR = 'q';
+    static const char RESET_CHAR = 'r';
+
+    static const int DO_RESET_PIN = 5;
+    static const int RESET_DELAY = 5000;
+
+    static void doReset();
 
 public:
     SerialVirtButtonsTask(unsigned long periodMs);

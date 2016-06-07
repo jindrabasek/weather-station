@@ -24,10 +24,11 @@ public:
 private:
     static const int ASSET_ID_LENGTH = 24;
     static const int FORMAT_TIME_LENGTH = 25;
-    static const uint8_t PRINT_VALUE_STRING_LENGTH = 10;
+    static const int FLOAT_DIGITS = 1;
 
     static void getAssetId(char* buffer, uint8_t valueId);
     static void formatTime(Print & out, unsigned long timeStamp);
+    static size_t numberOfDigits(double value);
 };
 
 

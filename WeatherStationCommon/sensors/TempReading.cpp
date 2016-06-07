@@ -90,6 +90,26 @@ void TempReading::printValue(uint8_t valueId, bool localId, Print& out,
 
 }
 
+double TempReading::getValue(uint8_t valueId, bool localId) const {
+    ifIdMatchThenDo(TempHumiditySensorIdLocal::L_DHT_HUMIDITY,
+            firstGlobalSensorId + TempHumiditySensorIdLocal::L_DHT_HUMIDITY,
+            return humidity)
+
+    ifIdMatchThenDo(TempHumiditySensorIdLocal::L_DHT_TEMPERTAURE,
+            firstGlobalSensorId + TempHumiditySensorIdLocal::L_DHT_TEMPERTAURE,
+            return temperatureCelsius);
+
+    ifIdMatchThenDo(TempHumiditySensorIdLocal::L_DHT_TEMPERTAURE_REAL_FEEL,
+            firstGlobalSensorId + TempHumiditySensorIdLocal::L_DHT_TEMPERTAURE_REAL_FEEL,
+            return heatIndexCelsius);
+
+    ifIdMatchThenDo(TempHumiditySensorIdLocal::L_ABSOLUTE_HUMIDITY,
+            firstGlobalSensorId + TempHumiditySensorIdLocal::L_ABSOLUTE_HUMIDITY,
+            return humidityAbsolute);
+
+    return 0;
+}
+
 uint8_t TempReading::printValueName(uint8_t valueId, bool localId,
                                            Print& out) const {
 

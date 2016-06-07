@@ -13,12 +13,16 @@
 class WifiWatchdogTask  : public Task {
 private:
     bool forceRestart = false;
+    static uint8_t failedConnections;
+    static const uint8_t RESET_AFTER_N_FAILED = 2;
 
 public:
     WifiWatchdogTask(unsigned long periodMs);
 
     WifiWatchdogTask(const WifiWatchdogTask& that) = delete;
     void operator=(const WifiWatchdogTask& that) = delete;
+
+    static void aliveOrNot(bool connectionSucceded);
 
     virtual void run();
 
