@@ -38,7 +38,7 @@ void SdCard::initSdLogger() {
     char logFileName[sizeof(LOG_FILE_NAME)];
     strcpy_P(logFileName, LOG_FILE_NAME);
 
-    if (!logFile.open(logFileName, O_CREAT | O_WRITE | O_APPEND )) {
+    if (!logFile.open(logFileName, O_CREAT | O_RDWR | O_APPEND )) {
         error("file.open");
     }
 

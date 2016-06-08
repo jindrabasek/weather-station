@@ -17,6 +17,7 @@
 #ifndef DO_NOT_LOG_SD
 #include <FatLib/ArduinoFiles.h>
 #include <SdFat.h>
+#include <ApplicationMonitor.h>
 #endif
 
 #ifdef USE_RTC
@@ -94,4 +95,27 @@ void LoggerClass::printTime() {
 }
 #endif
 
+#ifdef _LOG_SD_
+void LoggerClass::dumpLog() {
+    Serial.println();
+    Serial.println(F("-------- Log dump --------"));
+    Serial.println();
+
+    if (sdLoggingFile->isOpen()) {
+        uint32_t currentPosition = sdLoggingFile->curPosition();
+        uint32_t fileSize = sdLoggingFile->fileSize();
+        sdLoggingFile->seekSet(fileSize > BYTES_TO_DUMP ? fileSize - BYTES_TO_DUMP : 0);
+        while (sdLoggingFile->available()) {
+            byte data = sdLoggingFile->read();
+            Serial.write(data);
+            ApplicationMonitor.IAmAlive();
+        }
+        sdLoggingFile->seekSet(currentPosition);
+    }
+
+    Serial.println();
+    Serial.println(F("-------- End dump --------"));
+    Serial.println();
+}
+#endif
 

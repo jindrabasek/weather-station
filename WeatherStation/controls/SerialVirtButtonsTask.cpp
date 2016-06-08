@@ -62,6 +62,9 @@ void SerialVirtButtonsTask::run() {
                 case RESET_CHAR:
                     doReset();
                     break;
+                case LOG_DUMP_CHAR:
+                    Logger.dumpLog();
+                    break;
                 default:
                     break;
             }

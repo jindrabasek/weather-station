@@ -212,7 +212,7 @@ void Wireless433MhzTask::PinChangeISR0() { // Pin 2 (Interrupt 0) service routin
                 build_prev_Buffer = 0;
                 bitClear(isrFlags, F_HAVE_DATA);
             }
-            fall_Time = micros();                             // Store fall time
+            fall_Time = timeT;                             // Store fall time
         }
     } else {
         // Rising edge

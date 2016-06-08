@@ -28,8 +28,14 @@ TempReading::TempReading(WeatherStation::SensorValueId firstGlobalSensorId,
         heatIndexCelsius(NAN) {
 
     if (!isnan(humidity) && !isnan(temperatureCelsius)) {
+#ifdef DHT_HUMIDITY_CORRECTION_FACTOR
+        this->humidity *= (DHT_HUMIDITY_CORRECTION_FACTOR);
+#endif
 #ifdef DHT_HUMIDITY_CORRECTION
         this->humidity += (DHT_HUMIDITY_CORRECTION);
+#endif
+#ifdef DHT_TEMPERATURE_CORRECTION_FACTOR
+        this->temperatureCelsius *= (DHT_TEMPERATURE_CORRECTION_FACTOR);
 #endif
 #ifdef DHT_TEMPERATURE_CORRECTION
         this->temperatureCelsius += (DHT_TEMPERATURE_CORRECTION);

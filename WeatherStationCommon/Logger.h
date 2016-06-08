@@ -77,6 +77,8 @@ class LoggerClass : public Print {
 private:
 #ifdef _LOG_SD_
     SdFile * sdLoggingFile = NULL;
+
+    static const uint32_t BYTES_TO_DUMP = 262144;
 #endif
 
 
@@ -123,6 +125,8 @@ public:
     void setSdLoggingFile(SdFile* sdLoggingFile) {
         this->sdLoggingFile = sdLoggingFile;
     }
+
+    void dumpLog();
 #endif
 };
 

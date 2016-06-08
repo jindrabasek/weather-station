@@ -20,6 +20,7 @@ private:
     static const char ENTER_CHAR = 'e';
     static const char ESC_CHAR = 'q';
     static const char RESET_CHAR = 'r';
+    static const char LOG_DUMP_CHAR = 'l';
 
     static const int DO_RESET_PIN = 5;
     static const int RESET_DELAY = 5000;
