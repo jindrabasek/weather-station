@@ -65,14 +65,11 @@ private:
     static const unsigned long sync_MIN = 4300; // Minimum Sync time in micro seconds
     static const unsigned long sync_MAX = 4700;
 
-    static const unsigned long sync_FALL_MIN = 4020; // Minimum Sync time in micro seconds
-    static const unsigned long sync_FALL_MAX = 4110;
-
     static const unsigned long bit1_MIN = 2300;
     static const unsigned long bit1_MAX = 2700;
 
-    static const unsigned long bit0_MIN = 1330;
-    static const unsigned long bit0_MAX = 1730;
+    static const unsigned long bit0_MIN = 1300;
+    static const unsigned long bit0_MAX = 1700;
 
     static const unsigned long glitch_Length = 300; // Anything below this value is a glitch and will be ignored.
 

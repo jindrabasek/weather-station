@@ -23,12 +23,14 @@
 // 2: WARN: errors and warnings
 // 3: INFO: errors, warnings and informational (default)
 // 4: DEBUG: errors, warnings, informational and debug
+// 5: FINEST: errors, warnings, informational, debug and traces
 
 #define LOGGER_LEVEL_DISABLED 0
 #define LOGGER_LEVEL_ERROR    1
 #define LOGGER_LEVEL_WARN     2
 #define LOGGER_LEVEL_INFO     3
 #define LOGGER_LEVEL_DEBUG    4
+#define LOGGER_LEVEL_FINEST   5
 
 #ifndef LOG_LEVEL
 #define LOG_LEVEL LOGGER_LEVEL_INFO
@@ -53,16 +55,20 @@
 #define LOG_INFO0(x)    if(LOG_LEVEL>LOGGER_LEVEL_WARN) { Logger.print(x); }
 #define LOG_INFO1(x,y)  if(LOG_LEVEL>LOGGER_LEVEL_WARN) { Logger.log(x,y); }
 #define LOG_INFO2(x,y,z)  if(LOG_LEVEL>LOGGER_LEVEL_WARN) { Logger.log(x,y,z); }
-
 #define LOG_DEBUG(x)      if(LOG_LEVEL>LOGGER_LEVEL_INFO) { Logger.log(x); }
 #define LOG_DEBUG0(x)     if(LOG_LEVEL>LOGGER_LEVEL_INFO) { Logger.print(x); }
 #define LOG_DEBUG1(x,y)   if(LOG_LEVEL>LOGGER_LEVEL_INFO) { Logger.log(x,y); }
 #define LOG_DEBUG2(x,y,z) if(LOG_LEVEL>LOGGER_LEVEL_INFO) { Logger.log(x,y,z); }
+#define LOG_FINEST(x)      if(LOG_LEVEL>LOGGER_LEVEL_DEBUG) { Logger.log(x); }
+#define LOG_FINEST0(x)     if(LOG_LEVEL>LOGGER_LEVEL_DEBUG) { Logger.print(x); }
+#define LOG_FINEST1(x,y)   if(LOG_LEVEL>LOGGER_LEVEL_DEBUG) { Logger.log(x,y); }
+#define LOG_FINEST2(x,y,z) if(LOG_LEVEL>LOGGER_LEVEL_DEBUG) { Logger.log(x,y,z); }
 
 #define LOGGER_ERROR LoggerClass::getLoggerForLevel(LOGGER_LEVEL_ERROR)
 #define LOGGER_WARN  LoggerClass::getLoggerForLevel(LOGGER_LEVEL_WARN)
 #define LOGGER_INFO  LoggerClass::getLoggerForLevel(LOGGER_LEVEL_INFO)
 #define LOGGER_DEBUG LoggerClass::getLoggerForLevel(LOGGER_LEVEL_DEBUG)
+#define LOGGER_FINEST LoggerClass::getLoggerForLevel(LOGGER_LEVEL_FINEST)
 
 
 
@@ -78,7 +84,7 @@ private:
 #ifdef _LOG_SD_
     SdFile * sdLoggingFile = NULL;
 
-    static const uint32_t BYTES_TO_DUMP = 262144;
+    static const uint32_t BYTES_TO_DUMP = 1048576;
 #endif
 
 

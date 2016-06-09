@@ -100,8 +100,6 @@ void Wireless433MhzTask::run() {
     }
 
     if (dataType == 2 && dataLength == 40) {
-        // 0011 011110 01  0 001 00000001  111100001001, Length = 36 - Data Type = 3; Channel = 2; Temperature = 25.7 *C
-
         float humidity = parse12bitNumber(dataReceived, 0) / 10.0;
         float temperature = parse12bitNumber(dataReceived, 12) / 10.0;
         int16_t lightIntensity = parse12bitNumber(dataReceived, 24);
@@ -160,31 +158,32 @@ void Wireless433MhzTask::run() {
 }
 
 void Wireless433MhzTask::PinChangeISR0() { // Pin 2 (Interrupt 0) service routine
-    digitalWriteFast(LED_BUILTIN, HIGH);
+
     unsigned long timeT = micros();                          // Get current time
     if (!digitalReadFast(3)) {
         // Falling edge
         if (timeT >= (rise_Time + glitch_Length)
                 || (timeT <= rise_Time
-                        && ((4294967295L - rise_Time) + timeT) > glitch_Length)) {
+                        && ((4294967294L - rise_Time) + timeT) > glitch_Length)) {
+            digitalWriteFast(LED_BUILTIN, HIGH);
             // Not a glitch
             unsigned long pulseWidth;
             if (timeT < fall_Time) {
-                pulseWidth = (4294967295L - fall_Time) + timeT;
+                pulseWidth = (4294967294L - fall_Time) + timeT;
             } else {
                 pulseWidth = timeT - fall_Time; // Subtract last falling edge to get pulse time.
             }
             // Looking for Data
-            if ((pulseWidth > bit0_MIN) && (pulseWidth < bit0_MAX)) {
+            if ((pulseWidth >= bit0_MIN) && (pulseWidth <= bit0_MAX)) {
                 // 0 bit
                 build_Buffer = build_Buffer << 1;
                 bit_Count++;
-            } else if ((pulseWidth > bit1_MIN) && (pulseWidth < bit1_MAX)) {
+            } else if ((pulseWidth >= bit1_MIN) && (pulseWidth <= bit1_MAX)) {
                 // 1 bit
                 build_Buffer = build_Buffer << 1;
                 bitSet(build_Buffer, 0);
                 bit_Count++;
-            } else if ((pulseWidth > sync_MIN) && (pulseWidth < sync_MAX)) {
+            } else if ((pulseWidth >= sync_MIN) && (pulseWidth <= sync_MAX)) {
                 if (bit_Count > 0 && build_Buffer > 0) {
                     // All bits arrived
                     if (!bitRead(isrFlags, F_HAVE_DATA)
@@ -213,15 +212,18 @@ void Wireless433MhzTask::PinChangeISR0() { // Pin 2 (Interrupt 0) service routin
                 bitClear(isrFlags, F_HAVE_DATA);
             }
             fall_Time = timeT;                             // Store fall time
+            digitalWriteFast(LED_BUILTIN, LOW);
         }
     } else {
         // Rising edge
         if (timeT >= (fall_Time + glitch_Length)
                 || (timeT <= fall_Time
-                        && ((4294967295L - fall_Time) + timeT) > glitch_Length)) {
+                        && ((4294967294L - fall_Time) + timeT) > glitch_Length)) {
+            digitalWriteFast(LED_BUILTIN, HIGH);
             // Not a glitch
             rise_Time = timeT;                                // Store rise time
+            digitalWriteFast(LED_BUILTIN, LOW);
         }
     }
-    digitalWriteFast(LED_BUILTIN, LOW);
+
 }

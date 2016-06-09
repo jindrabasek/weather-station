@@ -13,6 +13,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <SensorIds.h>
+#include <Logger.h>
 
 #ifndef DO_NOT_USE_RTC
 #include <time/Clock.h>
@@ -44,6 +45,7 @@ void TempMeasureTask::run() {
         latestReading = TempReading(SensorValueId::DHT_HUMIDITY, h, t,
                 timeStamp());
     } else {
+        LOG_ERROR1(F("Error reading thermometer: "), dhtState);
         latestReading = TempReading(SensorValueId::DHT_HUMIDITY, true, timeStamp());
     }
 
