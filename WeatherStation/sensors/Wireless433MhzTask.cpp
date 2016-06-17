@@ -158,14 +158,13 @@ void Wireless433MhzTask::run() {
 }
 
 void Wireless433MhzTask::PinChangeISR0() { // Pin 2 (Interrupt 0) service routine
-
+    digitalWriteFast(LED_BUILTIN, HIGH);
     unsigned long timeT = micros();                          // Get current time
     if (!digitalReadFast(3)) {
         // Falling edge
         if (timeT >= (rise_Time + glitch_Length)
                 || (timeT <= rise_Time
                         && ((4294967294L - rise_Time) + timeT) > glitch_Length)) {
-            digitalWriteFast(LED_BUILTIN, HIGH);
             // Not a glitch
             unsigned long pulseWidth;
             if (timeT < fall_Time) {
@@ -216,10 +215,9 @@ void Wireless433MhzTask::PinChangeISR0() { // Pin 2 (Interrupt 0) service routin
         }
     } else {
         // Rising edge
-        if (timeT >= (fall_Time + glitch_Length)
+        if (rise_Time == 0 || timeT >= (fall_Time + glitch_Length)
                 || (timeT <= fall_Time
                         && ((4294967294L - fall_Time) + timeT) > glitch_Length)) {
-            digitalWriteFast(LED_BUILTIN, HIGH);
             // Not a glitch
             rise_Time = timeT;                                // Store rise time
             digitalWriteFast(LED_BUILTIN, LOW);
