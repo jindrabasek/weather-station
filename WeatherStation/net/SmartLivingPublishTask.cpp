@@ -42,8 +42,12 @@ static const char DHT_HUMIDITY_ID[] PROGMEM
 = SMART_LIVING_SENSOR_ID_DHT_HUMIDITY;
 static const char ABSOLUTE_HUMIDITY_ID[] PROGMEM
 = SMART_LIVING_SENSOR_ID_ABSOLUTE_HUMIDITY;
+static const char * TEMPERATURE_SENCOR_CH1_ID
+= NULL;
 static const char TEMPERATURE_SENCOR_CH2_ID[] PROGMEM
 = SMART_LIVING_SENSOR_ID_TEMPERATURE_SENCOR_CH2;
+static const char * TEMPERATURE_SENCOR_CH3_ID
+= NULL;
 static const char LIGHT_INTENSITY_OUTDOOR_ID[] PROGMEM
 = SMART_LIVING_SENSOR_ID_LIGHT_INTENSITY_OUTDOOR;
 static const char DHT_HUMIDITY_OUTDOOR_ID[] PROGMEM
@@ -58,8 +62,8 @@ static const char ABSOLUTE_HUMIDITY_OUTDOOR_ID[] PROGMEM
 static const char* const assetIds[] PROGMEM = { PRESSURE_ID,
         PRESSURE_SEAL_LEVEL_ID, BMP_TEMPERATURE_ID, LIGHT_INTENSITY_ID,
         DHT_TEMPERTAURE_ID, DHT_TEMPERTAURE_REAL_FEEL_ID, DHT_HUMIDITY_ID,
-        ABSOLUTE_HUMIDITY_ID, TEMPERATURE_SENCOR_CH2_ID,
-        LIGHT_INTENSITY_OUTDOOR_ID, DHT_HUMIDITY_OUTDOOR_ID,
+        ABSOLUTE_HUMIDITY_ID, TEMPERATURE_SENCOR_CH1_ID, TEMPERATURE_SENCOR_CH2_ID,
+        TEMPERATURE_SENCOR_CH3_ID, LIGHT_INTENSITY_OUTDOOR_ID, DHT_HUMIDITY_OUTDOOR_ID,
         DHT_TEMPERTAURE_REAL_FEEL_OUTDOOR_ID, DHT_TEMPERTAURE_OUTDOOR_ID,
         ABSOLUTE_HUMIDITY_OUTDOOR_ID };
 
@@ -89,6 +93,10 @@ void SmartLivingPublishTask::run() {
         uint8_t sensorIdIdx = 0;
         uint8_t toUpload = 0;
         uint8_t uploadSucceded = 0;
+
+        char smartLivingIp[sizeof(SMART_LIVING_IP)];
+        strcpy_P(smartLivingIp, SMART_LIVING_IP);
+
         for (uint8_t i = 0; i < WeatherStation::SensorValueId::SensorsEnumSize;
                 i++) {
 #ifdef DATA_UPLOAD_TIME_MEASURE
@@ -100,96 +108,97 @@ void SmartLivingPublishTask::run() {
                 if (!SensorFlags::isFlag((SensorValueId) i,
                         ReadingUploader::SMART_LIVING)) {
                     char assetId[ASSET_ID_LENGTH + 1] = { 0 };
-                    getAssetId(assetId, sensorIdIdx++);
-                    char smartLivingIp[sizeof(SMART_LIVING_IP)];
-                    strcpy_P(smartLivingIp, SMART_LIVING_IP);
-                    if (sensorValue->getReadState() == ReadState::READ_OK) {
-                        toUpload++;
-                        LOG_INFO2(F("Sensor data uploading"), i, assetId);
+                    // if false, value is not registered to be uploaded to cloud
+                    bool shouldUpload = getAssetId(assetId, sensorIdIdx++);
+                    if (shouldUpload){
+                        if (sensorValue->getReadState() == ReadState::READ_OK) {
+                            toUpload++;
+                            LOG_INFO2(F("Sensor data uploading"), i, assetId);
 
-                        WiFiEspClient client;
-                        client.setUseSsl(true);
-                        HttpClient http(client);
-                        perfMeasure();
-                        http.beginRequest();
-                        char path[ASSET_ID_LENGTH + sizeof(PATH_FORMAT)] = { 0 };
-                        char pathFormat[sizeof(PATH_FORMAT)];
-                        strcpy_P(pathFormat, PATH_FORMAT);
-                        sprintf(path, pathFormat, assetId);
-                        client.beginPacket();
-
-                        double value = sensorValue->getValue(i, false);
-                        uint8_t valueLenght = numberOfDigits(value);
-
-                        if (LOG_LEVEL >= LOGGER_LEVEL_DEBUG) {
-                            LOGGER_DEBUG.printTime();
-                            LOGGER_DEBUG.print(path);
-                            LOGGER_DEBUG.print(' ');
-                            LOGGER_DEBUG.print(value, FLOAT_DIGITS);
-                            LOGGER_DEBUG.print(' ');
-                            formatTime(LOGGER_DEBUG, sensorValue->getTimeStamp());
-                            LOGGER_DEBUG.println();
-                        }
-
-                        perfMeasure();
-                        int err = http.put(smartLivingIp, 443, path);
-                        perfMeasure();
-                        if (err == 0) {
-                            client.println(
-                                    F("Auth-ClientId: " SMART_LIVING_CLIENT_ID));
-                            client.println(
-                                    F("Auth-ClientKey: " SMART_LIVING_CLIENT_KEY));
-                            client.print(F("Content-Length: "));
+                            WiFiEspClient client;
+                            client.setUseSsl(true);
+                            HttpClient http(client);
                             perfMeasure();
+                            http.beginRequest();
+                            char path[ASSET_ID_LENGTH + sizeof(PATH_FORMAT)] = { 0 };
+                            char pathFormat[sizeof(PATH_FORMAT)];
+                            strcpy_P(pathFormat, PATH_FORMAT);
+                            sprintf(path, pathFormat, assetId);
+                            client.beginPacket();
 
-                            client.println(
-                                    valueLenght + FORMAT_TIME_LENGTH + 30);
-                            perfMeasure();
+                            double value = sensorValue->getValue(i, false);
+                            uint8_t valueLenght = numberOfDigits(value);
 
-                            client.println(
-                                    F("Content-Type: application/json; charset=utf-8"));
-                            http.endRequest();
+                            if (LOG_LEVEL >= LOGGER_LEVEL_DEBUG) {
+                                LOGGER_DEBUG.printTime();
+                                LOGGER_DEBUG.print(path);
+                                LOGGER_DEBUG.print(' ');
+                                LOGGER_DEBUG.print(value, FLOAT_DIGITS);
+                                LOGGER_DEBUG.print(' ');
+                                formatTime(LOGGER_DEBUG, sensorValue->getTimeStamp());
+                                LOGGER_DEBUG.println();
+                            }
 
                             perfMeasure();
+                            int err = http.put(smartLivingIp, 443, path);
+                            perfMeasure();
+                            if (err == 0) {
+                                client.println(
+                                        F("Auth-ClientId: " SMART_LIVING_CLIENT_ID));
+                                client.println(
+                                        F("Auth-ClientKey: " SMART_LIVING_CLIENT_KEY));
+                                client.print(F("Content-Length: "));
+                                perfMeasure();
 
-                            client.println('{');
-                            client.print(F("\"value\": "));
-                            client.print(value, FLOAT_DIGITS);
-                            client.println(',');
+                                client.println(
+                                        valueLenght + FORMAT_TIME_LENGTH + 30);
+                                perfMeasure();
+
+                                client.println(
+                                        F("Content-Type: application/json; charset=utf-8"));
+                                http.endRequest();
+
+                                perfMeasure();
+
+                                client.println('{');
+                                client.print(F("\"value\": "));
+                                client.print(value, FLOAT_DIGITS);
+                                client.println(',');
+                                perfMeasure();
+                                client.print(F("\"at\": \""));
+                                formatTime(client, sensorValue->getTimeStamp());
+                                client.println('\"');
+                                client.println('}');
+                                client.println();
+                                perfMeasure();
+                            }
+                            client.endPacket();
                             perfMeasure();
-                            client.print(F("\"at\": \""));
-                            formatTime(client, sensorValue->getTimeStamp());
-                            client.println('\"');
-                            client.println('}');
-                            client.println();
+                            // to improve UI response
+                            yield();
                             perfMeasure();
-                        }
-                        client.endPacket();
-                        perfMeasure();
-                        // to improve UI response
-                        yield();
-                        perfMeasure();
-                        if (err == 0) {
-                            uploadSucceded++;
-                            // mark reading was uploaded
-                            SensorFlags::writeFlag((SensorValueId) i, true,
-                                    ReadingUploader::SMART_LIVING);
-                            LOG_DEBUG2(F("Sensor data uploaded"), i, assetId);
+                            if (err == 0) {
+                                uploadSucceded++;
+                                // mark reading was uploaded
+                                SensorFlags::writeFlag((SensorValueId) i, true,
+                                        ReadingUploader::SMART_LIVING);
+                                LOG_DEBUG2(F("Sensor data uploaded"), i, assetId);
+                            } else {
+                                LOG_WARN2(F("Error uploading sensor data"), assetId,
+                                        err);
+                            }
+
+                            http.receiveAndPrintResponse(err, LOGGER_DEBUG, LOGGER_DEBUG);
+
+                            perfMeasure();
+                            Logger.flush();
+                            http.stop();
+                            perfMeasure();
                         } else {
-                            LOG_WARN2(F("Error uploading sensor data"), assetId,
-                                    err);
+                            LOG_WARN2(
+                                    F("Sensor data not uploaded. Error or not read "),
+                                    i, assetId);
                         }
-
-                        http.receiveAndPrintResponse(err, LOGGER_DEBUG, LOGGER_DEBUG);
-
-                        perfMeasure();
-                        Logger.flush();
-                        http.stop();
-                        perfMeasure();
-                    } else {
-                        LOG_WARN2(
-                                F("Sensor data not uploaded. Error or not read "),
-                                i, assetId);
                     }
                 } else {
                     LOG_INFO1(F("Sensor data already uploaded"), i);
@@ -206,8 +215,13 @@ void SmartLivingPublishTask::run() {
     }
 }
 
-void SmartLivingPublishTask::getAssetId(char* buffer, uint8_t valueId) {
-    strcpy_P(buffer, (char*) pgm_read_word(&(assetIds[valueId])));
+bool SmartLivingPublishTask::getAssetId(char* buffer, uint8_t valueId) {
+    char* assetIdAddr = (char*) pgm_read_word(&(assetIds[valueId]));
+    if (assetIdAddr == NULL) {
+        return false;
+    }
+    strcpy_P(buffer, assetIdAddr);
+    return true;
 }
 
 #define printTimePart(timePart, separator) if(timePart < 10) out.print('0'); itoa(timePart, buffer, 10); out.print(buffer); out.print(separator)

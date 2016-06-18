@@ -78,7 +78,7 @@ bool localId,
     ifIdMatchThenDo(
             WirelessTempSensorSwsTsIdLocal::L_WIRELESS_TEMPERTAURE_SWSTS,
             firstGlobalSensorId,
-            length = out.print(F("Wrls Temp ")) ; length += out.print(firstGlobalSensorId));
+            length = out.print(F("W Temp ")) ; length += out.print(firstGlobalSensorId));
 
     return length;
 }

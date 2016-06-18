@@ -293,7 +293,11 @@ private:
                 sensorValues);
         measureLightIntensityTask.getLatestReading().registerSensorValues(
                 sensorValues);
+        wireless433MhzTask.getLatestReadingSencor(1).registerSensorValues(
+                sensorValues);
         wireless433MhzTask.getLatestReadingSencor(2).registerSensorValues(
+                sensorValues);
+        wireless433MhzTask.getLatestReadingSencor(3).registerSensorValues(
                 sensorValues);
         wireless433MhzTask.getLatestReadingIntensityOutdoor()
                 .registerSensorValues(sensorValues);
