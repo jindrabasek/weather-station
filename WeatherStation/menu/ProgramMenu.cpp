@@ -29,8 +29,12 @@ static MENU_SELECT_ITEM  selTimeScreen = { ProgramState::TIME_SCREEN_NUMBER, {"T
 static MENU_SELECT_ITEM  selTempScreen = { ProgramState::TEMP_SCREEN_NUMBER, {"Thermometer"} };
 static MENU_SELECT_ITEM  selPressureScreen = { ProgramState::PRESSURE_SCREEN_NUMBER, {"Barometer"} };
 static MENU_SELECT_ITEM  selLightScreen = { ProgramState::LIGHT_SCREEN_NUMBER, {"Light Intensity"} };
+static MENU_SELECT_ITEM  selTempOutdoorScreen = { ProgramState::TEMP_SCREEN_OUTDOOR_NUMBER, {"Thermo Outdoor"} };
+static MENU_SELECT_ITEM  selLightOutdoorScreen = { ProgramState::LIGHT_SCREEN_OUTDOOR_NUMBER, {"Light Outdoor"} };
+static MENU_SELECT_ITEM  selSencorWirelessScreen = { ProgramState::SENCOR_WIRELESS_SCREEN_NUMBER, {"Sencor Wireless"} };
 
-static MENU_SELECT_LIST  selScreenslist[] = { &selTimeScreen, &selTempScreen, &selPressureScreen, &selLightScreen };
+static MENU_SELECT_LIST  selScreenslist[] = { &selTimeScreen, &selTempScreen, &selPressureScreen, &selLightScreen,
+        &selTempOutdoorScreen, &selLightOutdoorScreen, &selSencorWirelessScreen };
 
 static MENU_SELECT startupScreenSelect = { NULL,  MENU_SELECT_SIZE(selScreenslist),   MENU_TARGET(&selScreenslist) };
 

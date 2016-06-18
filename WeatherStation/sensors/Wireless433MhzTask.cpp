@@ -19,7 +19,7 @@
 #include <WString.h>
 
 #include "../ProgramState.h"
-#include "WirelessTempSensorSwsTsReading.h"
+#include "WirelessTempSensorReading.h"
 
 // http://arduino.cc/forum/index.php/topic,142871.msg1106336.html#msg1106336
 
@@ -60,9 +60,8 @@ Wireless433MhzTask::Wireless433MhzTask() :
     attachInterrupt(digitalPinToInterrupt(3), PinChangeISR0, CHANGE);
 }
 
-
 int16_t Wireless433MhzTask::parse12bitNumber(uint64_t& dataReceived,
-                                              uint8_t startBit) {
+                                             uint8_t startBit) {
     // OR MMMM & LLLL nibbles together
     byte ML = ((dataReceived >> startBit) & 0xF0)  // Get MMMM
     | ((dataReceived >> startBit) & 0xF);  // Get LLLL
@@ -114,19 +113,21 @@ void Wireless433MhzTask::run() {
             LOGGER_INFO.println(F(" %"));
         }
 
-        latestReadingTemperatueOutdoor = TempReading(SensorValueId::DHT_HUMIDITY_OUTDOOR, humidity, temperature,
+        latestReadingTemperatueOutdoor = TempReading(
+                SensorValueId::DHT_HUMIDITY_OUTDOOR, humidity, temperature,
                 Clock::getTime(true).timeStamp);
 
-        latestReadingIntensityOutdoor = LightIntensityReading(SensorValueId::LIGHT_INTENSITY_OUTDOOR, lightIntensity,
+        latestReadingIntensityOutdoor = LightIntensityReading(
+                SensorValueId::LIGHT_INTENSITY_OUTDOOR, lightIntensity,
                 Clock::getTime(true).timeStamp);
 
         SensorFlags::writeFlag(SensorValueId::DHT_HUMIDITY_OUTDOOR, false);
-        SensorFlags::writeFlag(SensorValueId::DHT_TEMPERTAURE_REAL_FEEL_OUTDOOR, false);
+        SensorFlags::writeFlag(SensorValueId::DHT_TEMPERTAURE_REAL_FEEL_OUTDOOR,
+                false);
         SensorFlags::writeFlag(SensorValueId::DHT_TEMPERTAURE_OUTDOOR, false);
         SensorFlags::writeFlag(SensorValueId::ABSOLUTE_HUMIDITY_OUTDOOR, false);
 
         SensorFlags::writeFlag(SensorValueId::LIGHT_INTENSITY_OUTDOOR, false);
-
 
     } else if (dataType == 3 && dataLength == 36) {
         byte channel = ((dataReceived >> 24) & 0x3) + 1;      // Get Channel
@@ -141,8 +142,10 @@ void Wireless433MhzTask::run() {
             LOGGER_INFO.println(F(" *C"));
         }
 
-        latestReadings[channel - 1] = WirelessTempSensorSwsTsReading(channel,
-                temperature, Clock::getTime(true).timeStamp);
+        latestReadingsSencor[channel - 1] = WirelessTempSensorReading(
+                WeatherStation::SensorValueId::WIRELESS_TEMPERTAURE_SWSTS_CH1
+                        + (channel - 1), temperature,
+                Clock::getTime(true).timeStamp);
 
         // indicate sensor reading was refreshed
         SensorFlags::writeFlag(

@@ -10,6 +10,7 @@
 
 #include "ProgramState.h"
 
+#include <avr/pgmspace.h>
 #include <Arduino.h>
 #include <Debouncer.h>
 #include <pins_arduino.h>
@@ -42,6 +43,7 @@
 #include "sensors/AirPressureMeasureTask.h"
 #include "sensors/SensorReadingScreen.h"
 #include "sensors/Wireless433MhzTask.h"
+#include "sensors/WirelessTempScreen.h"
 #include "time/TimeScreen.h"
 #include "time/TimeSyncTask.h"
 
@@ -63,8 +65,11 @@ public:
     static const int TEMP_SCREEN_NUMBER = TIME_SCREEN_NUMBER + 1;
     static const int PRESSURE_SCREEN_NUMBER = TEMP_SCREEN_NUMBER + 1;
     static const int LIGHT_SCREEN_NUMBER = PRESSURE_SCREEN_NUMBER + 1;
+    static const int TEMP_SCREEN_OUTDOOR_NUMBER = LIGHT_SCREEN_NUMBER + 1;
+    static const int LIGHT_SCREEN_OUTDOOR_NUMBER = TEMP_SCREEN_OUTDOOR_NUMBER + 1;
+    static const int SENCOR_WIRELESS_SCREEN_NUMBER = LIGHT_SCREEN_OUTDOOR_NUMBER + 1;
 
-    static const int COUNT_OF_SCREENS = LIGHT_SCREEN_NUMBER + 1;
+    static const int COUNT_OF_SCREENS = SENCOR_WIRELESS_SCREEN_NUMBER + 1;
 
 //-----------------------------------------------------------------------------
 
@@ -86,9 +91,13 @@ private:
     SensorReadingScreen tempScreen;
     SensorReadingScreen airPressureScreen;
     SensorReadingScreen lightIntensityScreen;
+    SensorReadingScreen tempOutdoorScreen;
+    SensorReadingScreen lightIntensityOutdoorScreen;
+    WirelessTempScreen wirelessTempSencorScreen;
 
     ToDraw * displayScreens[COUNT_OF_SCREENS] = { &timeScreen, &tempScreen,
-            &airPressureScreen, &lightIntensityScreen };
+            &airPressureScreen, &lightIntensityScreen, &tempOutdoorScreen,
+            &lightIntensityOutdoorScreen, &wirelessTempSencorScreen };
 
     BackLightTask backLightTask;
     DrawOnDisplayTask drawOnDisplayTask;
@@ -219,6 +228,9 @@ private:
             tempScreen(measureTempTask.getLatestReading()),
             airPressureScreen(measureAirPressureTask.getLatestReading()),
             lightIntensityScreen(measureLightIntensityTask.getLatestReading()),
+            tempOutdoorScreen(wireless433MhzTask.getLatestReadingTemperatueOutdoor()),
+            lightIntensityOutdoorScreen(wireless433MhzTask.getLatestReadingIntensityOutdoor()),
+            wirelessTempSencorScreen(WeatherStation::SensorValueId::WIRELESS_TEMPERTAURE_SWSTS_CH1, PSTR("Sencor Temp")),
 
             backLightTask(disp.getLcd()),
             drawOnDisplayTask(
@@ -281,7 +293,7 @@ private:
                 sensorValues);
         measureLightIntensityTask.getLatestReading().registerSensorValues(
                 sensorValues);
-        wireless433MhzTask.getLatestReading(2).registerSensorValues(
+        wireless433MhzTask.getLatestReadingSencor(2).registerSensorValues(
                 sensorValues);
         wireless433MhzTask.getLatestReadingIntensityOutdoor()
                 .registerSensorValues(sensorValues);

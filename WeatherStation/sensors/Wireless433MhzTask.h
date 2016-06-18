@@ -16,8 +16,9 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <Task.h>
+#include <SensorIds.h>
 
-#include "WirelessTempSensorSwsTsReading.h"
+#include "WirelessTempSensorReading.h"
 
 class Wireless433MhzTask : public Task {
 public:
@@ -25,8 +26,8 @@ public:
 
     virtual void run();
 
-    WirelessTempSensorSwsTsReading& getLatestReading(uint8_t channel) {
-        return latestReadings[channel - 1];
+    WirelessTempSensorReading& getLatestReadingSencor(uint8_t channel) {
+        return latestReadingsSencor[channel - 1];
     }
 
     LightIntensityReading& getLatestReadingIntensityOutdoor() {
@@ -83,7 +84,11 @@ private:
     static volatile byte read_Buffer_length;
     static volatile byte isrFlags;                          // Various flag bits
 
-    WirelessTempSensorSwsTsReading latestReadings[MAX_CHANNELS_SENCOR] = { {1}, {2}, {3} };
+    WirelessTempSensorReading latestReadingsSencor[MAX_CHANNELS_SENCOR] = {
+            {WeatherStation::SensorValueId::WIRELESS_TEMPERTAURE_SWSTS_CH1},
+            {WeatherStation::SensorValueId::WIRELESS_TEMPERTAURE_SWSTS_CH2},
+            {WeatherStation::SensorValueId::WIRELESS_TEMPERTAURE_SWSTS_CH3} };
+
     LightIntensityReading latestReadingIntensityOutdoor;
     TempReading latestReadingTemperatueOutdoor;
 };

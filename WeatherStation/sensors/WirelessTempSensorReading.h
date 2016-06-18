@@ -5,8 +5,8 @@
  *      Author: jindra
  */
 
-#ifndef WIRELESSTEMPSENSORSWSTSREADING_H_
-#define WIRELESSTEMPSENSORSWSTSREADING_H_
+#ifndef WIRELESSTEMPSENSORREADING_H_
+#define WIRELESSTEMPSENSORREADING_H_
 
 #include <Print.h>
 #include <sensors/SensorReading.h>
@@ -14,9 +14,9 @@
 #include <stdint.h>
 
 
-class WirelessTempSensorSwsTsReading : public SensorReading {
+class WirelessTempSensorReading : public SensorReading {
 private:
-    uint8_t channel;
+    uint8_t firstGlobalSensorId;
     float temperature;
 
 //-----------------------------------------------------------------------------
@@ -27,10 +27,9 @@ public:
         WirelessTempSensorSwsTsIdLocalEnumSize,
     };
 
-
-    WirelessTempSensorSwsTsReading(uint8_t channel, float temperature,
+    WirelessTempSensorReading(uint8_t firstGlobalSensorId, float temperature,
                 unsigned long timeStamp);
-    WirelessTempSensorSwsTsReading(uint8_t channel, bool error = false, unsigned long timeStamp = 0);
+    WirelessTempSensorReading(uint8_t firstGlobalSensorId, bool error = false, unsigned long timeStamp = 0);
 
     float getTemperature() const {
         return temperature;
@@ -46,4 +45,4 @@ public:
     virtual WeatherStation::SensorValueUnit valueUnit(uint8_t valueId, bool localId) const;
 };
 
-#endif /* WIRELESSTEMPSENSORSWSTSREADING_H_ */
+#endif /* WIRELESSTEMPSENSORREADING_H_ */
