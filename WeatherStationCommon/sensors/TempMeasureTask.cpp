@@ -23,10 +23,11 @@
 
 using namespace WeatherStation;
 
-TempMeasureTask::TempMeasureTask(uint8_t pin, unsigned long periodMs) :
+TempMeasureTask::TempMeasureTask(uint8_t pin, unsigned long periodMs, uint8_t powerPin) :
         Task(periodMs),
         latestReading(SensorValueId::DHT_HUMIDITY),
-        dht(pin) {
+        dht(pin),
+        powerPin(powerPin){
 }
 
 #ifdef USE_RTC
@@ -36,6 +37,20 @@ TempMeasureTask::TempMeasureTask(uint8_t pin, unsigned long periodMs) :
 #endif
 
 void TempMeasureTask::run() {
+    if (powerPin > 0) {
+        if (latestReading.getReadState() == ReadState::NOT_YET_READ) {
+            pinMode(powerPin, OUTPUT);
+            digitalWrite(powerPin, HIGH);
+            delay(2000); // stabilize sensor
+        } else if (latestReading.getReadState() == ReadState::READ_ERROR) {
+            // restart DHT
+            digitalWrite(powerPin, LOW);
+            delay(1000); // let it off for a while
+            digitalWrite(powerPin, HIGH);
+            delay(2000); // stabilize sensor
+        }
+    }
+
     DhtReadState dhtState = dht.read();
     if (dhtState == DHT_GOOD) {
         float h = dht.getHumidity();

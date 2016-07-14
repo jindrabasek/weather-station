@@ -17,11 +17,12 @@ class TempMeasureTask : public Task {
 private:
     TempReading latestReading;
     DHT dht;
+    uint8_t powerPin;
 
 //-----------------------------------------------------------------------------
 
 public:
-    TempMeasureTask(uint8_t pin, unsigned long periodMs);
+    TempMeasureTask(uint8_t pin, unsigned long periodMs, uint8_t powerPin = 0);
 
     TempMeasureTask(const TempMeasureTask& that) = delete;
     void operator=(const TempMeasureTask& that) = delete;

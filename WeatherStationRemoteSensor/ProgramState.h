@@ -26,6 +26,7 @@ class ToDraw;
 class ProgramState {
 public:
     static const int DHT_PIN = 4;
+    static const int DHT_POWER_PIN = 5;
     static const unsigned long DHT_MEASURE_FREQ = 10000000;
     static const unsigned long LIGHT_MEASURE_FREQ = 10000000;
     static const unsigned long PRINT_VALUES_FREQ = 30000000;
@@ -65,7 +66,7 @@ public:
 
 private:
     ProgramState() :
-            measureTempTask(DHT_PIN, DHT_MEASURE_FREQ),
+            measureTempTask(DHT_PIN, DHT_MEASURE_FREQ, DHT_POWER_PIN),
             measureLightIntensityTask(LIGHT_MEASURE_FREQ),
             logReadingsTask(PRINT_VALUES_FREQ),
             wirelessSend433MhzTask(SEND_VALUES_FREQ)

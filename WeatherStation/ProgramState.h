@@ -52,6 +52,7 @@ class ToDraw;
 class ProgramState {
 public:
     static const int DHT_PIN = 30;
+    static const int DHT_POWER_PIN = 32;
 
     //static const int LEFT_PIN = A12; //11;
     //static const int RIGHT_PIN = A13; //10;
@@ -217,7 +218,8 @@ private:
 
             measureTempTask(DHT_PIN,
                     settings.getMeasureTempSecondFreq()
-                            * ProgramSettings::USEC_RESOLUTION_MEASURE_TEMP_FREQ),
+                            * ProgramSettings::USEC_RESOLUTION_MEASURE_TEMP_FREQ,
+                    DHT_POWER_PIN),
             measureAirPressureTask(
                     settings.getMeasurePressureSecondFreq()
                             * ProgramSettings::USEC_RESOLUTION_MEASURE_PRESSURE_FREQ),
