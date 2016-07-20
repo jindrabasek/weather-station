@@ -44,8 +44,10 @@ void TempMeasureTask::run() {
             delay(2000); // stabilize sensor
         } else if (latestReading.getReadState() == ReadState::READ_ERROR) {
             // restart DHT
-            digitalWrite(powerPin, LOW);
-            delay(1000); // let it off for a while
+            pinMode(dht.getPin(), INPUT);
+            pinMode(powerPin, INPUT);
+            delay(5000); // let it off for a while
+            pinMode(powerPin, OUTPUT);
             digitalWrite(powerPin, HIGH);
             delay(2000); // stabilize sensor
         }

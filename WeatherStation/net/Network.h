@@ -34,6 +34,7 @@ public:
 
 private:
     static void initNetwork(bool force);
+    static void listNetworks();
 
 };
 
