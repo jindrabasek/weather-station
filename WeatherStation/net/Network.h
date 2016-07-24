@@ -32,9 +32,11 @@ public:
         return espStatus == WL_CONNECTED;
     }
 
+    static void listNetworks();
+    static void status();
+
 private:
     static void initNetwork(bool force);
-    static void listNetworks();
 
 };
 

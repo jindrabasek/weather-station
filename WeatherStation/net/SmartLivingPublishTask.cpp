@@ -178,17 +178,24 @@ void SmartLivingPublishTask::run() {
                             yield();
                             perfMeasure();
                             if (err == 0) {
-                                uploadSucceded++;
-                                // mark reading was uploaded
-                                SensorFlags::writeFlag((SensorValueId) i, true,
-                                        ReadingUploader::SMART_LIVING);
-                                LOG_DEBUG2(F("Sensor data uploaded"), i, assetId);
+                                http.receiveAndPrintResponse(err, LOGGER_DEBUG, LOGGER_DEBUG);
+
+                                if (err == 0) {
+                                    uploadSucceded++;
+                                    // mark reading was uploaded
+                                    SensorFlags::writeFlag((SensorValueId) i, true,
+                                            ReadingUploader::SMART_LIVING);
+                                    LOG_DEBUG2(F("Sensor data uploaded"), i, assetId);
+                                } else {
+                                    LOG_WARN2(F("Error receiving upload confirmation"), assetId,
+                                                                            err);
+                                }
                             } else {
                                 LOG_WARN2(F("Error uploading sensor data"), assetId,
                                         err);
                             }
 
-                            http.receiveAndPrintResponse(err, LOGGER_DEBUG, LOGGER_DEBUG);
+
 
                             perfMeasure();
                             Logger.flush();

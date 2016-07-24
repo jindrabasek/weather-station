@@ -7,6 +7,7 @@
 
 #include "Network.h"
 
+#include <defines.h>
 #include <HardwareSerial.h>
 #include <IPAddress.h>
 #include <Logger.h>
@@ -18,6 +19,7 @@
 #include <WString.h>
 
 #include "../ProgramSettings.h"
+#include "WifiWatchdogTask.h"
 
 uint8_t Network::espStatus = WL_IDLE_STATUS;
 SerialHolderT<HardwareSerial> Network::serial(&Serial1);
@@ -103,13 +105,46 @@ void Network::listNetworks() {
     }
 }
 
+void Network::status() {
+    if (LOG_LEVEL >= LOGGER_LEVEL_INFO) {
+
+        LOG_INFO(F("---Network status---"));
+        switch (espStatus) {
+            case WL_NO_SHIELD:
+                LOG_INFO(F("Error init ESP!"));
+                break;
+            case WL_IDLE_STATUS:
+            case WL_DISCONNECTED:
+                LOG_INFO(F("Not Connected"));
+                break;
+            case WL_CONNECT_FAILED:
+                LOG_INFO(F("Error connecting network"));
+                break;
+            case WL_CONNECTED:
+                LOG_INFO(F("WiFi connected!"));
+
+                IPAddress ip = WiFi.localIP();
+                LOGGER_INFO.printTime();
+                LOGGER_INFO.print(F("IP address: "));
+                ip.printTo(LOGGER_INFO);
+                LOGGER_INFO.println();
+                Logger.flush();
+
+                break;
+        }
+    }
+}
+
 inline void Network::initNetwork(bool force) {
     if (force || !networkInitialized()) {
         WiFi.init(&serial, 4800, 40, 115200);
 
         espStatus = WiFi.status();
         if (espStatus == WL_NO_SHIELD) {
+            WifiWatchdogTask::doHardReset();
             LOG_ERROR(F("WiFi shield not present!"));
+        } else {
+            WifiWatchdogTask::doSoftReset();
         }
     }
 }

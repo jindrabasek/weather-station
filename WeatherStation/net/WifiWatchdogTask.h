@@ -12,9 +12,24 @@
 
 class WifiWatchdogTask  : public Task {
 private:
-    bool forceRestart = false;
+    static const uint8_t DO_HARD_RESET_FLAG = 0;
+    static const uint8_t FORCE_RESTART_FLAG = DO_HARD_RESET_FLAG + 1;
+
+    static uint8_t flags;
     static uint8_t failedConnections;
     static const uint8_t RESET_AFTER_N_FAILED = 2;
+
+    static bool isForceRestart(){
+        return bitRead(flags, FORCE_RESTART_FLAG);
+    }
+
+    static bool isDoHardReset(){
+        return bitRead(flags, DO_HARD_RESET_FLAG);
+    }
+
+    static void clearForceWifiRestart() {
+        bitClear(flags, FORCE_RESTART_FLAG);
+    }
 
 public:
     WifiWatchdogTask(unsigned long periodMs);
@@ -26,8 +41,16 @@ public:
 
     virtual void run();
 
-    void forceWifiRestart() {
-        this->forceRestart = true;
+    static void forceWifiRestart() {
+        bitSet(flags, FORCE_RESTART_FLAG);
+    }
+
+    static void doHardReset() {
+        bitSet(flags, DO_HARD_RESET_FLAG);
+    }
+
+    static void doSoftReset() {
+        bitClear(flags, DO_HARD_RESET_FLAG);
     }
 };
 

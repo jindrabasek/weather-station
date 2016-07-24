@@ -7,12 +7,16 @@
 
 #include "SerialVirtButtonsTask.h"
 
+#include <ApplicationMonitor.h>
+#include <Arduino.h>
 #include <ButtonHandler.h>
 #include <Debouncer.h>
 #include <HardwareSerial.h>
 #include <Logger.h>
 #include <PciManagerLock.h>
+#include <WString.h>
 
+#include "../net/Network.h"
 #include "../ProgramState.h"
 #include "Buttons.h"
 
@@ -34,6 +38,7 @@ void SerialVirtButtonsTask::run() {
     if (Serial.available()) {
         // read one char from input buffer
         char input = Serial.read();
+        LOG_INFO1(F("Key received: "), input);
 
         {
             PciManagerLock lock;
@@ -65,11 +70,17 @@ void SerialVirtButtonsTask::run() {
                 case LOG_DUMP_CHAR:
                     Logger.dumpLog();
                     break;
+                case LIST_NETWORKS_CHAR:
+                    ApplicationMonitor.DisableWatchdog();
+                    Network::listNetworks();
+                    ApplicationMonitor.EnableWatchdog(Watchdog::CApplicationMonitor::Timeout_8s);
+                    break;
+                case NETWORK_STATUS_CHAR:
+                    Network::status();
+                    break;
                 default:
                     break;
             }
         }
-
-        LOG_INFO1(F("Key received: "), input);
     }
 }

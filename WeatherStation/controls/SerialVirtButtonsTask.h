@@ -21,6 +21,8 @@ private:
     static const char ESC_CHAR = 'q';
     static const char RESET_CHAR = 'r';
     static const char LOG_DUMP_CHAR = 'l';
+    static const char LIST_NETWORKS_CHAR = 'n';
+    static const char NETWORK_STATUS_CHAR = 'k';
 
     static const int DO_RESET_PIN = 5;
     static const int RESET_DELAY = 5000;

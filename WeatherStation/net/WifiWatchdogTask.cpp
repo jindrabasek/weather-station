@@ -18,6 +18,7 @@
 extern ProgramState *state;
 
 uint8_t WifiWatchdogTask::failedConnections = 0;
+uint8_t WifiWatchdogTask::flags = 0;
 
 WifiWatchdogTask::WifiWatchdogTask(unsigned long periodMs) : Task(periodMs) {
 }
@@ -26,10 +27,13 @@ void WifiWatchdogTask::run() {
     IPAddress ip = WiFi.localIP();
     LOG_INFO(F("Checking WiFi online"));
     // If task is executed manually, restart wifi
-    if (forceRestart || ip == IPAddress(0, 0, 0, 0) || failedConnections > RESET_AFTER_N_FAILED) {
-        forceRestart = false;
+    if (isForceRestart() || ip == IPAddress(0, 0, 0, 0) || failedConnections > RESET_AFTER_N_FAILED) {
+        clearForceWifiRestart();
         LOG_INFO(F("Restarting WiFi..."));
-        bool result = WiFi.hardReset();
+        bool result = true;
+        if (isDoHardReset()) {
+            result = WiFi.hardReset();
+        }
         if (result) {
             LOG_INFO(F("Reset done. Connecting..."));
         } else {

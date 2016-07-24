@@ -12,7 +12,6 @@
 extern ProgramState *state;
 
 void RestartWifiAction::doAction() {
-    WifiWatchdogTask& task = state->getWifiWatchDogTask();
-    task.forceWifiRestart();
-    task.startAtEarliestOportunity();
+    WifiWatchdogTask::forceWifiRestart();
+    state->getWifiWatchDogTask().startAtEarliestOportunity();
 }
