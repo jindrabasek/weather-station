@@ -9,10 +9,10 @@
 
 #include <Arduino.h>
 #include <Logger.h>
+#include <sensors/Dht22TempMeasureTask.h>
 #include <sensors/LightIntensityMeasureTask.h>
 #include <sensors/LightIntensityReading.h>
 #include <sensors/SensorReading.h>
-#include <sensors/TempMeasureTask.h>
 #include <sensors/TempReading.h>
 #include <stdint.h>
 
@@ -31,11 +31,11 @@ using namespace WeatherStation;
 void WirelessSend433MhzTask::run() {
 
     if (state->getMeasureLightIntensityTask().getLatestReading().getReadState() == ReadState::READ_OK &&
-            state->getMeasureTempTask().getLatestReading().getReadState() == ReadState::READ_OK) {
+            state->getDht22MeasureTempTask().getLatestReading().getReadState() == ReadState::READ_OK) {
 
         int16_t intensity = state->getMeasureLightIntensityTask().getLatestReading().getIntensity();
-        int16_t temperature = int16_t(state->getMeasureTempTask().getLatestReading().getTemperatureCelsius() * 10);
-        int16_t humidity = int16_t(state->getMeasureTempTask().getLatestReading().getHumidity() * 10);
+        int16_t temperature = int16_t(state->getDht22MeasureTempTask().getLatestReading().getTemperatureCelsius() * 10);
+        int16_t humidity = int16_t(state->getDht22MeasureTempTask().getLatestReading().getHumidity() * 10);
 
         LOG_DEBUG1(F("intensity"), intensity);
         LOG_DEBUG1(F("temperature"), temperature);

@@ -9,11 +9,11 @@
 #include <DHT.h>
 #include <math.h>
 #include <sensors/SensorFlags.h>
-#include <sensors/TempMeasureTask.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <SensorIds.h>
 #include <Logger.h>
+#include <sensors/Dht22TempMeasureTask.h>
 
 #ifndef DO_NOT_USE_RTC
 #include <time/Clock.h>
@@ -23,10 +23,10 @@
 
 using namespace WeatherStation;
 
-TempMeasureTask::TempMeasureTask(uint8_t pin, unsigned long periodMs, uint8_t powerPin) :
+Dht22TempMeasureTask::Dht22TempMeasureTask(uint8_t pin, unsigned long periodMs, uint8_t powerPin) :
         Task(periodMs),
         latestReading(SensorValueId::DHT_HUMIDITY),
-        dht(pin),
+        dataPin(pin),
         powerPin(powerPin){
 }
 
@@ -36,7 +36,10 @@ TempMeasureTask::TempMeasureTask(uint8_t pin, unsigned long periodMs, uint8_t po
 #define timeStamp() millis()
 #endif
 
-void TempMeasureTask::run() {
+void Dht22TempMeasureTask::run() {
+
+    DHT dht(dataPin);
+
     if (powerPin > 0) {
         if (latestReading.getReadState() == ReadState::NOT_YET_READ) {
             pinMode(powerPin, OUTPUT);
@@ -44,20 +47,22 @@ void TempMeasureTask::run() {
             delay(2000); // stabilize sensor
         } else if (latestReading.getReadState() == ReadState::READ_ERROR) {
             // restart DHT
-            pinMode(dht.getPin(), INPUT);
-            pinMode(powerPin, INPUT);
-            delay(5000); // let it off for a while
-            pinMode(powerPin, OUTPUT);
+            pinMode(dataPin, INPUT);
+            digitalWrite(powerPin, LOW);
+            delay(20000); // let it off for a while
             digitalWrite(powerPin, HIGH);
-            delay(2000); // stabilize sensor
+            delay(3000); // stabilize sensor
+            latestReading = TempReading(SensorValueId::DHT_HUMIDITY);
+            return;
         }
     }
 
-    DhtReadState dhtState = dht.read();
+    uint8_t data[5];
+    DhtReadState dhtState = dht.read(data);
     if (dhtState == DHT_GOOD) {
-        float h = dht.getHumidity();
+        float h = dht.getHumidity(data);
         // Read temperature as Celsius (the default)
-        float t = dht.getTemperature();
+        float t = dht.getTemperature(data);
 
         latestReading = TempReading(SensorValueId::DHT_HUMIDITY, h, t,
                 timeStamp());

@@ -15,9 +15,9 @@
 #include <Debouncer.h>
 #include <pins_arduino.h>
 #include <PciManager.h>
+#include <sensors/Dht22TempMeasureTask.h>
 #include <sensors/LightIntensityMeasureTask.h>
 #include <sensors/SensorReading.h>
-#include <sensors/TempMeasureTask.h>
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -83,7 +83,7 @@ private:
     SingleThreadPool displayThread;
     SingleThreadPool networkThread;
 
-    TempMeasureTask measureTempTask;
+    Dht22TempMeasureTask measureTempTask;
     AirPressureMeasureTask measureAirPressureTask;
     LightIntensityMeasureTask measureLightIntensityTask;
     Wireless433MhzTask wireless433MhzTask;
@@ -158,7 +158,7 @@ public:
         return measureLightIntensityTask;
     }
 
-    TempMeasureTask& getMeasureTempTask() {
+    Dht22TempMeasureTask& getMeasureTempTask() {
         return measureTempTask;
     }
 
@@ -212,9 +212,9 @@ public:
 
 private:
     ProgramState() :
-            measureThread(512),
-            displayThread(512),
-            networkThread(512),
+            measureThread(600),
+            displayThread(600),
+            networkThread(600),
 
             measureTempTask(DHT_PIN,
                     settings.getMeasureTempSecondFreq()

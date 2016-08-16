@@ -29,10 +29,12 @@ void WifiWatchdogTask::run() {
     // If task is executed manually, restart wifi
     if (isForceRestart() || ip == IPAddress(0, 0, 0, 0) || failedConnections > RESET_AFTER_N_FAILED) {
         clearForceWifiRestart();
-        LOG_INFO(F("Restarting WiFi..."));
         bool result = true;
         if (isDoHardReset()) {
+            LOG_INFO(F("Restarting WiFi by HW..."));
             result = WiFi.hardReset();
+        } else {
+            LOG_INFO(F("Restarting WiFi by SW..."));
         }
         if (result) {
             LOG_INFO(F("Reset done. Connecting..."));

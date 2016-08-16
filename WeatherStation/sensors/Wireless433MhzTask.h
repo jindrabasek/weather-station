@@ -79,7 +79,6 @@ private:
     static volatile unsigned long rise_Time; // Placeholder for microsecond time when last rising edge occured.
     static volatile byte bit_Count;            // Bit counter for received bits.
     static volatile uint64_t build_Buffer; // Placeholder last data packet being received.
-    static volatile uint64_t build_prev_Buffer; // Placeholder last data packet being received.
     static volatile uint64_t read_Buffer; // Placeholder last full data packet read.
     static volatile byte read_Buffer_length;
     static volatile byte isrFlags;                          // Various flag bits

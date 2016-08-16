@@ -50,7 +50,6 @@ void Network::connect(ProgramSettings& settings, bool force) {
                 Logger.flush();
             } else {
                 LOG_INFO(F("WiFi connection failed!"));
-                listNetworks();
             }
         }
     }
@@ -137,14 +136,11 @@ void Network::status() {
 
 inline void Network::initNetwork(bool force) {
     if (force || !networkInitialized()) {
-        WiFi.init(&serial, 4800, 40, 115200);
+        WiFi.init(&serial, 4800, 42, 40, 115200);
 
         espStatus = WiFi.status();
         if (espStatus == WL_NO_SHIELD) {
-            WifiWatchdogTask::doHardReset();
             LOG_ERROR(F("WiFi shield not present!"));
-        } else {
-            WifiWatchdogTask::doSoftReset();
         }
     }
 }

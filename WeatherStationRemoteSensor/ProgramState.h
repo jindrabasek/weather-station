@@ -11,9 +11,9 @@
 #include "ProgramState.h"
 
 #include <Arduino.h>
+#include <sensors/Dht22TempMeasureTask.h>
 #include <sensors/LightIntensityMeasureTask.h>
 #include <sensors/SensorReading.h>
-#include <sensors/TempMeasureTask.h>
 #include <stddef.h>
 #include <SensorIds.h>
 #include <SoftTimer.h>
@@ -35,7 +35,7 @@ public:
 //-----------------------------------------------------------------------------
 
 private:
-    TempMeasureTask measureTempTask;
+    Dht22TempMeasureTask measureTempTask;
     LightIntensityMeasureTask measureLightIntensityTask;
     LogReadingsTask logReadingsTask;
     WirelessSend433MhzTask wirelessSend433MhzTask;
@@ -60,7 +60,7 @@ public:
         return measureLightIntensityTask;
     }
 
-    TempMeasureTask& getMeasureTempTask() {
+    Dht22TempMeasureTask& getDht22MeasureTempTask() {
         return measureTempTask;
     }
 
