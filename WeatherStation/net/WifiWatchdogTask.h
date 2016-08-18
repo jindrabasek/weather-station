@@ -15,8 +15,8 @@ private:
     static const uint8_t DO_HARD_RESET_FLAG = 0;
     static const uint8_t FORCE_RESTART_FLAG = DO_HARD_RESET_FLAG + 1;
 
-    static uint8_t flags;
-    static uint8_t failedConnections;
+    static volatile uint8_t flags;
+    static volatile uint8_t failedConnections;
     static const uint8_t RESET_AFTER_N_FAILED = 2;
 
     static bool isForceRestart(){

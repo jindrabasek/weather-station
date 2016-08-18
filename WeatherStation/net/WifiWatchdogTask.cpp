@@ -17,8 +17,8 @@
 
 extern ProgramState *state;
 
-uint8_t WifiWatchdogTask::failedConnections = 0;
-uint8_t WifiWatchdogTask::flags = 0;
+volatile uint8_t WifiWatchdogTask::failedConnections = 0;
+volatile uint8_t WifiWatchdogTask::flags = 0;
 
 WifiWatchdogTask::WifiWatchdogTask(unsigned long periodMs) : Task(periodMs) {
 }

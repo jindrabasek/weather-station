@@ -140,7 +140,10 @@ inline void Network::initNetwork(bool force) {
 
         espStatus = WiFi.status();
         if (espStatus == WL_NO_SHIELD) {
+            WifiWatchdogTask::doHardReset();
             LOG_ERROR(F("WiFi shield not present!"));
+        } else {
+            WifiWatchdogTask::doSoftReset();
         }
     }
 }
