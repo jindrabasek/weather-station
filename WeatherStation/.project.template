@@ -42,6 +42,11 @@
 			<location>%ABSOLUTE_PATH_TO_ECLIPSE_INSTALLATION_WITH_ARDUINO_PLUGIN%/arduinoPlugin/packages/arduino/hardware/avr/1.6.10/variants/mega</location>
 		</link>
 		<link>
+			<name>libraries/AM2320</name>
+			<type>2</type>
+			<location>%ABSOLUTE_PATH_TO_ARDUINO_IDE_LIBRARIES_FOLDER%/AM2320</location>
+		</link>
+		<link>
 			<name>libraries/Adafruit-BMP085-Library</name>
 			<type>2</type>
 			<location>%ABSOLUTE_PATH_TO_ARDUINO_IDE_LIBRARIES_FOLDER%/Adafruit-BMP085-Library</location>

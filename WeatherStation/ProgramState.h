@@ -15,7 +15,6 @@
 #include <Debouncer.h>
 #include <pins_arduino.h>
 #include <PciManager.h>
-#include <sensors/Dht22TempMeasureTask.h>
 #include <sensors/LightIntensityMeasureTask.h>
 #include <sensors/SensorReading.h>
 #include <stdbool.h>
@@ -41,6 +40,7 @@
 #include "net/WifiWatchdogTask.h"
 #include "ProgramSettings.h"
 #include "sensors/AirPressureMeasureTask.h"
+#include "sensors/Am2320TempMeasureTask.h"
 #include "sensors/SensorReadingScreen.h"
 #include "sensors/Wireless433MhzTask.h"
 #include "sensors/WirelessTempScreen.h"
@@ -83,7 +83,7 @@ private:
     SingleThreadPool displayThread;
     SingleThreadPool networkThread;
 
-    Dht22TempMeasureTask measureTempTask;
+    Am2320TempMeasureTask measureTempTask;
     AirPressureMeasureTask measureAirPressureTask;
     LightIntensityMeasureTask measureLightIntensityTask;
     Wireless433MhzTask wireless433MhzTask;
@@ -158,7 +158,7 @@ public:
         return measureLightIntensityTask;
     }
 
-    Dht22TempMeasureTask& getMeasureTempTask() {
+    Am2320TempMeasureTask& getMeasureTempTask() {
         return measureTempTask;
     }
 
@@ -216,10 +216,9 @@ private:
             displayThread(600),
             networkThread(600),
 
-            measureTempTask(DHT_PIN,
+            measureTempTask(
                     settings.getMeasureTempSecondFreq()
-                            * ProgramSettings::USEC_RESOLUTION_MEASURE_TEMP_FREQ,
-                    DHT_POWER_PIN),
+                            * ProgramSettings::USEC_RESOLUTION_MEASURE_TEMP_FREQ),
             measureAirPressureTask(
                     settings.getMeasurePressureSecondFreq()
                             * ProgramSettings::USEC_RESOLUTION_MEASURE_PRESSURE_FREQ),
