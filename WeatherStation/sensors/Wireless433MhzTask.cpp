@@ -41,6 +41,7 @@ volatile unsigned long Wireless433MhzTask::fall_Time = 0; // Placeholder for mic
 volatile unsigned long Wireless433MhzTask::rise_Time = 0; // Placeholder for microsecond time when last rising edge occured.
 volatile byte Wireless433MhzTask::bit_Count = 0; // Bit counter for received bits.
 volatile uint64_t Wireless433MhzTask::build_Buffer = 0; // Placeholder last data packet being received.
+volatile uint64_t Wireless433MhzTask::build_prev_Buffer = 0; // Placeholder before last data packet being received.
 volatile uint64_t Wireless433MhzTask::read_Buffer = 0; // Placeholder last full data packet read.
 volatile byte Wireless433MhzTask::read_Buffer_length = 0; // Placeholder count of received bits
 volatile byte Wireless433MhzTask::isrFlags = 0;             // Various flag bits
@@ -186,13 +187,18 @@ void Wireless433MhzTask::PinChangeISR0() { // Pin 2 (Interrupt 0) service routin
             } else if ((pulseWidth >= sync_MIN) && (pulseWidth <= sync_MAX)) {
                 if (bit_Count > 0 && build_Buffer > 0) {
                     // All bits arrived
-                    if (!bitRead(isrFlags, F_DATA_NOT_READ)) {
+                    if (!bitRead(isrFlags, F_DATA_NOT_READ)
+                            && build_Buffer == build_prev_Buffer) {
                         read_Buffer = build_Buffer;
                         read_Buffer_length = bit_Count;
                         bitSet(isrFlags, F_DATA_NOT_READ); // Set data reads match
                         state->getWireless433MhzTask().setEnabled(true);
                         state->getWireless433MhzTask().startAtEarliestOportunity();
                     }
+                    build_prev_Buffer = build_Buffer;
+                } else {
+                    // Sync length okay
+                    build_prev_Buffer = 0;
                 }
                 bit_Count = 0;
                 build_Buffer = 0;
@@ -200,6 +206,7 @@ void Wireless433MhzTask::PinChangeISR0() { // Pin 2 (Interrupt 0) service routin
                 // Not a 0 or 1 bit so restart data build and check if it's a sync?
                 bit_Count = 0;
                 build_Buffer = 0;
+                build_prev_Buffer = 0;
             }
             fall_Time = timeT;                             // Store fall time
             digitalWriteFast(LED_BUILTIN, LOW);
