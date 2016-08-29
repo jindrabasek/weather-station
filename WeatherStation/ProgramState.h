@@ -40,8 +40,8 @@
 #include "net/WifiWatchdogTask.h"
 #include "ProgramSettings.h"
 #include "sensors/AirPressureMeasureTask.h"
-#include "sensors/Am2320TempMeasureTask.h"
 #include "sensors/SensorReadingScreen.h"
+#include "sensors/Si7010TempMeasureTask.h"
 #include "sensors/Wireless433MhzTask.h"
 #include "sensors/WirelessTempScreen.h"
 #include "time/TimeScreen.h"
@@ -83,7 +83,7 @@ private:
     SingleThreadPool displayThread;
     SingleThreadPool networkThread;
 
-    Am2320TempMeasureTask measureTempTask;
+    Si7010TempMeasureTask measureTempTask;
     AirPressureMeasureTask measureAirPressureTask;
     LightIntensityMeasureTask measureLightIntensityTask;
     Wireless433MhzTask wireless433MhzTask;
@@ -158,7 +158,7 @@ public:
         return measureLightIntensityTask;
     }
 
-    Am2320TempMeasureTask& getMeasureTempTask() {
+    Si7010TempMeasureTask& getMeasureTempTask() {
         return measureTempTask;
     }
 

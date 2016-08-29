@@ -117,6 +117,11 @@
 			<location>%ABSOLUTE_PATH_TO_ARDUINO_IDE_LIBRARIES_FOLDER%/SdFat</location>
 		</link>
 		<link>
+			<name>libraries/Si7021</name>
+			<type>2</type>
+			<location>%ABSOLUTE_PATH_TO_ARDUINO_IDE_LIBRARIES_FOLDER%/Si7021</location>
+		</link>
+		<link>
 			<name>libraries/SoftTimerBase</name>
 			<type>2</type>
 			<location>%ABSOLUTE_PATH_TO_ARDUINO_IDE_LIBRARIES_FOLDER%/SoftTimerBase</location>
