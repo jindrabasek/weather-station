@@ -68,7 +68,7 @@ static const char* const assetIds[] PROGMEM = { PRESSURE_ID,
         ABSOLUTE_HUMIDITY_OUTDOOR_ID };
 
 static const char PATH_FORMAT[] PROGMEM = "/asset/%s/state";
-static const char SMART_LIVING_IP[] PROGMEM = "65.52.140.212";
+static const char SMART_LIVING_IP[] PROGMEM = "api.smartliving.io";
 
 //#define DATA_UPLOAD_TIME_MEASURE
 #ifdef DATA_UPLOAD_TIME_MEASURE
