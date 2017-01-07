@@ -29,6 +29,7 @@ private:
     static bool getAssetId(char* buffer, uint8_t valueId);
     static void formatTime(Print & out, unsigned long timeStamp);
     static size_t numberOfDigits(double value);
+    static size_t numberOfDigits(long value);
 };
 
 

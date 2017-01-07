@@ -161,5 +161,10 @@
 			<type>2</type>
 			<location>%ABSOLUTE_PATH_TO_ARDUINO_IDE_LIBRARIES_FOLDER%/digitalWriteFast</location>
 		</link>
+		<link>
+			<name>libraries/pubsubclient</name>
+			<type>2</type>
+			<location>%ABSOLUTE_PATH_TO_ARDUINO_IDE_LIBRARIES_FOLDER%/pubsubclient</location>
+		</link>
 	</linkedResources>
 </projectDescription>

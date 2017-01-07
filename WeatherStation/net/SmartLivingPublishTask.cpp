@@ -68,7 +68,7 @@ static const char* const assetIds[] PROGMEM = { PRESSURE_ID,
         ABSOLUTE_HUMIDITY_OUTDOOR_ID };
 
 static const char PATH_FORMAT[] PROGMEM = "/asset/%s/state";
-static const char SMART_LIVING_IP[] PROGMEM = "api.smartliving.io";
+static const char SMART_LIVING_IP[] PROGMEM = "api.allthingstalk.io";
 
 //#define DATA_UPLOAD_TIME_MEASURE
 #ifdef DATA_UPLOAD_TIME_MEASURE
@@ -126,14 +126,44 @@ void SmartLivingPublishTask::run() {
                             sprintf(path, pathFormat, assetId);
                             client.beginPacket();
 
-                            double value = sensorValue->getValue(i, false);
-                            uint8_t valueLenght = numberOfDigits(value);
+                            ValueType valueType = sensorValue->getValueType(i, false);
+
+                            double doubleValue = 0;
+                            long longValue = 0;
+                            uint8_t valueLenght = 0;
+
+                            switch (valueType) {
+                                case ValueType::NA:
+                                    LOG_ERROR1(F("NA Value type - you asked for non existing sensor"), i);
+                                    valueLenght = 3; // for "err" string
+                                    break;
+                                case ValueType::DOUBLE:
+                                    doubleValue = sensorValue->getDoubleValue(i, false);
+                                    valueLenght = numberOfDigits(doubleValue);
+                                    break;
+                                case ValueType::LONG:
+                                    longValue = sensorValue->getDoubleValue(i, false);
+                                    valueLenght = numberOfDigits(longValue);
+                                    break;
+                            }
 
                             if (LOG_LEVEL >= LOGGER_LEVEL_DEBUG) {
                                 LOGGER_DEBUG.printTime();
                                 LOGGER_DEBUG.print(path);
                                 LOGGER_DEBUG.print(' ');
-                                LOGGER_DEBUG.print(value, FLOAT_DIGITS);
+
+                                switch (valueType) {
+                                    case ValueType::NA:
+                                        LOGGER_DEBUG.print(F("err"));
+                                        break;
+                                    case ValueType::DOUBLE:
+                                        LOGGER_DEBUG.print(doubleValue, FLOAT_DIGITS);
+                                        break;
+                                    case ValueType::LONG:
+                                        LOGGER_DEBUG.print(longValue);
+                                        break;
+                                }
+
                                 LOGGER_DEBUG.print(' ');
                                 formatTime(LOGGER_DEBUG, sensorValue->getTimeStamp());
                                 LOGGER_DEBUG.println();
@@ -162,7 +192,19 @@ void SmartLivingPublishTask::run() {
 
                                 client.println('{');
                                 client.print(F("\"value\": "));
-                                client.print(value, FLOAT_DIGITS);
+
+                                switch (valueType) {
+                                    case ValueType::NA:
+                                        client.print(F("err"));
+                                        break;
+                                    case ValueType::DOUBLE:
+                                        client.print(doubleValue, FLOAT_DIGITS);
+                                        break;
+                                    case ValueType::LONG:
+                                        client.print(longValue);
+                                        break;
+                                }
+
                                 client.println(',');
                                 perfMeasure();
                                 client.print(F("\"at\": \""));
@@ -194,8 +236,6 @@ void SmartLivingPublishTask::run() {
                                 LOG_WARN2(F("Error uploading sensor data"), assetId,
                                         err);
                             }
-
-
 
                             perfMeasure();
                             Logger.flush();
@@ -268,6 +308,22 @@ size_t SmartLivingPublishTask::numberOfDigits(double number) {
     } while (int_part);
 
     n +=2;
+
+    return n;
+}
+
+size_t SmartLivingPublishTask::numberOfDigits(long number) {
+    size_t n = 0;
+
+    // Handle negative numbers
+    if (number < 0) {
+        n++;
+    }
+
+    do {
+        n++;
+        number /= 10;
+    } while (number);
 
     return n;
 }

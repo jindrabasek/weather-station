@@ -58,13 +58,21 @@ void LightIntensityReading::printValue(uint8_t valueId, bool localId, Print& out
     out.print(buffer);
 }
 
-double LightIntensityReading::getValue(uint8_t valueId, bool localId) const {
+ValueType LightIntensityReading::getValueType(uint8_t valueId, bool localId) const {
+    ifIdMatchThenDo(LightSensorIdLocal::L_LIGHT_INTENSITY,
+                firstGlobalSensorId + LightSensorIdLocal::L_LIGHT_INTENSITY,
+                return ValueType::LONG);
+
+    return ValueType::NA;
+}
+
+long LightIntensityReading::getLongValue(uint8_t valueId, bool localId) const {
 
     ifIdMatchThenDo(LightSensorIdLocal::L_LIGHT_INTENSITY,
             firstGlobalSensorId + LightSensorIdLocal::L_LIGHT_INTENSITY,
             return intensity);
 
-   return 0;
+    return 0;
 }
 
 uint8_t LightIntensityReading::printValueName(uint8_t valueId, bool localId,

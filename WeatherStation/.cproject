@@ -60,6 +60,8 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/AM2320}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Si7021}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Si7021/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/pubsubclient}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/pubsubclient/src}&quot;"/>
 								</option>
 								<inputType id="it.baeyens.arduino.compiler.cpp.sketch.input.1126043895" name="CPP source files" superClass="it.baeyens.arduino.compiler.cpp.sketch.input"/>
 							</tool>
@@ -101,6 +103,8 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/AM2320}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Si7021}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Si7021/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/pubsubclient}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/pubsubclient/src}&quot;"/>
 								</option>
 								<inputType id="it.baeyens.arduino.compiler.c.sketch.input.22390311" name="C Source Files" superClass="it.baeyens.arduino.compiler.c.sketch.input"/>
 							</tool>
@@ -113,7 +117,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="sd|display|libraries**/._*|sensors|controls|time|libraries/BH1750FVI/BH1750_serial|libraries/**/?xamples/**|libraries/BH1750FVI/BH1750_LCD|libraries/BH1750FVI/BH1750_Led|libraries/**/?xtras/**|menu|libraries/**/test/**|libraries/**/third-party/**|net|not used/*" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="libraries/pubsubclient/tests|sd|display|libraries**/._*|sensors|controls|time|libraries/BH1750FVI/BH1750_serial|libraries/**/?xamples/**|libraries/BH1750FVI/BH1750_LCD|libraries/BH1750FVI/BH1750_Led|libraries/**/?xtras/**|menu|libraries/**/test/**|libraries/**/third-party/**|net|not used/*" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="controls"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="display"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="menu"/>
@@ -178,6 +182,8 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/AM2320}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Si7021}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Si7021/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/pubsubclient}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/pubsubclient/src}&quot;"/>
 								</option>
 								<inputType id="it.baeyens.arduino.compiler.cpp.sketch.input.1297296522" name="CPP source files" superClass="it.baeyens.arduino.compiler.cpp.sketch.input"/>
 							</tool>
@@ -217,6 +223,8 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/AM2320}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Si7021}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Si7021/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/pubsubclient}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/pubsubclient/src}&quot;"/>
 								</option>
 								<inputType id="it.baeyens.arduino.compiler.c.sketch.input.239996089" name="C Source Files" superClass="it.baeyens.arduino.compiler.c.sketch.input"/>
 							</tool>
@@ -229,7 +237,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="sd" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="libraries/pubsubclient/tests|sd" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="sd"/>
 					</sourceEntries>
 				</configuration>

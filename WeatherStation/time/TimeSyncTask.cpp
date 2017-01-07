@@ -19,7 +19,7 @@
 #include "../ProgramSettings.h"
 #include "../ProgramState.h"
 
-static const char TIME_SERVER[] PROGMEM = "pool.ntp.org";
+static const char TIME_SERVER[] PROGMEM = "tik.cesnet.cz";
 
 extern ProgramState *state;
 

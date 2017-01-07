@@ -52,7 +52,7 @@ public:
     virtual uint8_t printSensorName(Print & out) const;
     virtual uint8_t valuesCount() const;
     virtual void printValue(uint8_t valueId, bool localId, Print & out, uint8_t maxLength) const;
-    virtual double getValue(uint8_t valueId, bool localId) const;
+    virtual double getDoubleValue(uint8_t valueId, bool localId) const;
     virtual uint8_t printValueName(uint8_t valueId, bool localId, Print & out) const;
     virtual WeatherStation::SensorValueUnit valueUnit(uint8_t valueId, bool localId) const;
 };

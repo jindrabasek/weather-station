@@ -72,7 +72,7 @@ void AirPressureReading::printValue(uint8_t valueId, bool localId, Print& out,
 
 }
 
-double AirPressureReading::getValue(uint8_t valueId, bool localId) const {
+double AirPressureReading::getDoubleValue(uint8_t valueId, bool localId) const {
     ifIdMatchThenDo(AirPressureSensorIdLocal::L_PRESSURE,
             WeatherStation::SensorValueId::PRESSURE,
             return pressure);

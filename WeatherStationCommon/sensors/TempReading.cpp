@@ -96,7 +96,7 @@ void TempReading::printValue(uint8_t valueId, bool localId, Print& out,
 
 }
 
-double TempReading::getValue(uint8_t valueId, bool localId) const {
+double TempReading::getDoubleValue(uint8_t valueId, bool localId) const {
     ifIdMatchThenDo(TempHumiditySensorIdLocal::L_DHT_HUMIDITY,
             firstGlobalSensorId + TempHumiditySensorIdLocal::L_DHT_HUMIDITY,
             return humidity)

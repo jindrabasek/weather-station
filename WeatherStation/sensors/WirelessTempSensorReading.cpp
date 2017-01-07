@@ -59,8 +59,8 @@ void WirelessTempSensorReading::printValue(uint8_t valueId, bool localId,
 
 }
 
-double WirelessTempSensorReading::getValue(uint8_t valueId,
-                                           bool localId) const {
+double WirelessTempSensorReading::getDoubleValue(uint8_t valueId,
+                                                 bool localId) const {
 
     ifIdMatchThenDo(
             WirelessTempSensorSwsTsIdLocal::L_WIRELESS_TEMPERTAURE_SWSTS,
@@ -70,7 +70,7 @@ double WirelessTempSensorReading::getValue(uint8_t valueId,
 }
 
 uint8_t WirelessTempSensorReading::printValueName(uint8_t valueId,
-bool localId,
+                                                  bool localId,
                                                   Print& out) const {
 
     uint8_t length = 0;
