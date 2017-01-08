@@ -22,13 +22,21 @@ static const char* const UNITS[] PROGMEM = { N_A_STR, DEGREE_CELSIUS_STR,
         HECTOPASCAL_STR, LIGHT_INTENSITY_LUX_STR, PERCENT_STR,
         G_PER_CUBIC_METER_STR };
 
-uint8_t WeatherStation::SensorValueUnits::sensorUnitNameLength(SensorValueUnit unitId) {
+uint8_t WeatherStation::SensorValueUnits::sensorUnitNameLength(
+        SensorValueUnit unitId) {
     return strlen_P(reinterpret_cast<PGM_P>(pgm_read_word(&(UNITS[unitId]))));
 }
 
 void WeatherStation::SensorValueUnits::printSensorUnit(SensorValueUnit unitId,
-                                              Print& out) {
+                                                       Print& out) {
     out.print(
             reinterpret_cast<const __FlashStringHelper *>(pgm_read_word(
                     &(UNITS[unitId]))));
+}
+
+void WeatherStation::SensorValueUnits::getSensorUnit(char* buffer,
+                                                     SensorValueUnit unitId) {
+
+    char* unitAddr = (char*) pgm_read_word(&(UNITS[unitId]));
+    strncpy_P(buffer, unitAddr, sensorUnitNameLength(unitId));
 }

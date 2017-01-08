@@ -33,6 +33,7 @@ namespace WeatherStation {
 
     enum ReadingUploader {
         SMART_LIVING,
+        MQTT_LOCAL,
         ReadingUploaderSize,
     };
 

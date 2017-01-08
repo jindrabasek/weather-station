@@ -12,10 +12,12 @@
 #include <Logger.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <WifiEspTimeouts.h>
 #include <WiFiEspUdp.h>
 #include <WireRtcLib.h>
 
 #include "../net/Network.h"
+#include "../net/WifiWatchdogTask.h"
 #include "../ProgramSettings.h"
 #include "../ProgramState.h"
 
@@ -33,8 +35,10 @@ void TimeSyncTask::run() {
     if (Network::networkConnected()) {
 
         LOG_DEBUG(F("TimeSync"));
+        WifiEspTimeouts timeouts;
+        timeouts.setConnectionTimeoutUdp(4000)->setReadTimeout(6000);
 
-        WiFiEspUDP udp;
+        WiFiEspUDP udp(&timeouts);
         int udpInited = udp.begin(123); // open socket on arbitrary port
         char timeServer[sizeof(TIME_SERVER)];
         strcpy_P(timeServer, TIME_SERVER); // NTP server

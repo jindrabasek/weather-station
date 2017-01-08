@@ -18,9 +18,9 @@ ValueType SensorReading::getValueType(uint8_t valueId, bool localId) const {
 }
 
 double SensorReading::getDoubleValue(uint8_t valueId, bool localId) const {
-    return 0;
+    return (double) getLongValue(valueId, localId);
 }
 
 long SensorReading::getLongValue(uint8_t valueId, bool localId) const {
-    return 0;
+    return (double) getDoubleValue(valueId, localId);
 }

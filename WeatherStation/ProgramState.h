@@ -34,6 +34,8 @@
 #include "display/SwitchScreenHandler.h"
 #include "display/ToDraw.h"
 #include "menu/ProgramMenu.h"
+#include "net/MqttLoopTask.h"
+#include "net/MqttPublishTask.h"
 #include "net/Network.h"
 #include "net/NetworkTestTask.h"
 #include "net/SmartLivingPublishTask.h"
@@ -122,6 +124,8 @@ private:
 
     NetworkTestTask networkTestTask;
     TimeSyncTask timeSyncTask;
+    MqttLoopTask mqttLoopTask;
+    MqttPublishTask mqttPublishTask;
     SmartLivingPublishTask dataUploadTask;
     WifiWatchdogTask wifiWatchDogTask;
 
@@ -210,11 +214,15 @@ public:
         return wireless433MhzTask;
     }
 
+    MqttLoopTask& getMqttLoopTask() {
+        return mqttLoopTask;
+    }
+
 private:
     ProgramState() :
-            measureThread(600),
-            displayThread(600),
-            networkThread(600),
+            measureThread(512),
+            displayThread(512),
+            networkThread(700),
 
             measureTempTask(
                     settings.getMeasureTempSecondFreq()
@@ -258,6 +266,9 @@ private:
             currentScreen(settings.getStartupScreen()),
             backLight(true),
             timeSyncTask(settings.getSyncTimeHourFreq()),
+            mqttPublishTask(
+                    settings.getDataUploadMinutesFreq()
+                            * ProgramSettings::USEC_RESOLUTION_DATA_UPLOAD_MIN_FREQ),
             dataUploadTask(
                     settings.getDataUploadMinutesFreq()
                             * ProgramSettings::USEC_RESOLUTION_DATA_UPLOAD_MIN_FREQ),
@@ -308,10 +319,15 @@ private:
         Network::connect(settings);
         networkTestTask.setThreadPool(&networkThread);
         timeSyncTask.setThreadPool(&networkThread);
+        //mqttLoopTask.setThreadPool(&networkThread);
+        mqttPublishTask.setThreadPool(&networkThread);
         dataUploadTask.setThreadPool(&networkThread);
         wifiWatchDogTask.setThreadPool(&networkThread);
         SoftTimer.add(&networkTestTask);
         SoftTimer.add(&timeSyncTask);
+        // do manually from publish task for now
+        //SoftTimer.add(&mqttLoopTask);
+        SoftTimer.add(&mqttPublishTask);
         SoftTimer.add(&dataUploadTask);
         SoftTimer.add(&wifiWatchDogTask);
 

@@ -27,6 +27,7 @@ namespace WeatherStation {
     public:
         static uint8_t sensorUnitNameLength(SensorValueUnit unitId);
         static void printSensorUnit(SensorValueUnit unitId, Print & out);
+        static void getSensorUnit(char* buffer, SensorValueUnit unitId);
 
     };
 
