@@ -7,13 +7,11 @@
 #include <Logger.h>
 #include <PciManager.h>
 #include <stdbool.h>
-#include <stdint.h>
 #include <Scheduler.h>
 #include <SoftTimer.h>
 #include <time/Clock.h>
 #include <Task.h>
 #include <Wire.h>
-#include <WString.h>
 
 #include "ProgramState.h"
 #include "sd/SdCard.h"
@@ -43,7 +41,7 @@ void setup() {
 }
 
 void loggingCallback(Task * runningTask) {
-    ApplicationMonitor.SetData(reinterpret_cast<uint32_t>(runningTask));
+    ApplicationMonitor.SetData(runningTask->getTaskId());
 }
 
 void loop() {

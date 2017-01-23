@@ -14,6 +14,7 @@
 #include <SensorIds.h>
 #include <time/Clock.h>
 #include <Logger.h>
+#include <TaskIds.h>
 
 #include "../ProgramSettings.h"
 #include "../ProgramState.h"
@@ -21,7 +22,7 @@
 extern ProgramState *state;
 
 AirPressureMeasureTask::AirPressureMeasureTask(unsigned long periodMs) :
-        Task(periodMs) {
+        Task(periodMs, true, AirPressureMeasure_Task) {
 }
 
 using namespace WeatherStation;

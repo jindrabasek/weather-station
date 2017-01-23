@@ -10,13 +10,14 @@
 #include <LCD.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <TaskIds.h>
 
 #include "Display.h"
 #include "ToDraw.h"
 
 DrawOnDisplayTask::DrawOnDisplayTask(unsigned long periodMs, LCD & display,
                                      ToDraw * toDraw) :
-        Task(periodMs),
+        Task(periodMs, true, DrawOnDisplay_Task),
         display(display),
         toDraw(toDraw),
         clear(false) {

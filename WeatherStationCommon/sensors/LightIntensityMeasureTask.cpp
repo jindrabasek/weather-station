@@ -15,6 +15,7 @@
 #include <stdint.h>
 #include <SensorIds.h>
 #include <Logger.h>
+#include <TaskIds.h>
 
 #ifndef DO_NOT_USE_RTC
 #include <time/Clock.h>
@@ -25,7 +26,7 @@
 using namespace WeatherStation;
 
 LightIntensityMeasureTask::LightIntensityMeasureTask(unsigned long periodMs) :
-        Task(periodMs),
+        Task(periodMs, true, LightIntensityMeasure_Task),
         latestReading(SensorValueId::LIGHT_INTENSITY) {
 }
 

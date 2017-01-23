@@ -13,6 +13,7 @@
 #include <stdint.h>
 #include <SensorIds.h>
 #include <Logger.h>
+#include <TaskIds.h>
 
 #ifndef DO_NOT_USE_RTC
 #include <time/Clock.h>
@@ -23,7 +24,7 @@
 using namespace WeatherStation;
 
 Am2320TempMeasureTask::Am2320TempMeasureTask(unsigned long periodMs) :
-        Task(periodMs),
+        Task(periodMs, true, Am2320TempMeasure_Task),
         latestReading(SensorValueId::DHT_HUMIDITY) {
 }
 

@@ -12,10 +12,15 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <defines.h>
+#include <WString.h>
 
 #ifndef DO_NOT_LOG_SD
 #include <SdFat.h>
 #endif
+
+#define S1(x) #x
+#define S2(x) S1(x)
+#define FILE_LOCATION __FILE__ " : " S2(__LINE__)
 
 // Change _ESPLOGLEVEL_ to set tracing and logging verbosity
 // 0: DISABLED: no logging
@@ -44,25 +49,30 @@
 #define _LOG_SD_
 #endif
 
-#define LOG_ERROR(x)    if(LOG_LEVEL>LOGGER_LEVEL_DISABLED) { Logger.log(x); }
+#define LOG_ERROR(x)    if(LOG_LEVEL>LOGGER_LEVEL_DISABLED) { Logger.log(LOGGER_LEVEL_ERROR,x); }
 #define LOG_ERROR0(x)   if(LOG_LEVEL>LOGGER_LEVEL_DISABLED) { Logger.print(x); }
-#define LOG_ERROR1(x,y) if(LOG_LEVEL>LOGGER_LEVEL_DISABLED) { Logger.log(x,y); }
-#define LOG_WARN(x)     if(LOG_LEVEL>LOGGER_LEVEL_ERROR) { Logger.log(x); }
+#define LOG_ERROR1(x,y) if(LOG_LEVEL>LOGGER_LEVEL_DISABLED) { Logger.log(LOGGER_LEVEL_ERROR,x,y); }
+#define LOG_ERROR_TRACE if(LOG_LEVEL>LOGGER_LEVEL_DISABLED) { Logger.println(F(FILE_LOCATION)); Logger.flush();}
+#define LOG_WARN(x)     if(LOG_LEVEL>LOGGER_LEVEL_ERROR) { Logger.log(LOGGER_LEVEL_WARN,x); }
 #define LOG_WARN0(x)    if(LOG_LEVEL>LOGGER_LEVEL_ERROR) { Logger.print(x); }
-#define LOG_WARN1(x,y)  if(LOG_LEVEL>LOGGER_LEVEL_ERROR) { Logger.log(x,y); }
-#define LOG_WARN2(x,y,z)  if(LOG_LEVEL>LOGGER_LEVEL_ERROR) { Logger.log(x,y,z); }
-#define LOG_INFO(x)     if(LOG_LEVEL>LOGGER_LEVEL_WARN) { Logger.log(x); }
+#define LOG_WARN1(x,y)  if(LOG_LEVEL>LOGGER_LEVEL_ERROR) { Logger.log(LOGGER_LEVEL_WARN,x,y); }
+#define LOG_WARN2(x,y,z)  if(LOG_LEVEL>LOGGER_LEVEL_ERROR) { Logger.log(LOGGER_LEVEL_WARN,x,y,z); }
+#define LOG_WARN_TRACE if(LOG_LEVEL>LOGGER_LEVEL_ERROR) { Logger.println(F(FILE_LOCATION)); Logger.flush();}
+#define LOG_INFO(x)     if(LOG_LEVEL>LOGGER_LEVEL_WARN) { Logger.log(LOGGER_LEVEL_INFO,x); }
 #define LOG_INFO0(x)    if(LOG_LEVEL>LOGGER_LEVEL_WARN) { Logger.print(x); }
-#define LOG_INFO1(x,y)  if(LOG_LEVEL>LOGGER_LEVEL_WARN) { Logger.log(x,y); }
-#define LOG_INFO2(x,y,z)  if(LOG_LEVEL>LOGGER_LEVEL_WARN) { Logger.log(x,y,z); }
-#define LOG_DEBUG(x)      if(LOG_LEVEL>LOGGER_LEVEL_INFO) { Logger.log(x); }
+#define LOG_INFO1(x,y)  if(LOG_LEVEL>LOGGER_LEVEL_WARN) { Logger.log(LOGGER_LEVEL_INFO,x,y); }
+#define LOG_INFO2(x,y,z)  if(LOG_LEVEL>LOGGER_LEVEL_WARN) { Logger.log(LOGGER_LEVEL_INFO,x,y,z); }
+#define LOG_INFO_TRACE if(LOG_LEVEL>LOGGER_LEVEL_WARN) { Logger.println(F(FILE_LOCATION));}
+#define LOG_DEBUG(x)      if(LOG_LEVEL>LOGGER_LEVEL_INFO) { Logger.log(LOGGER_LEVEL_DEBUG,x); }
 #define LOG_DEBUG0(x)     if(LOG_LEVEL>LOGGER_LEVEL_INFO) { Logger.print(x); }
-#define LOG_DEBUG1(x,y)   if(LOG_LEVEL>LOGGER_LEVEL_INFO) { Logger.log(x,y); }
-#define LOG_DEBUG2(x,y,z) if(LOG_LEVEL>LOGGER_LEVEL_INFO) { Logger.log(x,y,z); }
-#define LOG_FINEST(x)      if(LOG_LEVEL>LOGGER_LEVEL_DEBUG) { Logger.log(x); }
+#define LOG_DEBUG1(x,y)   if(LOG_LEVEL>LOGGER_LEVEL_INFO) { Logger.log(LOGGER_LEVEL_DEBUG,x,y); }
+#define LOG_DEBUG2(x,y,z) if(LOG_LEVEL>LOGGER_LEVEL_INFO) { Logger.log(LOGGER_LEVEL_DEBUG,x,y,z); }
+#define LOG_DEBUG_TRACE if(LOG_LEVEL>LOGGER_LEVEL_INFO) { Logger.println(F(FILE_LOCATION)); Logger.flush();}
+#define LOG_FINEST(x)      if(LOG_LEVEL>LOGGER_LEVEL_DEBUG) { Logger.log(LOGGER_LEVEL_FINEST,x); }
 #define LOG_FINEST0(x)     if(LOG_LEVEL>LOGGER_LEVEL_DEBUG) { Logger.print(x); }
-#define LOG_FINEST1(x,y)   if(LOG_LEVEL>LOGGER_LEVEL_DEBUG) { Logger.log(x,y); }
-#define LOG_FINEST2(x,y,z) if(LOG_LEVEL>LOGGER_LEVEL_DEBUG) { Logger.log(x,y,z); }
+#define LOG_FINEST1(x,y)   if(LOG_LEVEL>LOGGER_LEVEL_DEBUG) { Logger.log(LOGGER_LEVEL_FINEST,x,y); }
+#define LOG_FINEST2(x,y,z) if(LOG_LEVEL>LOGGER_LEVEL_DEBUG) { Logger.log(LOGGER_LEVEL_FINEST,x,y,z); }
+#define LOG_FINEST_TRACE if(LOG_LEVEL>LOGGER_LEVEL_DEBUG) { Logger.println(F(FILE_LOCATION)); Logger.flush();}
 
 #define LOGGER_ERROR LoggerClass::getLoggerForLevel(LOGGER_LEVEL_ERROR)
 #define LOGGER_WARN  LoggerClass::getLoggerForLevel(LOGGER_LEVEL_WARN)
@@ -93,6 +103,8 @@ public:
     }
 
     void printTime();
+    void printLevel(uint8_t level);
+    void printTimeAndLevel(uint8_t level);
 
     virtual size_t write(uint8_t);
     virtual size_t write(const uint8_t *buffer, size_t size);
@@ -101,15 +113,15 @@ public:
     static LoggerClass& getLoggerForLevel(uint8_t level);
 
     template <typename T>
-    void log(T message) {
-        printTime();
+    void log(uint8_t level, T message) {
+        printTimeAndLevel(level);
         println(message);
         flush();
     }
 
     template <typename T, typename U>
-    void log(T message, U message1) {
-        printTime();
+    void log(uint8_t level,T message, U message1) {
+        printTimeAndLevel(level);
         print(message);
         print(' ');
         println(message1);
@@ -117,8 +129,8 @@ public:
     }
 
     template <typename T, typename U, typename V>
-    void log(T message, U message1, V message2) {
-        printTime();
+    void log(uint8_t level,T message, U message1, V message2) {
+        printTimeAndLevel(level);
         print(message);
         print(' ');
         print(message1);

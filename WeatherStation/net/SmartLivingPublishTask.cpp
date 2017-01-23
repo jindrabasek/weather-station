@@ -21,6 +21,7 @@
 #include <WiFiEspClient.h>
 #include <WireRtcLib.h>
 #include <WString.h>
+#include <TaskIds.h>
 
 #include "../config.h"
 #include "../ProgramSettings.h"
@@ -81,7 +82,7 @@ static const char SMART_LIVING_IP[] PROGMEM = "api.allthingstalk.io";
 extern ProgramState *state;
 
 SmartLivingPublishTask::SmartLivingPublishTask(unsigned long periodMs) :
-        Task(periodMs) {
+        Task(periodMs, true, SmartLivingPublish_Task) {
     startAtEarliestOportunity();
 }
 

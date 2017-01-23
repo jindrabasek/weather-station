@@ -15,6 +15,7 @@
 #include <Logger.h>
 #include <PciManagerLock.h>
 #include <WString.h>
+#include <TaskIds.h>
 
 #include "../net/Network.h"
 #include "../ProgramState.h"
@@ -23,7 +24,7 @@
 extern ProgramState *state;
 
 SerialVirtButtonsTask::SerialVirtButtonsTask(unsigned long periodMs) :
-        Task(periodMs) {
+        Task(periodMs, true, SerialVirtButtons_Task) {
     pinMode(DO_RESET_PIN, OUTPUT);
 }
 

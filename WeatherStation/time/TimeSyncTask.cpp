@@ -15,6 +15,7 @@
 #include <WifiEspTimeouts.h>
 #include <WiFiEspUdp.h>
 #include <WireRtcLib.h>
+#include <TaskIds.h>
 
 #include "../net/Network.h"
 #include "../net/WifiWatchdogTask.h"
@@ -26,7 +27,7 @@ static const char TIME_SERVER[] PROGMEM = "tik.cesnet.cz";
 extern ProgramState *state;
 
 TimeSyncTask::TimeSyncTask(unsigned long periodHours, bool enabled) :
-        LongTask(periodHours, 0, enabled) {
+        LongTask(periodHours, 0, enabled, TimeSync_Task) {
     startAtEarliestOportunity();
 }
 

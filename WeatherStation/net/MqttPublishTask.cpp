@@ -22,6 +22,7 @@
 #include <SensorIds.h>
 #include <WiFiEspClient.h>
 #include <WString.h>
+#include <TaskIds.h>
 
 #include "../ProgramState.h"
 #include "Network.h"
@@ -92,7 +93,7 @@ extern ProgramState *state;
 using namespace WeatherStation;
 
 MqttPublishTask::MqttPublishTask(unsigned long periodMs) :
-        Task(periodMs){
+        Task(periodMs, true, MqttPublish_Task){
     startAtEarliestOportunity();
 }
 

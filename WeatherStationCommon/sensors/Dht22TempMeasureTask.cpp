@@ -14,6 +14,7 @@
 #include <SensorIds.h>
 #include <Logger.h>
 #include <sensors/Dht22TempMeasureTask.h>
+#include <TaskIds.h>
 
 #ifndef DO_NOT_USE_RTC
 #include <time/Clock.h>
@@ -24,7 +25,7 @@
 using namespace WeatherStation;
 
 Dht22TempMeasureTask::Dht22TempMeasureTask(uint8_t pin, unsigned long periodMs, uint8_t powerPin) :
-        Task(periodMs),
+        Task(periodMs, true, Dht22TempMeasure_Task),
         latestReading(SensorValueId::DHT_HUMIDITY),
         dataPin(pin),
         powerPin(powerPin){

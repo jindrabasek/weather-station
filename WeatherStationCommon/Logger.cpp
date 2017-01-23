@@ -74,24 +74,52 @@ LoggerClass& LoggerClass::getLoggerForLevel(uint8_t level) {
 LoggerClass Logger;
 VoidPrintClass VoidPrint;
 
+
+void LoggerClass::printTimeAndLevel(uint8_t level) {
+
+    print('[');
+    printTime();
+    print(' ');
+    printLevel(level);
+    print(']');
+    print(' ');
+}
+
+void LoggerClass::printLevel(uint8_t level) {
+    switch(level) {
+        case LOGGER_LEVEL_ERROR:
+            print(F("ERROR"));
+            break;
+        case LOGGER_LEVEL_WARN:
+            print(F("WARN"));
+            break;
+        case LOGGER_LEVEL_INFO:
+            print(F("INFO"));
+            break;
+        case LOGGER_LEVEL_DEBUG:
+            print(F("DEBUG"));
+            break;
+        case LOGGER_LEVEL_FINEST:
+            print(F("FINEST"));
+            break;
+        default:
+            print(level);
+            break;
+    }
+}
+
 #ifdef USE_RTC
 void LoggerClass::printTime() {
     WireRtcLib::tm& time = Clock::getTime(false);
-    print('[');
     if (!time.error) {
         WireRtcLib::formatTime(*this, time);
     } else {
         print('?');
     }
-    print(']');
-    print(' ');
 }
 #else
 void LoggerClass::printTime() {
-    print('[');
     print(millis());
-    print(']');
-    print(' ');
 }
 #endif
 

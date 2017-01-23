@@ -14,6 +14,7 @@
 #include <stdbool.h>
 #include <Task.h>
 #include <WiFiEspClient.h>
+#include <TaskIds.h>
 
 #include "Network.h"
 
@@ -21,7 +22,7 @@ static const char ARDUINO_URL[] PROGMEM = "arduino.cc";
 static const char LOGO_PATH[] PROGMEM = "/asciilogo.txt";
 
 NetworkTestTask::NetworkTestTask() :
-        Task(0) {
+        Task(0, true, NetworkTest_Task) {
     startAtEarliestOportunity();
 }
 

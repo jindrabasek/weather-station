@@ -11,6 +11,7 @@
 #include <Logger.h>
 #include <stdbool.h>
 #include <WiFiEsp.h>
+#include <TaskIds.h>
 
 #include "../ProgramState.h"
 #include "Network.h"
@@ -20,7 +21,8 @@ extern ProgramState *state;
 volatile uint8_t WifiWatchdogTask::failedConnections = 0;
 volatile uint8_t WifiWatchdogTask::flags = 0;
 
-WifiWatchdogTask::WifiWatchdogTask(unsigned long periodMs) : Task(periodMs) {
+WifiWatchdogTask::WifiWatchdogTask(unsigned long periodMs) :
+        Task(periodMs, true, WifiWatchdog_Task) {
 }
 
 void WifiWatchdogTask::run() {

@@ -17,6 +17,7 @@
 #include <time/Clock.h>
 #include <Task.h>
 #include <WString.h>
+#include <TaskIds.h>
 
 #include "../ProgramState.h"
 #include "WirelessTempSensorReading.h"
@@ -51,7 +52,7 @@ extern ProgramState *state;
 using namespace WeatherStation;
 
 Wireless433MhzTask::Wireless433MhzTask() :
-        Task(0, false),
+        Task(0, false, Wireless433Mhz_Task),
         latestReadingIntensityOutdoor(SensorValueId::LIGHT_INTENSITY_OUTDOOR),
         latestReadingTemperatueOutdoor(SensorValueId::DHT_HUMIDITY_OUTDOOR) {
     pinMode(3, INPUT);

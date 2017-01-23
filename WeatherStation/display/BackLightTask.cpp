@@ -10,13 +10,14 @@
 #include <LCD.h>
 #include <stdbool.h>
 #include <Task.h>
+#include <TaskIds.h>
 
 #include "../ProgramState.h"
 
 extern ProgramState *state;
 
 BackLightTask::BackLightTask(LCD & display) :
-        Task(0, false),
+        Task(0, false, BackLight_Task),
         display(display) {
 }
 

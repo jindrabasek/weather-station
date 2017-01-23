@@ -13,6 +13,7 @@
 #include <SensorIds.h>
 #include <SparkFun_Si7021_Breakout_Library.h>
 #include <Logger.h>
+#include <TaskIds.h>
 
 #ifndef DO_NOT_USE_RTC
 #include <time/Clock.h>
@@ -23,7 +24,7 @@
 using namespace WeatherStation;
 
 Si7010TempMeasureTask::Si7010TempMeasureTask(unsigned long periodMs) :
-        Task(periodMs),
+        Task(periodMs, true, Si7010TempMeasure_Task),
         latestReading(SensorValueId::DHT_HUMIDITY) {
 }
 

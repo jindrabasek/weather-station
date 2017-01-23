@@ -13,6 +13,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <time/Clock.h>
+#include <TaskIds.h>
 
 #include "../config.h"
 #include "Network.h"
@@ -25,7 +26,7 @@ static const char WS_TIMESTAMP[] PROGMEM = "dev/weatherSt/timestamp";
 static const char MQTT_ADDRESS[] PROGMEM = MQTT_LOCAL_ADDRESS;
 
 MqttLoopTask::MqttLoopTask() :
-        Task(2000000),
+        Task(2000000, true, MqttLoop_Task),
         wifiClient(&timeouts),
         client(wifiClient) {
     startAtEarliestOportunity();
