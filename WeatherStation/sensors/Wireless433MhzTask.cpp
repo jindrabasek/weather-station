@@ -90,7 +90,7 @@ void Wireless433MhzTask::run() {
     byte dataType = ((dataReceived >> (dataLength - 4)) & 0x3); // Get data type
 
     if (LOG_LEVEL >= LOGGER_LEVEL_INFO) {
-        LOGGER_INFO.printTime();
+        LOGGER_INFO.printTimeAndLevel(LOGGER_LEVEL_INFO);
         dec2binLong(LOGGER_INFO, dataReceived);
         LOGGER_INFO.print(F(", Length = "));
         LOGGER_INFO.print(dataLength);

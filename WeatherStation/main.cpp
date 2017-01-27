@@ -16,6 +16,10 @@
 #include "ProgramState.h"
 #include "sd/SdCard.h"
 
+extern "C" {
+  #include <utility/twi.h>
+}
+
 Watchdog::CApplicationMonitor ApplicationMonitor;
 
 //The setup function is called once at startup of the sketch
@@ -25,7 +29,7 @@ void setup() {
     // Let everything stabilize after powering up
     delay(2000);
 
-    Scheduler::begin(600);
+    Scheduler::begin(700);
     Wire.begin();
 
     Clock::getTime(true);
@@ -44,10 +48,18 @@ void loggingCallback(Task * runningTask) {
     ApplicationMonitor.SetData(runningTask->getTaskId());
 }
 
+void checkTwiRestartState() {
+    uint8_t last_restart_state = twi_read_last_restart_state();
+    if (last_restart_state != TWI_NO_RESTART) {
+        LOG_WARN1(F("I2C restarted in phase"), last_restart_state);
+    }
+}
+
 void loop() {
     while(true) {
         ApplicationMonitor.IAmAlive();
         SoftTimer.run(loggingCallback);
+        checkTwiRestartState();
     }
 }
 

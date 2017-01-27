@@ -28,14 +28,12 @@ void Network::connect(ProgramSettings& settings, bool force) {
     initNetwork(force);
 
     if (networkInitialized() && (force || !networkConnected())) {
-
         char wifiPasswd[ProgramSettings::WIFI_PASSWD_ARRAY_LENGTH];
         char wifiSsid[ProgramSettings::WIFI_SSID_ARRAY_LENGTH];
         settings.loadWifiPasswd(wifiPasswd);
         settings.loadWifiSsid(wifiSsid);
 
         // attempt to connect to WiFi network
-
         LOG_INFO1(F("Attempting to connect to SSID:"), wifiSsid);
 
         // Connect to WPA/WPA2 network
@@ -123,7 +121,7 @@ void Network::status() {
                 LOG_INFO(F("WiFi connected!"));
 
                 IPAddress ip = WiFi.localIP();
-                LOGGER_INFO.printTime();
+                LOGGER_INFO.printTimeAndLevel(LOGGER_LEVEL_INFO);
                 LOGGER_INFO.print(F("IP address: "));
                 ip.printTo(LOGGER_INFO);
                 LOGGER_INFO.println();
@@ -137,7 +135,6 @@ void Network::status() {
 inline void Network::initNetwork(bool force) {
     if (force || !networkInitialized()) {
         WiFi.init(&serial, 4800, 42, 40, 115200);
-
         espStatus = WiFi.status();
         if (espStatus == WL_NO_SHIELD) {
             WifiWatchdogTask::doHardReset();

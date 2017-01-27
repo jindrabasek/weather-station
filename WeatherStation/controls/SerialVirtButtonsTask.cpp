@@ -13,9 +13,12 @@
 #include <Debouncer.h>
 #include <HardwareSerial.h>
 #include <Logger.h>
+#include <mem_eval.h>
 #include <PciManagerLock.h>
-#include <WString.h>
+#include <stdbool.h>
+#include <stdint.h>
 #include <TaskIds.h>
+#include <WString.h>
 
 #include "../net/Network.h"
 #include "../ProgramState.h"
@@ -29,9 +32,34 @@ SerialVirtButtonsTask::SerialVirtButtonsTask(unsigned long periodMs) :
 }
 
 void SerialVirtButtonsTask::doReset() {
-    Serial.println(F("Device will reboot."));
+    Logger.log(LOGGER_LEVEL_INFO, F("Device will reboot."));
     delay(RESET_DELAY);
     digitalWrite(DO_RESET_PIN, HIGH);
+}
+
+void SerialVirtButtonsTask::printMemoryUsage() {
+
+    uint8_t *largest_begin, *largest_end;
+    uint16_t largest_size;
+
+    Logger.println(F("--- Memory Usage ---"));
+
+    MemoryEval::AnalyzeMemory(&largest_begin, &largest_size, Logger);
+    largest_end = largest_begin + largest_size;
+
+    Logger.printTimeAndLevel(LOGGER_LEVEL_INFO);
+    Logger.print(F("Unused memory: 0x"));
+
+    Logger.print((uint16_t) largest_begin >> 8, 16);
+    Logger.print((uint16_t) largest_begin & 0xFF, 16);
+    Logger.print(F(" - 0x"));
+    Logger.print((uint16_t) largest_end >> 8, 16);
+    Logger.print((uint16_t) largest_end & 0xFF, 16);
+    Logger.print(F(" ("));
+    Logger.print(largest_size);
+    Logger.println(F(" Bytes)"));
+
+    Logger.println(F("--- End of Memory Usage ---"));
 }
 
 void SerialVirtButtonsTask::run() {
@@ -45,25 +73,30 @@ void SerialVirtButtonsTask::run() {
             PciManagerLock lock;
             switch (input) {
                 case UP_CHAR:
-                    state->getButtons()[WeatherStation::Buttons::UP].getHandler()->onPressed();
+                    state->getButtons()[WeatherStation::Buttons::UP].getHandler()
+                            ->onPressed();
                     break;
                 case DOWN_CHAR:
-                    state->getButtons()[WeatherStation::Buttons::DOWN].getHandler()->onPressed();
+                    state->getButtons()[WeatherStation::Buttons::DOWN]
+                            .getHandler()->onPressed();
                     break;
-                /*case LEFT_CHAR:
-                    state->getButtons()[WeatherStation::Buttons::LEFT].getHandler()->onPressed();
-                    break;
-                case RIGHT_CHAR:
-                    state->getButtons()[WeatherStation::Buttons::RIGHT].getHandler()->onPressed();
-                    break;*/
+                    /*case LEFT_CHAR:
+                     state->getButtons()[WeatherStation::Buttons::LEFT].getHandler()->onPressed();
+                     break;
+                     case RIGHT_CHAR:
+                     state->getButtons()[WeatherStation::Buttons::RIGHT].getHandler()->onPressed();
+                     break;*/
                 case BACKLIGHT_CHAR:
-                    state->getButtons()[WeatherStation::Buttons::BACKLIGHT].getHandler()->onPressed();
+                    state->getButtons()[WeatherStation::Buttons::BACKLIGHT]
+                            .getHandler()->onPressed();
                     break;
                 case ENTER_CHAR:
-                    state->getButtons()[WeatherStation::Buttons::ENTER].getHandler()->onPressed();
+                    state->getButtons()[WeatherStation::Buttons::ENTER]
+                            .getHandler()->onPressed();
                     break;
                 case ESC_CHAR:
-                    state->getButtons()[WeatherStation::Buttons::ESC].getHandler()->onPressed();
+                    state->getButtons()[WeatherStation::Buttons::ESC].getHandler()
+                            ->onPressed();
                     break;
                 case RESET_CHAR:
                     doReset();
@@ -74,10 +107,28 @@ void SerialVirtButtonsTask::run() {
                 case LIST_NETWORKS_CHAR:
                     ApplicationMonitor.DisableWatchdog();
                     Network::listNetworks();
-                    ApplicationMonitor.EnableWatchdog(Watchdog::CApplicationMonitor::Timeout_8s);
+                    ApplicationMonitor.EnableWatchdog(
+                            Watchdog::CApplicationMonitor::Timeout_8s);
                     break;
                 case NETWORK_STATUS_CHAR:
                     Network::status();
+                    break;
+                case PRINT_MEMORY_USAGE_CHAR:
+                    ApplicationMonitor.DisableWatchdog();
+                    printMemoryUsage();
+                    ApplicationMonitor.EnableWatchdog(
+                            Watchdog::CApplicationMonitor::Timeout_8s);
+                    break;
+                case DO_INFINITE_LOOP_CHAR:
+                    while (true) {
+                        Serial.print('o');
+                    }
+                    break;
+                case ENABLE_WATCHDOG_CHAR:
+                    ApplicationMonitor.EnableWatchdog(Watchdog::CApplicationMonitor::Timeout_8s);
+                    break;
+                case DISABLE_WATCHDOG_CHAR:
+                    ApplicationMonitor.DisableWatchdog();
                     break;
                 default:
                     break;

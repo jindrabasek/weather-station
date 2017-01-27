@@ -85,31 +85,24 @@ void LoggerClass::printTimeAndLevel(uint8_t level) {
     print(' ');
 }
 
-void LoggerClass::printLevel(uint8_t level) {
-    switch(level) {
-        case LOGGER_LEVEL_ERROR:
-            print(F("ERROR"));
-            break;
-        case LOGGER_LEVEL_WARN:
-            print(F("WARN"));
-            break;
-        case LOGGER_LEVEL_INFO:
-            print(F("INFO"));
-            break;
-        case LOGGER_LEVEL_DEBUG:
-            print(F("DEBUG"));
-            break;
-        case LOGGER_LEVEL_FINEST:
-            print(F("FINEST"));
-            break;
-        default:
-            print(level);
-            break;
+inline void LoggerClass::printLevel(uint8_t level) {
+    if (level == LOGGER_LEVEL_ERROR) {
+        print(F("ERROR"));
+    } else if (level == LOGGER_LEVEL_WARN) {
+        print(F("WARN"));
+    } else if (level == LOGGER_LEVEL_INFO) {
+        print(F("INFO"));
+    } else if (level == LOGGER_LEVEL_DEBUG) {
+        print(F("DEBUG"));
+    } else if (level == LOGGER_LEVEL_FINEST) {
+        print(F("FINEST"));
+    } else {
+        print(level);
     }
 }
 
 #ifdef USE_RTC
-void LoggerClass::printTime() {
+inline void LoggerClass::printTime() {
     WireRtcLib::tm& time = Clock::getTime(false);
     if (!time.error) {
         WireRtcLib::formatTime(*this, time);
@@ -118,7 +111,7 @@ void LoggerClass::printTime() {
     }
 }
 #else
-void LoggerClass::printTime() {
+inline void LoggerClass::printTime() {
     print(millis());
 }
 #endif

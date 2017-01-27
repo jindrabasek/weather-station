@@ -23,10 +23,15 @@ volatile uint8_t WifiWatchdogTask::flags = 0;
 
 WifiWatchdogTask::WifiWatchdogTask(unsigned long periodMs) :
         Task(periodMs, true, WifiWatchdog_Task) {
+	forceWifiRestart();
+	startAtEarliestOportunity();
 }
 
 void WifiWatchdogTask::run() {
-    IPAddress ip = WiFi.localIP();
+	IPAddress ip(0, 0, 0, 0);
+	if (Network::networkConnected()) {
+		ip = WiFi.localIP();
+	}
     LOG_INFO(F("Checking WiFi online"));
     // If task is executed manually, restart wifi
     if (isForceRestart() || ip == IPAddress(0, 0, 0, 0) || failedConnections > RESET_AFTER_N_FAILED) {

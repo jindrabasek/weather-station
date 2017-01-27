@@ -1,0 +1,228 @@
+diff -ruN ./IPAddress.h ./IPAddress.h
+--- ./IPAddress.h	2016-02-19 16:57:26.000000000 +0100
++++ ./IPAddress.h	2017-01-26 13:43:09.129868926 +0100
+@@ -73,6 +73,6 @@
+     friend class DNSClient;
+ };
+ 
+-const IPAddress INADDR_NONE(0,0,0,0);
++// const IPAddress INADDR_NONE(0,0,0,0);
+ 
+ #endif
+diff -ruN ./main.cpp ./main.cpp
+--- ./main.cpp	2016-02-19 16:57:26.000000000 +0100
++++ ./main.cpp	2017-01-26 11:32:10.671517639 +0100
+@@ -19,6 +19,8 @@
+ 
+ #include <Arduino.h>
+ 
++#include <mem_eval.h>
++
+ // Declared weak in Arduino.h to allow user redefinitions.
+ int atexit(void (* /*func*/ )()) { return 0; }
+ 
+@@ -32,6 +34,8 @@
+ 
+ int main(void)
+ {
++    MemoryEval::InitializeMemory();
++
+ 	init();
+ 
+ 	initVariant();
+diff -ruN ./mem_eval.cpp ./mem_eval.cpp
+--- ./mem_eval.cpp	1970-01-01 01:00:00.000000000 +0100
++++ ./mem_eval.cpp	2017-01-26 11:31:23.379286841 +0100
+@@ -0,0 +1,102 @@
++/*==========================================================================*/
++/* Project:     AVR-GCC SRAM Memory Evaluation                              */
++/* Title:       Memory Init and Anlyze Functions                            */
++/* Purpose:     SRAM memory ressource analysis of Atmel programs            */
++/*                                                                          */
++/* File:        mem_eval.c                                                  */
++/* Revision     0.1                                                         */
++/* Date:        10/2003                                                     */
++/*                                                                          */
++/* Description: Provides an initialization and memory analyzation function  */
++/* Software:    AVR-GCC                                                     */
++/* Hardware:    AVR AT90 and ATmega series                                  */
++/*                                                                          */
++/* Authors:     Wilfried Elmenreich                                         */
++/*              TU Vienna, Real Time Group                                  */
++/*==========================================================================*/
++
++/////////////////////////////////////////////////////////////////////////////
++// HEADER FILES                                                            //
++/////////////////////////////////////////////////////////////////////////////
++#include "mem_eval.h"
++
++/////////////////////////////////////////////////////////////////////////////
++// FUNCTIONS                                                               //
++/////////////////////////////////////////////////////////////////////////////
++
++void MemoryEval::InitializeMemory(void) {
++    uint8_t *memptr;
++
++    for (memptr = EndOfUsedMem(); memptr < GetStackPtr(); memptr++)
++        *memptr = (uint16_t) memptr & 0xFF;
++}
++
++void MemoryEval::AnalyzeMemory(uint8_t** largest_begin, uint16_t* largest_size,
++                               Print& printTo) {
++    uint8_t *memptr, *endptr, *section_begin;
++    uint16_t section_size;
++
++    *largest_size = 0;
++    memptr = *largest_begin = EndOfUsedMem();
++    endptr = GetStackPtr();
++
++    printTo.println();
++    printTo.println();
++
++    while (memptr < endptr) {
++        // memory free
++        if (*memptr == ((uint16_t) memptr & 0xFF)) {
++            printMemory((uint16_t) memptr, true, printTo);
++            section_begin = memptr;
++            while (1) {
++                memptr++;
++                //*largest_begin = (uint8_t *) 1;
++                // memory used
++                if ((*memptr != ((uint16_t) memptr & 0xFF))
++                        || (memptr == endptr - 1)) {
++                    printMemory((uint16_t) memptr, false, printTo);
++                    //*largest_begin = (uint8_t *) 2;
++                    if ((section_size = (memptr - section_begin))
++                            > *largest_size) {
++                        *largest_size = section_size;
++                        *largest_begin = section_begin;
++                    }
++                    break;
++                }
++                // memory free
++                else {
++                    printMemory((uint16_t) memptr, true, printTo);
++                }
++            } /* while(1) */
++        }
++        // memory used
++        else {
++            printMemory((uint16_t) memptr, false, printTo);
++        }
++        memptr++;
++    } /* while(memptr < endptr) */
++
++    printTo.println();
++    printTo.println();
++}
++
++inline void MemoryEval::printMemory(uint16_t address, bool free, Print& printTo) {
++    if (address % 8 == 0) {
++        printTo.print(address, 16);
++        printTo.print(F(", "));
++        printTo.print(address, 10);
++        printTo.print(F(":\t"));
++    }
++
++    if (free) {
++        printTo.print(' ');
++    } else {
++        printTo.print('*');
++    }
++
++    if (address % 8 == 7) {
++        printTo.println();
++    } else {
++        printTo.print(' ');
++    }
++}
+diff -ruN ./mem_eval.h ./mem_eval.h
+--- ./mem_eval.h	1970-01-01 01:00:00.000000000 +0100
++++ ./mem_eval.h	2017-01-26 11:31:23.387286880 +0100
+@@ -0,0 +1,67 @@
++/*==========================================================================*/
++/* Project:     AVR-GCC SRAM Memory Evaluation                              */
++/* Title:       Memory Pointer Functions                                    */
++/* Purpose:     SRAM memory ressource analysis of Atmel programs            */
++/*                                                                          */
++/* File:        mem_eval.h                                                  */ 
++/* Revision     0.1                                                         */
++/* Date:        10/2003                                                     */
++/*                                                                          */
++/* Description: Provides macros for reading the stackpointer and the end of */
++/*              variable data segment                                       */
++/* Software:    AVR-GCC                                                     */
++/* Hardware:    AVR AT90 and ATmega series                                  */
++/*                                                                          */
++/* Authors:     Wilfried Elmenreich, Wolfgang Haidinger                     */
++/*              TU Vienna, Real Time Group                                  */
++/*==========================================================================*/
++
++#ifndef MEMEVAL
++ #define MEMEVAL
++
++#include <Print.h>
++#include <stdint.h>
++#include <avr/io.h>
++ 
++ #ifdef __AVR_AT90S4433__
++  #undef SPH
++ #endif
++ 
++ #ifdef SPH
++  #define GetStackPtr()({uint8_t *__StackPtr;	\
++        asm volatile("in\t%A0,__SP_L__\n\t"		\
++                     "in\t%B0,__SP_H__"		\
++                     : "=r" (__StackPtr)	\
++                     : /*"I" (SPL), "I" (SPH)*/	\
++		     );				\
++        __StackPtr;})
++ #else
++  #define GetStackPtr() ({uint8_t *__StackPtr;     \
++        asm volatile("in\t%A0,__SP_L__\n\t"        \
++                     "clr\t%B0"              \
++                     : "=r" (__StackPtr)     \
++                     : /* "I" (SPL) */ );           \
++        __StackPtr;})
++
++ #endif
++
++ #define EndOfUsedMem()({uint8_t *__EndOfUsedMemPtr;	\
++        asm volatile("ldi\t%A0,lo8(__bss_end)\n\t"		\
++                     "ldi\t%B0,hi8(__bss_end)"		\
++                     : "=r" (__EndOfUsedMemPtr)	\
++		     );				\
++        __EndOfUsedMemPtr;})
++
++
++class MemoryEval {
++
++public:
++    static void InitializeMemory(void);
++    static void AnalyzeMemory(uint8_t **largest_begin,uint16_t *largest_size, Print& printTo);
++private:
++    static void printMemory(uint16_t address, bool free, Print& printTo);
++
++};
++
++#endif
++
+diff -ruN ./Stream.cpp ./Stream.cpp
+--- ./Stream.cpp	2016-02-19 16:57:26.000000000 +0100
++++ ./Stream.cpp	2017-01-26 11:34:02.308062454 +0100
+@@ -35,6 +35,7 @@
+   do {
+     c = read();
+     if (c >= 0) return c;
++    yield();
+   } while(millis() - _startMillis < _timeout);
+   return -1;     // -1 indicates timeout
+ }
+@@ -47,6 +48,7 @@
+   do {
+     c = peek();
+     if (c >= 0) return c;
++    yield();
+   } while(millis() - _startMillis < _timeout);
+   return -1;     // -1 indicates timeout
+ }

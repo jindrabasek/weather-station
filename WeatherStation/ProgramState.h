@@ -220,9 +220,9 @@ public:
 
 private:
     ProgramState() :
-            measureThread(512),
-            displayThread(512),
-            networkThread(700),
+            measureThread(700),
+            displayThread(700),
+            networkThread(800),
 
             measureTempTask(
                     settings.getMeasureTempSecondFreq()
@@ -316,20 +316,19 @@ private:
         wireless433MhzTask.getLatestReadingTemperatueOutdoor()
                 .registerSensorValues(sensorValues);
 
-        Network::connect(settings);
         networkTestTask.setThreadPool(&networkThread);
         timeSyncTask.setThreadPool(&networkThread);
         //mqttLoopTask.setThreadPool(&networkThread);
         mqttPublishTask.setThreadPool(&networkThread);
         dataUploadTask.setThreadPool(&networkThread);
         wifiWatchDogTask.setThreadPool(&networkThread);
+        SoftTimer.add(&wifiWatchDogTask);
         SoftTimer.add(&networkTestTask);
         SoftTimer.add(&timeSyncTask);
         // do manually from publish task for now
         //SoftTimer.add(&mqttLoopTask);
         SoftTimer.add(&mqttPublishTask);
         SoftTimer.add(&dataUploadTask);
-        SoftTimer.add(&wifiWatchDogTask);
 
         PciManager.setEnabled(true);
 

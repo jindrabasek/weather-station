@@ -150,7 +150,7 @@ void SmartLivingPublishTask::run() {
                             }
 
                             if (LOG_LEVEL >= LOGGER_LEVEL_DEBUG) {
-                                LOGGER_DEBUG.printTime();
+                                LOGGER_DEBUG.printTimeAndLevel(LOGGER_LEVEL_DEBUG);
                                 LOGGER_DEBUG.print(path);
                                 LOGGER_DEBUG.print(' ');
 
