@@ -6,7 +6,7 @@
 	</projects>
 	<buildSpec>
 		<buildCommand>
-			<name>it.baeyens.arduino.core.inoToCpp</name>
+			<name>io.sloeber.core.inoToCpp</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
@@ -28,18 +28,18 @@
 		<nature>org.eclipse.cdt.core.ccnature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
-		<nature>it.baeyens.arduinonature</nature>
+		<nature>io.sloeber.arduinonature</nature>
 	</natures>
 	<linkedResources>
 		<link>
 			<name>core/core</name>
 			<type>2</type>
-			<location>%ABSOLUTE_PATH_TO_ECLIPSE_INSTALLATION_WITH_ARDUINO_PLUGIN%/arduinoPlugin/packages/arduino/hardware/avr/1.6.10/cores/arduino</location>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/arduino/hardware/avr/1.6.17/cores/arduino</locationURI>
 		</link>
 		<link>
 			<name>core/variant</name>
 			<type>2</type>
-			<location>%ABSOLUTE_PATH_TO_ECLIPSE_INSTALLATION_WITH_ARDUINO_PLUGIN%/arduinoPlugin/packages/arduino/hardware/avr/1.6.10/variants/mega</location>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/arduino/hardware/avr/1.6.17/variants/mega</locationURI>
 		</link>
 		<link>
 			<name>libraries/AM2320</name>
@@ -79,7 +79,7 @@
 		<link>
 			<name>libraries/EEPROM</name>
 			<type>2</type>
-			<location>%ABSOLUTE_PATH_TO_ECLIPSE_INSTALLATION_WITH_ARDUINO_PLUGIN%/arduinoPlugin/packages/arduino/hardware/avr/1.6.10/libraries/EEPROM</location>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/arduino/hardware/avr/1.6.17/libraries/EEPROM</locationURI>
 		</link>
 		<link>
 			<name>libraries/HttpClient</name>
@@ -109,7 +109,7 @@
 		<link>
 			<name>libraries/SPI</name>
 			<type>2</type>
-			<location>%ABSOLUTE_PATH_TO_ECLIPSE_INSTALLATION_WITH_ARDUINO_PLUGIN%/arduinoPlugin/packages/arduino/hardware/avr/1.6.10/libraries/SPI</location>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/arduino/hardware/avr/1.6.17/libraries/SPI</locationURI>
 		</link>
 		<link>
 			<name>libraries/SdFat</name>

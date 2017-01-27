@@ -47,7 +47,7 @@ if [ -z "$path_to_eclipse" ] || [ -z "$libraries_folder" ] || [ -z "$arduino_cor
 fi
 
 sed "s#%ABSOLUTE_PATH_TO_ARDUINO_IDE_LIBRARIES_FOLDER%#$libraries_folder#g; s#%ABSOLUTE_PATH_TO_ECLIPSE_INSTALLATION_WITH_ARDUINO_PLUGIN%#$path_to_eclipse#g" .project.template > .project
-sed "s#%ABSOLUTE_PATH_TO_ECLIPSE_INSTALLATION_WITH_ARDUINO_PLUGIN%#$path_to_eclipse#g" .settings/org.eclipse.cdt.core.prefs.template > .settings/org.eclipse.cdt.core.prefs
+cp .settings/org.eclipse.cdt.core.prefs.template .settings/org.eclipse.cdt.core.prefs
 
 # patch arduino core
 patch_file="$(pwd)/../ArduinoCorePatches/file.patch"

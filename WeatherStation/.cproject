@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?fileVersion 4.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
 	<storageModule moduleId="org.eclipse.cdt.core.settings">
-		<cconfiguration id="it.baeyens.arduino.core.toolChain.release.976628482">
-			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="it.baeyens.arduino.core.toolChain.release.976628482" moduleId="org.eclipse.cdt.core.settings" name="Release">
+		<cconfiguration id="io.sloeber.core.toolChain.release.2111645670">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="io.sloeber.core.toolChain.release.2111645670" moduleId="org.eclipse.cdt.core.settings" name="Release">
 				<externalSettings/>
 				<extensions>
 					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
@@ -12,309 +12,148 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildProperties="" description="" id="it.baeyens.arduino.core.toolChain.release.976628482" name="Release" parent="org.eclipse.cdt.build.core.emptycfg">
-					<folderInfo id="it.baeyens.arduino.core.toolChain.release.976628482.1455171764" name="/" resourcePath="">
-						<toolChain id="it.baeyens.arduino.core.toolChain.release.1606258754" name="Arduino Toolchain" superClass="it.baeyens.arduino.core.toolChain.release">
-							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="it.baeyens.arduino.targetplatform.1225255944" name="Arduino Target" osList="all" superClass="it.baeyens.arduino.targetplatform"/>
-							<builder buildPath="${workspace_loc:/WeatherStation}/Release" id="it.baeyens.arduino.sketch.builder.1412247911" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Arduino sketch builder" superClass="it.baeyens.arduino.sketch.builder">
-								<outputEntries>
-									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="Release"/>
-									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="Debug_AVaRICE"/>
-								</outputEntries>
-							</builder>
-							<tool id="it.baeyens.arduino.tool.sketch.compiler.cpp.659039282" name="Arduino C++ Compiler" superClass="it.baeyens.arduino.tool.sketch.compiler.cpp">
-								<option id="it.baeyens.arduino.compiler.cpp.sketch.option.incpath.1141802577" name="Include Paths (-I)" superClass="it.baeyens.arduino.compiler.cpp.sketch.option.incpath" valueType="includePath">
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/core/core"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/core/variant"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/WireRtcLib"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/OMMenuMgr"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/PciManager"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/PciManager/src"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/WiFiEsp"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/WiFiEsp/src"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/OMEEPROM"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/BH1750FVI"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/HttpClient"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/EEPROM"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/EEPROM/src"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/NewliquidCrystal"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/NewliquidCrystal/utility"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/Arduino-Scheduler"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/WireConcurrent"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/WireConcurrent/src"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/Adafruit-BMP085-Library"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/DHT-sensor-library"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/SdFat"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/SdFat/src"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/SPI"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/SPI/src"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/CrashTracking"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/SoftTimerDebouncer"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/SoftTimerDebouncer/src"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/SoftTimerBase"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/SoftTimerBase/src"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/digitalWriteFast"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/BitBool"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/WeatherStationDefines"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/WeatherStationCommon"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/AM2320"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/Si7021"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/Si7021/src"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/pubsubclient"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/pubsubclient/src"/>
+				<configuration artifactName="${ProjName}" buildProperties="" description="" id="io.sloeber.core.toolChain.release.2111645670" name="Release" parent="org.eclipse.cdt.build.core.emptycfg">
+					<folderInfo id="io.sloeber.core.toolChain.release.2111645670.838964024" name="/" resourcePath="">
+						<toolChain id="io.sloeber.core.toolChain.release.2129108470" name="Arduino Toolchain( Sloeber edition)" superClass="io.sloeber.core.toolChain.release">
+							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="io.sloeber.targetplatform.2117647188" name="Arduino Target" osList="all" superClass="io.sloeber.targetplatform"/>
+							<builder buildPath="${workspace_loc:/WeatherStation}/Release" id="io.sloeber.sketch.builder.470240117" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Arduino sketch builder" superClass="io.sloeber.sketch.builder"/>
+							<tool id="io.sloeber.tool.sketch.compiler.cpp.1587206193" name="Arduino C++ Compiler" superClass="io.sloeber.tool.sketch.compiler.cpp">
+								<option id="io.sloeber.compiler.cpp.sketch.option.incpath.425167493" name="Include Paths (-I)" superClass="io.sloeber.compiler.cpp.sketch.option.incpath" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/core/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/core/variant}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Adafruit-BMP085-Library}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/AM2320}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Arduino-Scheduler}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/BH1750FVI}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/BitBool}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/CrashTracking}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/DHT-sensor-library}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/digitalWriteFast}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SPI}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SPI/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/pubsubclient}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/pubsubclient/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WiFiEsp}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WiFiEsp/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimerDebouncer}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimerDebouncer/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/NewliquidCrystal}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/NewliquidCrystal/utility}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SdFat}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SdFat/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/EEPROM}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/EEPROM/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/HttpClient}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/NewliquidCrystal}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/NewliquidCrystal/utility}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/OMEEPROM}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/CrashTracking}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Arduino-Scheduler}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireRtcLib}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/OMMenuMgr}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Si7021}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Si7021/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/PciManager}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/PciManager/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/AM2320}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Adafruit-BMP085-Library}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/DHT-sensor-library}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WeatherStationDefines}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/pubsubclient}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/pubsubclient/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SdFat}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SdFat/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Si7021}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Si7021/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimerBase}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimerBase/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/BH1750FVI}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimerDebouncer}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimerDebouncer/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SPI}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SPI/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WeatherStationCommon}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/HttpClient}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WeatherStationDefines}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WiFiEsp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WiFiEsp/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireConcurrent}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireConcurrent/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/BitBool}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireRtcLib}&quot;"/>
 								</option>
-								<inputType id="it.baeyens.arduino.compiler.cpp.sketch.input.1126043895" name="CPP source files" superClass="it.baeyens.arduino.compiler.cpp.sketch.input"/>
+								<inputType id="io.sloeber.compiler.cpp.sketch.input.268930695" name="CPP source files" superClass="io.sloeber.compiler.cpp.sketch.input"/>
 							</tool>
-							<tool id="it.baeyens.arduino.tool.compiler.c.297944924" name="Arduino C Compiler" superClass="it.baeyens.arduino.tool.compiler.c">
-								<option id="it.baeyens.arduino.compiler.c.sketch.option.incpath.643696825" name="Include Paths (-I)" superClass="it.baeyens.arduino.compiler.c.sketch.option.incpath" valueType="includePath">
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/core/core"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/core/variant"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/WireRtcLib"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/OMMenuMgr"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/PciManager"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/PciManager/src"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/WiFiEsp"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/WiFiEsp/src"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/OMEEPROM"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/BH1750FVI"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/HttpClient"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/EEPROM"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/EEPROM/src"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/NewliquidCrystal"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/NewliquidCrystal/utility"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/Arduino-Scheduler"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/WireConcurrent"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/WireConcurrent/src"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/Adafruit-BMP085-Library"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/DHT-sensor-library"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/SdFat"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/SdFat/src"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/SPI"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/SPI/src"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/CrashTracking"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/SoftTimerDebouncer"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/SoftTimerDebouncer/src"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/SoftTimerBase"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/SoftTimerBase/src"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/digitalWriteFast"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/BitBool"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/WeatherStationDefines"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/WeatherStationCommon"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/AM2320"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/Si7021"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/Si7021/src"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/pubsubclient"/>
-									<listOptionValue builtIn="false" value="../WeatherStation/WeatherStation/libraries/pubsubclient/src"/>
+							<tool id="io.sloeber.tool.compiler.c.315254299" name="Arduino C Compiler" superClass="io.sloeber.tool.compiler.c">
+								<option id="io.sloeber.compiler.c.sketch.option.incpath.2015283534" name="Include Paths (-I)" superClass="io.sloeber.compiler.c.sketch.option.incpath" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/core/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/core/variant}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Adafruit-BMP085-Library}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/AM2320}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Arduino-Scheduler}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/BH1750FVI}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/BitBool}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/CrashTracking}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/DHT-sensor-library}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/digitalWriteFast}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SPI}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SPI/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/pubsubclient}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/pubsubclient/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WiFiEsp}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WiFiEsp/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimerDebouncer}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimerDebouncer/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/NewliquidCrystal}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/NewliquidCrystal/utility}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SdFat}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SdFat/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/EEPROM}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/EEPROM/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/HttpClient}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/NewliquidCrystal}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/NewliquidCrystal/utility}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/OMEEPROM}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/CrashTracking}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Arduino-Scheduler}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireRtcLib}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/OMMenuMgr}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Si7021}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Si7021/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/PciManager}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/PciManager/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/AM2320}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Adafruit-BMP085-Library}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/DHT-sensor-library}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WeatherStationDefines}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/pubsubclient}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/pubsubclient/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SdFat}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SdFat/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Si7021}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Si7021/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimerBase}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimerBase/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/BH1750FVI}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimerDebouncer}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimerDebouncer/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SPI}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SPI/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WeatherStationCommon}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/HttpClient}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WeatherStationDefines}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WiFiEsp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WiFiEsp/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireConcurrent}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireConcurrent/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/BitBool}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireRtcLib}&quot;"/>
 								</option>
-								<inputType id="it.baeyens.arduino.compiler.c.sketch.input.22390311" name="C Source Files" superClass="it.baeyens.arduino.compiler.c.sketch.input"/>
+								<inputType id="io.sloeber.compiler.c.sketch.input.587563084" name="C Source Files" superClass="io.sloeber.compiler.c.sketch.input"/>
 							</tool>
-							<tool id="it.baeyens.arduino.tool.sketch.compiler.s.213197069" name="Arduino Assembler" superClass="it.baeyens.arduino.tool.sketch.compiler.s"/>
-							<tool id="it.baeyens.arduino.tool.ar.1179844570" name="Arduino archiver" superClass="it.baeyens.arduino.tool.ar"/>
-							<tool id="it.baeyens.arduino.tool.combine.180461763" name="Arduino combiner" superClass="it.baeyens.arduino.tool.combine"/>
-							<tool id="it.baeyens.arduino.tool.objcopy.eep.685229712" name="Arduino tool Create eeprom" superClass="it.baeyens.arduino.tool.objcopy.eep"/>
-							<tool id="it.baeyens.arduino.tool.objcopy.flash.1676447268" name="Arduino tool Create hex" superClass="it.baeyens.arduino.tool.objcopy.flash"/>
-							<tool id="it.baeyens.arduino.tool.size.1485641876" name="Arduino tool Print Size" superClass="it.baeyens.arduino.tool.size"/>
+							<tool id="io.sloeber.tool.sketch.compiler.s.288348593" name="Arduino Assembler" superClass="io.sloeber.tool.sketch.compiler.s">
+								<option id="io.sloeber.compiler.asm.sketch.option.incpath.235379022" name="Include Paths (-I)" superClass="io.sloeber.compiler.asm.sketch.option.incpath" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/core/core}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/core/variant}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Adafruit-BMP085-Library}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/AM2320}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Arduino-Scheduler}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/BH1750FVI}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/BitBool}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/CrashTracking}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/DHT-sensor-library}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/digitalWriteFast}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/EEPROM}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/EEPROM/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/HttpClient}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/NewliquidCrystal}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/NewliquidCrystal/utility}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/OMEEPROM}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/OMMenuMgr}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/PciManager}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/PciManager/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/pubsubclient}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/pubsubclient/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SdFat}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SdFat/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Si7021}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Si7021/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimerBase}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimerBase/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimerDebouncer}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimerDebouncer/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SPI}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SPI/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WeatherStationCommon}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WeatherStationDefines}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WiFiEsp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WiFiEsp/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireConcurrent}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireConcurrent/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireRtcLib}&quot;"/>
+								</option>
+								<inputType id="io.sloeber.compiler.S.sketch.input.1777604027" name="Assembly source files" superClass="io.sloeber.compiler.S.sketch.input"/>
+							</tool>
+							<tool id="io.sloeber.tool.ar.2052008384" name="Arduino archiver" superClass="io.sloeber.tool.ar"/>
+							<tool commandLinePattern="${A.RECIPE.C.COMBINE.PATTERN.1} ${FLAGS} -g ${INPUTS} ${A.RECIPE.C.COMBINE.PATTERN.2} ${A.ARCHIVE_FILE_PATH} ${A.RECIPE.C.COMBINE.PATTERN.3}" id="io.sloeber.tool.combine.771254217" name="Arduino combiner" superClass="io.sloeber.tool.combine"/>
+							<tool id="io.sloeber.tool.objcopy.eep.1323217149" name="Arduino tool objcopy command" superClass="io.sloeber.tool.objcopy.eep"/>
+							<tool id="io.sloeber.tool.size.1238911284" name="Arduino tool Print Size" superClass="io.sloeber.tool.size"/>
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="sd|display|libraries**/._*|sensors|controls|time|libraries/BH1750FVI/BH1750_serial|libraries/**/?xamples/**|libraries/BH1750FVI/BH1750_LCD|libraries/BH1750FVI/BH1750_Led|libraries/**/?xtras/**|menu|libraries/**/test/**|libraries/**/third-party/**|net|libraries/pubsubclient/tests|not used/*" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="controls"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="display"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="menu"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="net"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="sd"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="sensors"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="time"/>
-					</sourceEntries>
-				</configuration>
-			</storageModule>
-			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
-		</cconfiguration>
-		<cconfiguration id="it.baeyens.arduino.core.toolChain.release.1242498259">
-			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="it.baeyens.arduino.core.toolChain.release.1242498259" moduleId="org.eclipse.cdt.core.settings" name="Debug_AVaRICE">
-				<externalSettings/>
-				<extensions>
-					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
-					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.MakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-				</extensions>
-			</storageModule>
-			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildProperties="" description="" id="it.baeyens.arduino.core.toolChain.release.1242498259" name="Debug_AVaRICE" parent="org.eclipse.cdt.build.core.emptycfg">
-					<folderInfo id="it.baeyens.arduino.core.toolChain.release.1242498259.931474324" name="/" resourcePath="">
-						<toolChain id="it.baeyens.arduino.core.toolChain.release.1414677559" name="Arduino Toolchain" superClass="it.baeyens.arduino.core.toolChain.release">
-							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="it.baeyens.arduino.targetplatform.88233229" name="Arduino Target" osList="all" superClass="it.baeyens.arduino.targetplatform"/>
-							<builder buildPath="${workspace_loc:/WeatherStation}/Debug_AVaRICE" id="it.baeyens.arduino.sketch.builder.1700153880" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Arduino sketch builder" superClass="it.baeyens.arduino.sketch.builder"/>
-							<tool id="it.baeyens.arduino.tool.sketch.compiler.cpp.527739968" name="Arduino C++ Compiler" superClass="it.baeyens.arduino.tool.sketch.compiler.cpp">
-								<option id="it.baeyens.arduino.compiler.cpp.sketch.option.incpath.1574627083" name="Include Paths (-I)" superClass="it.baeyens.arduino.compiler.cpp.sketch.option.incpath" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireRtcLib}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/OMMenuMgr}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/PciManager}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/PciManager/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WiFiEsp}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WiFiEsp/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/EEPROM}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/EEPROM/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/OMEEPROM}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/BH1750FVI}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/HttpClient}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/NewliquidCrystal}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/NewliquidCrystal/utility}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Arduino-Scheduler}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SPI}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SPI/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimerDebouncer}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimerDebouncer/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SdFat}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SdFat/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/CrashTracking}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Adafruit-BMP085-Library}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/DHT-sensor-library}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimerBase}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimerBase/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireConcurrent}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireConcurrent/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/digitalWriteFast}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/BitBool}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WeatherStationDefines}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WeatherStationCommon}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/AM2320}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Si7021}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Si7021/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/pubsubclient}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/pubsubclient/src}&quot;"/>
-								</option>
-								<inputType id="it.baeyens.arduino.compiler.cpp.sketch.input.1297296522" name="CPP source files" superClass="it.baeyens.arduino.compiler.cpp.sketch.input"/>
-							</tool>
-							<tool id="it.baeyens.arduino.tool.compiler.c.1674238037" name="Arduino C Compiler" superClass="it.baeyens.arduino.tool.compiler.c">
-								<option id="it.baeyens.arduino.compiler.c.sketch.option.incpath.1349342570" name="Include Paths (-I)" superClass="it.baeyens.arduino.compiler.c.sketch.option.incpath" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireRtcLib}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/OMMenuMgr}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/PciManager}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/PciManager/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WiFiEsp}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WiFiEsp/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/EEPROM}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/EEPROM/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/OMEEPROM}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/BH1750FVI}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/HttpClient}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/NewliquidCrystal}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/NewliquidCrystal/utility}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Arduino-Scheduler}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SPI}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SPI/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimerDebouncer}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimerDebouncer/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SdFat}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SdFat/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/CrashTracking}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Adafruit-BMP085-Library}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/DHT-sensor-library}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimerBase}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/SoftTimerBase/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireConcurrent}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WireConcurrent/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/digitalWriteFast}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/BitBool}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WeatherStationDefines}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/WeatherStationCommon}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/AM2320}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Si7021}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/Si7021/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/pubsubclient}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/WeatherStation/libraries/pubsubclient/src}&quot;"/>
-								</option>
-								<inputType id="it.baeyens.arduino.compiler.c.sketch.input.239996089" name="C Source Files" superClass="it.baeyens.arduino.compiler.c.sketch.input"/>
-							</tool>
-							<tool id="it.baeyens.arduino.tool.sketch.compiler.s.1067474919" name="Arduino Assembler" superClass="it.baeyens.arduino.tool.sketch.compiler.s"/>
-							<tool id="it.baeyens.arduino.tool.ar.979654155" name="Arduino archiver" superClass="it.baeyens.arduino.tool.ar"/>
-							<tool id="it.baeyens.arduino.tool.combine.1072044673" name="Arduino combiner" superClass="it.baeyens.arduino.tool.combine"/>
-							<tool id="it.baeyens.arduino.tool.objcopy.eep.1847104384" name="Arduino tool Create eeprom" superClass="it.baeyens.arduino.tool.objcopy.eep"/>
-							<tool id="it.baeyens.arduino.tool.objcopy.flash.781790380" name="Arduino tool Create hex" superClass="it.baeyens.arduino.tool.objcopy.flash"/>
-							<tool id="it.baeyens.arduino.tool.size.309070780" name="Arduino tool Print Size" superClass="it.baeyens.arduino.tool.size"/>
-						</toolChain>
-					</folderInfo>
-					<sourceEntries>
-						<entry excluding="libraries/pubsubclient/tests|sd" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="sd"/>
+						<entry excluding="libraries/SdFat/MainPage|libraries/NewliquidCrystal/utility|libraries/BH1750FVI/BH1750_serial|libraries/BH1750FVI/BH1750_Led|libraries/BH1750FVI/BH1750_LCD|libraries/AM2320/example|libraries/?*/**/?xamples/**|libraries/?*/**/?xtras/**|libraries/?*/**/test*/**|libraries/?*/**/third-party/**|libraries**/._*|libraries/?*/c*/?*|libraries/?*/d*/?*|libraries/?*/D*/?*" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -322,19 +161,12 @@
 		</cconfiguration>
 	</storageModule>
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-		<project id="WeatherStation.null.637362673" name="WeatherStation"/>
+		<project id="WeatherStation.null.621594246" name="WeatherStation"/>
 	</storageModule>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
-	<storageModule moduleId="refreshScope" versionNumber="2">
-		<configuration configurationName="Debug_AVaRICE">
-			<resource resourceType="PROJECT" workspacePath="/WeatherStation"/>
-		</configuration>
-		<configuration configurationName="Release">
-			<resource resourceType="PROJECT" workspacePath="/WeatherStation"/>
-		</configuration>
-	</storageModule>
-	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
+	<storageModule moduleId="refreshScope"/>
 </cproject>
