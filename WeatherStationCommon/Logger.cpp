@@ -17,7 +17,9 @@
 #ifndef DO_NOT_LOG_SD
 #include <FatLib/ArduinoFiles.h>
 #include <SdFat.h>
+#if defined (__AVR_ATmega2560__)
 #include <ApplicationMonitor.h>
+#endif
 #endif
 
 #ifdef USE_RTC
@@ -129,7 +131,9 @@ void LoggerClass::dumpLog() {
         while (sdLoggingFile->available()) {
             byte data = sdLoggingFile->read();
             Serial.write(data);
+#if defined (__AVR_ATmega2560__)
             ApplicationMonitor.IAmAlive();
+#endif
         }
         sdLoggingFile->seekSet(currentPosition);
     }

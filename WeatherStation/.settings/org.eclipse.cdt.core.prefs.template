@@ -493,7 +493,7 @@ environment/project/io.sloeber.core.toolChain.release.2111645670/JANTJE.EXTRA.C.
 environment/project/io.sloeber.core.toolChain.release.2111645670/JANTJE.EXTRA.C.COMPILE/value=
 environment/project/io.sloeber.core.toolChain.release.2111645670/JANTJE.EXTRA.COMPILE/delimiter=\:
 environment/project/io.sloeber.core.toolChain.release.2111645670/JANTJE.EXTRA.COMPILE/operation=replace
-environment/project/io.sloeber.core.toolChain.release.2111645670/JANTJE.EXTRA.COMPILE/value=-D SERIAL_RX_BUFFER_SIZE\=128 -D SERIAL_TX_BUFFER_SIZE\=64 -D TWI_BUFFER_LENGTH\=16 -D WIFI_KEEP_PASSWD -D _ESPLOGLEVEL_\=2
+environment/project/io.sloeber.core.toolChain.release.2111645670/JANTJE.EXTRA.COMPILE/value=-D SERIAL_RX_BUFFER_SIZE\=128 -D SERIAL_TX_BUFFER_SIZE\=64 -D TWI_BUFFER_LENGTH\=16 -D WIFI_KEEP_PASSWD -D _ESPLOGLEVEL_\=2 -D LOG_TWI_STATE_TO_LEDS -D SCHEDULER_SHOW_TASK_ID_ON_LED -O1
 environment/project/io.sloeber.core.toolChain.release.2111645670/JANTJE.EXTRA.CPP.COMPILE/delimiter=\:
 environment/project/io.sloeber.core.toolChain.release.2111645670/JANTJE.EXTRA.CPP.COMPILE/operation=replace
 environment/project/io.sloeber.core.toolChain.release.2111645670/JANTJE.EXTRA.CPP.COMPILE/value=

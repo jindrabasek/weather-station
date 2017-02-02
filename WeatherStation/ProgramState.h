@@ -11,13 +11,12 @@
 #include "ProgramState.h"
 
 #include <avr/pgmspace.h>
-#include <Arduino.h>
 #include <Debouncer.h>
 #include <pins_arduino.h>
 #include <PciManager.h>
 #include <sensors/LightIntensityMeasureTask.h>
-#include <sensors/SensorReading.h>
-#include <stdbool.h>
+#include <sensors/LightIntensityReading.h>
+#include <sensors/TempReading.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <SensorIds.h>
@@ -34,18 +33,20 @@
 #include "display/SwitchScreenHandler.h"
 #include "display/ToDraw.h"
 #include "menu/ProgramMenu.h"
+#include "net/AppStartUploadFlags.h"
 #include "net/MqttLoopTask.h"
 #include "net/MqttPublishTask.h"
-#include "net/Network.h"
 #include "net/NetworkTestTask.h"
 #include "net/SmartLivingPublishTask.h"
 #include "net/WifiWatchdogTask.h"
 #include "ProgramSettings.h"
 #include "sensors/AirPressureMeasureTask.h"
+#include "sensors/AirPressureReading.h"
 #include "sensors/SensorReadingScreen.h"
 #include "sensors/Si7010TempMeasureTask.h"
 #include "sensors/Wireless433MhzTask.h"
 #include "sensors/WirelessTempScreen.h"
+#include "sensors/WirelessTempSensorReading.h"
 #include "time/TimeScreen.h"
 #include "time/TimeSyncTask.h"
 
@@ -53,9 +54,6 @@ class ToDraw;
 
 class ProgramState {
 public:
-    static const int DHT_PIN = 30;
-    static const int DHT_POWER_PIN = 32;
-
     //static const int LEFT_PIN = A12; //11;
     //static const int RIGHT_PIN = A13; //10;
     static const int UP_PIN = A14; //12;
@@ -245,7 +243,7 @@ private:
             drawOnDisplayTask(
                     settings.getDisplayDrawSecondFreq()
                             * ProgramSettings::USEC_RESOLUTION_DISPLAY_DRAW_FREQ,
-                    disp.getLcd(), displayScreens[settings.getStartupScreen()]),
+                    disp, displayScreens[settings.getStartupScreen()]),
 
             menu(disp.getLcd(), this),
 
@@ -276,8 +274,6 @@ private:
                     settings.getWifiWatchdogMinutesFreq()
                             * ProgramSettings::USEC_RESOLUTION_WIFI_WATCHDOG_MIN_FREQ) {
 
-        pinMode(LED_BUILTIN, OUTPUT);
-
         measureTempTask.setThreadPool(&measureThread);
         measureAirPressureTask.setThreadPool(&measureThread);
         measureLightIntensityTask.setThreadPool(&measureThread);
@@ -297,8 +293,6 @@ private:
         for (uint8_t i = 0; i < WeatherStation::Buttons::ButtonsEnumSize; i++) {
             PciManager.registerListener(&buttons[i]);
         }
-
-        disp.doSetup();
 
         measureTempTask.getLatestReading().registerSensorValues(sensorValues);
         measureAirPressureTask.getLatestReading().registerSensorValues(
@@ -331,6 +325,8 @@ private:
         SoftTimer.add(&dataUploadTask);
 
         PciManager.setEnabled(true);
+
+        WeatherStation::AppStartUploadFlags::appStarted();
 
         setStateRef();
     }

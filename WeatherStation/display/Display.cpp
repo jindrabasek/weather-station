@@ -13,12 +13,12 @@
 void Display::doSetup() {
     lcd.begin(COLUMNS, ROWS);
 
-    lcd.backlight();
     delay(250);
     lcd.noBacklight();
     delay(250);
 
     lcd.backlight();
+    notInited = false;
 }
 
 Display::Display() :

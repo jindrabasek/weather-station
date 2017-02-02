@@ -18,7 +18,7 @@ BitBool<WeatherStation::SensorValueId::SensorsEnumSize> WeatherStation::SensorFl
 void WeatherStation::SensorFlags::writeFlag(SensorValueId sensorId, bool value,
                                         ReadingUploader uploader) {
     if (uploader >= ReadingUploader::ReadingUploaderSize){
-        for (int i = 0; i < ReadingUploader::ReadingUploaderSize; i++) {
+        for (uint8_t i = 0; i < ReadingUploader::ReadingUploaderSize; i++) {
             sensorFlags[i][sensorId] = value;
         }
     } else {

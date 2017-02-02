@@ -13,17 +13,18 @@
 #include <Task.h>
 
 #include "ToDraw.h"
+#include "Display.h"
 
 class DrawOnDisplayTask : public Task {
 private:
-    LCD & display;
+	Display & display;
     ToDraw * toDraw;
     bool clear;
 
 //-----------------------------------------------------------------------------
 
 public:
-    DrawOnDisplayTask(unsigned long periodMs, LCD & display, ToDraw * toDraw);
+    DrawOnDisplayTask(unsigned long periodMs, Display & display, ToDraw * toDraw);
 
     DrawOnDisplayTask(const DrawOnDisplayTask& that) = delete;
     void operator=(const DrawOnDisplayTask& that) = delete;

@@ -16,6 +16,9 @@
 #include <SensorIds.h>
 #include <WString.h>
 
+#if defined (__arm__) && defined (__SAM3X8E__) // Arduino Due compatible
+#include <avr/dtostrf.h>
+#endif
 
 LightIntensityReading::LightIntensityReading(WeatherStation::SensorValueId firstGlobalSensorId,
                                              int16_t intensity,

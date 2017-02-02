@@ -27,6 +27,7 @@ private:
     static const char DO_INFINITE_LOOP_CHAR = 'x';
     static const char ENABLE_WATCHDOG_CHAR = 'g';
     static const char DISABLE_WATCHDOG_CHAR = 'h';
+    static const char WIRE_DISABLE_ENABLE_CHAR = 'i';
 
     static const int DO_RESET_PIN = 5;
     static const int RESET_DELAY = 5000;

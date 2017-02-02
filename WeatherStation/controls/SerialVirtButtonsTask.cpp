@@ -19,6 +19,8 @@
 #include <stdint.h>
 #include <TaskIds.h>
 #include <WString.h>
+#include <Logger.h>
+#include <Wire.h>
 
 #include "../net/Network.h"
 #include "../ProgramState.h"
@@ -120,16 +122,25 @@ void SerialVirtButtonsTask::run() {
                             Watchdog::CApplicationMonitor::Timeout_8s);
                     break;
                 case DO_INFINITE_LOOP_CHAR:
+                	LOG_INFO(F("Testing watch dog."));
                     while (true) {
-                        Serial.print('o');
+                        // nothing
                     }
                     break;
                 case ENABLE_WATCHDOG_CHAR:
+                	LOG_INFO(F("Watch dog enabled."));
                     ApplicationMonitor.EnableWatchdog(Watchdog::CApplicationMonitor::Timeout_8s);
                     break;
                 case DISABLE_WATCHDOG_CHAR:
+                	LOG_INFO(F("Watch dog disabled."));
                     ApplicationMonitor.DisableWatchdog();
                     break;
+                case WIRE_DISABLE_ENABLE_CHAR:
+                	LOG_INFO(F("Restarting wire."));
+                	Wire.end();
+                	Wire.begin();
+                	LOG_INFO(F("Wire restarted."));
+                	break;
                 default:
                     break;
             }

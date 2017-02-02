@@ -44,6 +44,13 @@ public:
             lcd.write(' ');
         }
     }
+
+	bool isNotInited() const {
+		return notInited;
+	}
+
+private:
+    bool notInited = true;
 };
 
 #endif /* DISPLAY_H_ */

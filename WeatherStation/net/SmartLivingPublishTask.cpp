@@ -9,25 +9,24 @@
 
 #include <avr/pgmspace.h>
 #include <Arduino.h>
+#include <defines.h>
 #include <HttpClient.h>
 #include <Logger.h>
 #include <sensors/SensorFlags.h>
 #include <sensors/SensorReading.h>
-#include <stdbool.h>
-#include <stdint.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <SensorIds.h>
-#include <WiFiEspClient.h>
-#include <WireRtcLib.h>
-#include <WString.h>
+#include <time/Clock.h>
 #include <TaskIds.h>
+#include <WiFiEspClient.h>
+#include <WString.h>
 
 #include "../config.h"
-#include "../ProgramSettings.h"
 #include "../ProgramState.h"
+#include "AppStartUploadFlags.h"
 #include "Network.h"
 #include "PublishUtils.h"
+#include "WifiWatchdogTask.h"
 
 static const char PRESSURE_ID[] PROGMEM = SMART_LIVING_SENSOR_ID_PRESSURE;
 static const char PRESSURE_SEA_LEVEL_ID[] PROGMEM
@@ -60,6 +59,9 @@ static const char DHT_TEMPERTAURE_OUTDOOR_ID[] PROGMEM
 = SMART_LIVING_SENSOR_ID_DHT_TEMPERTAURE_OUTDOOR;
 static const char ABSOLUTE_HUMIDITY_OUTDOOR_ID[] PROGMEM
 = SMART_LIVING_SENSOR_ID_ABSOLUTE_HUMIDITY_OUTDOOR;
+
+static const char WEATHER_STATION_STATUS_ID[] PROGMEM
+= SMART_LIVING_SENSOR_ID_WEATHER_STATION_STATUS;
 
 static const char* const assetIds[] PROGMEM = { PRESSURE_ID,
         PRESSURE_SEA_LEVEL_ID, BMP_TEMPERATURE_ID, LIGHT_INTENSITY_ID,
@@ -96,10 +98,83 @@ void SmartLivingPublishTask::run() {
         uint8_t toUpload = 0;
         uint8_t uploadSucceded = 0;
 
+
+		char pathFormat[sizeof(PATH_FORMAT)];
+		strcpy_P(pathFormat, PATH_FORMAT);
+
         char smartLivingIp[sizeof(SMART_LIVING_IP)];
         strcpy_P(smartLivingIp, SMART_LIVING_IP);
 
-        for (uint8_t i = 0; i < WeatherStation::SensorValueId::SensorsEnumSize;
+		if (AppStartUploadFlags::isFlag(ReadingUploader::SMART_LIVING)) {
+			LOG_INFO(F("UP status uploading to AllThings"));
+			WiFiEspClient client;
+			client.setUseSsl(true);
+			HttpClient http(client);
+			perfMeasure();
+			http.beginRequest();
+			char statusId[sizeof(WEATHER_STATION_STATUS_ID)];
+			strcpy_P(statusId, WEATHER_STATION_STATUS_ID);
+			char path[ASSET_ID_LENGTH + sizeof(PATH_FORMAT) + 1] = { 0 };
+			sprintf(path, pathFormat, statusId);
+			client.beginPacket();
+			perfMeasure();
+			int err = http.put(smartLivingIp, 443, path);
+			perfMeasure();
+			if (err == 0) {
+				client.println(F("Auth-ClientId: " SMART_LIVING_CLIENT_ID));
+				client.println(F("Auth-ClientKey: " SMART_LIVING_CLIENT_KEY));
+				client.print(F("Content-Length: "));
+				perfMeasure();
+
+				client.println(1 + FORMAT_TIME_LENGTH + 30);
+				perfMeasure();
+
+				client.println(
+						F("Content-Type: application/json; charset=utf-8"));
+				http.endRequest();
+
+				perfMeasure();
+
+				client.println('{');
+				client.print(F("\"value\": "));
+
+				client.print(1);
+
+				client.println(',');
+				perfMeasure();
+				client.print(F("\"at\": \""));
+				PublishUtils::formatTime(client, Clock::getTime(false).timeStamp);
+				client.println('\"');
+				client.println('}');
+				client.println();
+				perfMeasure();
+			}
+			client.endPacket();
+			perfMeasure();
+			// to improve UI response
+			yield();
+			perfMeasure();
+			if (err == 0) {
+				http.receiveAndPrintResponse(err, LOGGER_DEBUG, LOGGER_DEBUG);
+
+				if (err == 0) {
+					// mark reading was uploaded
+					AppStartUploadFlags::statusUploaded(ReadingUploader::SMART_LIVING);
+					LOG_DEBUG(F("UP status uploaded to AllThings"));
+				} else {
+					LOG_WARN(F("Error receiving UP status upload confirmation"));
+				}
+			} else {
+				LOG_WARN1(F("Error uploading UP status to AllThings"), err);
+			}
+
+			perfMeasure();
+			Logger.flush();
+			http.stop();
+			perfMeasure();
+		}
+
+        for (uint8_t i = 0; i < SensorValueId::SensorsEnumSize;
                 i++) {
 #ifdef DATA_UPLOAD_TIME_MEASURE
             unsigned long t = millis();
@@ -123,8 +198,6 @@ void SmartLivingPublishTask::run() {
                             perfMeasure();
                             http.beginRequest();
                             char path[ASSET_ID_LENGTH + sizeof(PATH_FORMAT)] = { 0 };
-                            char pathFormat[sizeof(PATH_FORMAT)];
-                            strcpy_P(pathFormat, PATH_FORMAT);
                             sprintf(path, pathFormat, assetId);
                             client.beginPacket();
 

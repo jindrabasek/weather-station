@@ -35,7 +35,7 @@ void ProgramSettings::loadSettings() {
 
 #ifndef WIFI_KEEP_PASSWD
 
-        char wifiSsid[WIFI_SSID_ARRAY_LENGTH] = DEFAULT_WIFI_PASSWORD;
+        char wifiSsid[WIFI_SSID_ARRAY_LENGTH] = DEFAULT_WIFI_SSID;
         for (uint8_t i = 0; i < WIFI_SSID_ARRAY_LENGTH; i++) {
             EEPROM.update(WIFI_SSID_EPROM_ADDR + i, wifiSsid[i]);
         }

@@ -17,6 +17,11 @@
 #include <WString.h>
 #include <defines.h>
 
+#if defined (__arm__) && defined (__SAM3X8E__) // Arduino Due compatible
+#include <avr/dtostrf.h>
+#endif
+
+
 TempReading::TempReading(WeatherStation::SensorValueId firstGlobalSensorId,
                          float humidity, float temperatureCelsius,
                          unsigned long timeStamp) :

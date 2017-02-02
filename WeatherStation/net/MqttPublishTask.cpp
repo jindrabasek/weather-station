@@ -47,6 +47,7 @@
 #define HUMIDITY_TOPIC "humidity"
 #define HUMIDITY_ABSOLUTE_TOPIC "humidityAbs"
 #define LIGHT_TOPIC "light"
+#define UP_TOPIC "up"
 
 #define WS_DEVICE DEVICE_TOPIC WS_TOPIC
 #define BASE_SENSOR WS_DEVICE BASE_TOPIC SENSOR_TOPIC
@@ -54,8 +55,8 @@
 #define REMOTE_SENCOR REMOTE_DEV SENCOR_TOPIC
 #define REMOTE_WS REMOTE_DEV WS_TOPIC SENSOR_TOPIC
 
-static const char TIMESTAMP_TOPIC[] PROGMEM = "/timestamp";
-static const char UNIT_TOPIC[] PROGMEM = "/unit";
+//static const char TIMESTAMP_TOPIC[] PROGMEM = "/timestamp";
+//static const char UNIT_TOPIC[] PROGMEM = "/unit";
 
 static const char PRESSURE_ID[] PROGMEM = BASE_SENSOR PT1_TOPIC PRESSURE_ABSOLUTE_TOPIC;
 static const char PRESSURE_SEA_LEVEL_ID[] PROGMEM = BASE_SENSOR PT1_TOPIC PRESSURE_SEA_LEVEL_TOPIC;
@@ -73,6 +74,8 @@ static const char DHT_HUMIDITY_OUTDOOR_ID[] PROGMEM = REMOTE_WS TH1_TOPIC HUMIDI
 static const char DHT_TEMPERTAURE_REAL_FEEL_OUTDOOR_ID[] PROGMEM = REMOTE_WS TH1_TOPIC TEMPERATURE_REAL_FEEL_TOPIC;
 static const char DHT_TEMPERTAURE_OUTDOOR_ID[] PROGMEM = REMOTE_WS TH1_TOPIC TEMPERATURE_TOPIC;
 static const char ABSOLUTE_HUMIDITY_OUTDOOR_ID[] PROGMEM = REMOTE_WS TH1_TOPIC HUMIDITY_ABSOLUTE_TOPIC;
+
+static const char WEATHER_STATION_STATUS_ID[] PROGMEM = WS_DEVICE UP_TOPIC;
 
 static const char* const assetIds[] PROGMEM = { PRESSURE_ID,
         PRESSURE_SEA_LEVEL_ID, BMP_TEMPERATURE_ID, LIGHT_INTENSITY_ID,
@@ -100,6 +103,31 @@ MqttPublishTask::MqttPublishTask(unsigned long periodMs) :
 void MqttPublishTask::run() {
     if (Network::networkConnected() && state->getMqttLoopTask().tryConnectLoop()) {
         LOG_DEBUG(F("Uploading data to MQTT...\n"));
+
+        if (AppStartUploadFlags::isFlag(ReadingUploader::MQTT_LOCAL)) {
+
+            LOG_INFO(F("UP status uploading to MQTT"));
+
+            bool err = false;
+            char upTopic[sizeof(WEATHER_STATION_STATUS_ID) + 1];
+            strcpy_P(upTopic, WEATHER_STATION_STATUS_ID);
+
+            perfMeasure();
+
+            char value[2] = "1";
+            err |= !state->getMqttLoopTask().getClient().publish(upTopic, value, true);
+
+            perfMeasure();
+
+		    if (!err) {
+		    	AppStartUploadFlags::statusUploaded(ReadingUploader::MQTT_LOCAL);
+		    	LOG_DEBUG(F("UP status uploaded to MQTT"));
+		    } else {
+		    	LOG_WARN(F("Error uploading UP status to MQTT"));
+		    }
+
+		    yield();
+		}
 
         uint8_t sensorIdIdx = 0;
 
@@ -155,13 +183,11 @@ void MqttPublishTask::run() {
 
                             if (!err) {
                                 SensorFlags::writeFlag((SensorValueId) i, true,
-                                        ReadingUploader::SMART_LIVING);
+                                        ReadingUploader::MQTT_LOCAL);
                                 LOG_DEBUG2(F("Sensor data uploaded to MQTT"), i, assetId);
                             } else {
                                 LOG_WARN1(F("Error uploading sensor data to MQTT"), assetId);
                             }
-
-                            Logger.flush();
 
                             yield();
                         } else {

@@ -6,7 +6,7 @@
 #include <HardwareSerial.h>
 #include <Logger.h>
 #include <PciManager.h>
-#include <stdbool.h>
+#include <stdint.h>
 #include <Scheduler.h>
 #include <SoftTimer.h>
 #include <time/Clock.h>
@@ -30,9 +30,10 @@ void setup() {
     delay(2000);
 
     Scheduler::begin(700);
-    Wire.begin();
 
+    Wire.begin();
     Clock::getTime(true);
+
     SdCard::init();
 
     ApplicationMonitor.Dump(Logger);
@@ -52,6 +53,9 @@ void checkTwiRestartState() {
     uint8_t last_restart_state = twi_read_last_restart_state();
     if (last_restart_state != TWI_NO_RESTART) {
         LOG_WARN1(F("I2C restarted in phase"), last_restart_state);
+        delayMicroseconds(1000);
+        Wire.end();
+        Wire.begin();
     }
 }
 

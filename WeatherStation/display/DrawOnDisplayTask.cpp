@@ -15,7 +15,7 @@
 #include "Display.h"
 #include "ToDraw.h"
 
-DrawOnDisplayTask::DrawOnDisplayTask(unsigned long periodMs, LCD & display,
+DrawOnDisplayTask::DrawOnDisplayTask(unsigned long periodMs, Display & display,
                                      ToDraw * toDraw) :
         Task(periodMs, true, DrawOnDisplay_Task),
         display(display),
@@ -24,13 +24,17 @@ DrawOnDisplayTask::DrawOnDisplayTask(unsigned long periodMs, LCD & display,
 }
 
 void DrawOnDisplayTask::run() {
+	if (display.isNotInited()) {
+		display.doSetup();
+	}
+
     if (clear) {
         clear = false;
         for (uint8_t i = 0; i < Display::ROWS; i++) {
-            Display::newLine(display, i);
-            Display::clearLine(display);
+            Display::newLine(display.getLcd(), i);
+            Display::clearLine(display.getLcd());
         }
     }
 
-    toDraw->draw(display);
+    toDraw->draw(display.getLcd());
 }
