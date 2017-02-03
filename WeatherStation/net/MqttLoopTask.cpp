@@ -65,15 +65,18 @@ void MqttLoopTask::run() {
     tryConnectLoop();
 }
 
-void MqttLoopTask::publishWsPing(PubSubClient& client) {
+bool MqttLoopTask::publishWsPing() {
     // publish current timestamp to device/weatherStation/timestamp
 
     char wsTimestamp[sizeof(WS_TIMESTAMP)];
     strcpy_P(wsTimestamp, WS_TIMESTAMP);
     char timestamp[11];
     ultoa(Clock::getTime(true).timeStamp, timestamp, 10);
-    client.publish(wsTimestamp, timestamp, true);
+    wifiClient.beginPacket();
+    bool result = client.publish(wsTimestamp, timestamp, true);
+    wifiClient.endPacket();
     LOG_INFO(F("Client subscribed to MQTT"));
+    return result;
 }
 
 bool MqttLoopTask::reconnect() {
@@ -86,8 +89,8 @@ bool MqttLoopTask::reconnect() {
     strcpy_P(wsName, WS_NAME);
     if (client.connect(address, MQTT_LOCAL_PORT, wsName)) {
         LOG_INFO(F("Connected to MQTT"));
-        publishWsPing(client);
+        return publishWsPing();
     }
-    return client.connected();
+    return false;
 }
 

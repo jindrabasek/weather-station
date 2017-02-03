@@ -25,20 +25,21 @@ public:
 
     bool tryConnectLoop();
 
-    static void publishWsPing(PubSubClient& client);
-
     PubSubClient& getClient() {
         return client;
     }
 
+    WiFiEspClient& getWifiClient() {
+		return wifiClient;
+	}
+
 private:
-
-
     WifiEspTimeouts timeouts;
     WiFiEspClient wifiClient;
     PubSubClient client;
     long lastReconnectAttempt = 0;
     bool reconnect();
+    bool publishWsPing();
 
 };
 

@@ -157,7 +157,9 @@ void MqttPublishTask::run() {
 
                             char value[valueLenght + 1];
                             dtostrf(doubleValue, valueLenght, 1, value);
+                            state->getMqttLoopTask().getWifiClient().beginPacket();
                             err |= !state->getMqttLoopTask().getClient().publish(assetId, value, true);
+                            state->getMqttLoopTask().getWifiClient().endPacket();
 
                             // not working or too slow - will have to fix pubsubclient to open/close packets explicitly
                             /*perfMeasure();
