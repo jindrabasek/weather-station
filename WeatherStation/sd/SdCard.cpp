@@ -12,7 +12,6 @@
 #include <FatLib/FatFile.h>
 #include <Logger.h>
 #include <SdFat.h>
-#include <SdSpiCard/SdInfo.h>
 #include <WString.h>
 
 static const char LOG_FILE_NAME[] PROGMEM = "log.txt";

@@ -34,12 +34,12 @@
 		<link>
 			<name>core/core</name>
 			<type>2</type>
-			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/arduino/hardware/avr/1.6.17/cores/arduino</locationURI>
+			<locationURI>%ECLIPSE_HOME%/arduinoPlugin/packages/arduino/hardware/avr/1.6.17/cores/arduino</locationURI>
 		</link>
 		<link>
 			<name>core/variant</name>
 			<type>2</type>
-			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/arduino/hardware/avr/1.6.17/variants/mega</locationURI>
+			<locationURI>%ECLIPSE_HOME%/arduinoPlugin/packages/arduino/hardware/avr/1.6.17/variants/mega</locationURI>
 		</link>
 		<link>
 			<name>libraries/AM2320</name>
@@ -79,7 +79,7 @@
 		<link>
 			<name>libraries/EEPROM</name>
 			<type>2</type>
-			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/arduino/hardware/avr/1.6.17/libraries/EEPROM</locationURI>
+			<locationURI>%ECLIPSE_HOME%/arduinoPlugin/packages/arduino/hardware/avr/1.6.17/libraries/EEPROM</locationURI>
 		</link>
 		<link>
 			<name>libraries/HttpClient</name>
@@ -109,7 +109,7 @@
 		<link>
 			<name>libraries/SPI</name>
 			<type>2</type>
-			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/arduino/hardware/avr/1.6.17/libraries/SPI</locationURI>
+			<locationURI>%ECLIPSE_HOME%/arduinoPlugin/packages/arduino/hardware/avr/1.6.17/libraries/SPI</locationURI>
 		</link>
 		<link>
 			<name>libraries/SdFat</name>

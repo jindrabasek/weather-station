@@ -22,7 +22,7 @@
 #include "WifiWatchdogTask.h"
 
 uint8_t Network::espStatus = WL_IDLE_STATUS;
-SerialHolderT<HardwareSerial> Network::serial(&Serial1);
+SerialHolderT<HardwareSerial> Network::serial(&Serial2);
 
 void Network::connect(ProgramSettings& settings, bool force) {
     initNetwork(force);
