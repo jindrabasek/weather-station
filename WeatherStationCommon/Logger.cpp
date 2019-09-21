@@ -124,7 +124,7 @@ void LoggerClass::dumpLog() {
     Serial.println(F("-------- Log dump --------"));
     Serial.println();
 
-    if (sdLoggingFile->isOpen()) {
+    if (sdLoggingFile != NULL && sdLoggingFile->isOpen()) {
         uint32_t currentPosition = sdLoggingFile->curPosition();
         uint32_t fileSize = sdLoggingFile->fileSize();
         sdLoggingFile->seekSet(fileSize > BYTES_TO_DUMP ? fileSize - BYTES_TO_DUMP : 0);

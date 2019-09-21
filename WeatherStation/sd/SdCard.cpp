@@ -27,10 +27,10 @@ void SdCard::init() {
     // Initialize the SD card at SPI_HALF_SPEED to avoid bus errors with
     // breadboards.  use SPI_FULL_SPEED for better performance.
     if (!sd.begin(CHIP_SELECT, SPI_FULL_SPEED)) {
-        sd.initErrorHalt();
+        sd.initErrorPrint();
+    } else {
+    	initSdLogger();
     }
-
-    initSdLogger();
 }
 
 void SdCard::initSdLogger() {
