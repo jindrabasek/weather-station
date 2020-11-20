@@ -179,9 +179,9 @@ ProgramMenu::ProgramMenu(LCD & lcd, ProgramState * state) :
                 ProgramSettings::SECOND_RESOLUTION_DISPLAY_DRAW_FREQ),
         setTimeSyncFreqAction(state->getTimeSyncTask(),
                 &ProgramSettings::getSyncTimeHourFreq),
-        setDataUploadFreqAction(state->getDataUploadTask(),
-                &ProgramSettings::getDataUploadMinutesFreq,
-                ProgramSettings::SECOND_RESOLUTION_DATA_UPLOAD_MIN_FREQ),
+//        setDataUploadFreqAction(state->getDataUploadTask(),
+//                &ProgramSettings::getDataUploadMinutesFreq,
+//                ProgramSettings::SECOND_RESOLUTION_DATA_UPLOAD_MIN_FREQ),
         setWifiWatchdogFreqAction(state->getWifiWatchDogTask(),
                 &ProgramSettings::getWifiWatchdogMinutesFreq,
                 ProgramSettings::SECOND_RESOLUTION_WIFI_WATCHDOG_MIN_FREQ),
@@ -192,7 +192,7 @@ ProgramMenu::ProgramMenu(LCD & lcd, ProgramState * state) :
 	measureLightFreqCallbackHolder.setValuePtr(&setLightMeasureFreqAction);
     displayDrawFreqCallbackHolder.setValuePtr(&setDisplayRedrawFreqAction);
     syncTimeFreqCallbackHolder.setValuePtr(&setTimeSyncFreqAction);
-    dataUploadFreqCallbackHolder.setValuePtr(&setDataUploadFreqAction);
-    dataUploadFreqCallbackHolder.setValuePtr(&setDataUploadFreqAction);
+//    dataUploadFreqCallbackHolder.setValuePtr(&setDataUploadFreqAction);
+//    dataUploadFreqCallbackHolder.setValuePtr(&setDataUploadFreqAction);
     wifiRestartCallbackHolder.setValuePtr(&restartWifiAction);
 }

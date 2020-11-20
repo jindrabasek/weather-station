@@ -40,7 +40,7 @@ private:
     SetTaskFrequencyAction setLightMeasureFreqAction;
     SetTaskFrequencyAction setDisplayRedrawFreqAction;
     SetLongTaskFrequencyAction setTimeSyncFreqAction;
-    SetTaskFrequencyAction setDataUploadFreqAction;
+//    SetTaskFrequencyAction setDataUploadFreqAction;
     SetTaskFrequencyAction setWifiWatchdogFreqAction;
     RestartWifiAction restartWifiAction;
 

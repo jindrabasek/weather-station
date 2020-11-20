@@ -37,7 +37,7 @@
 #include "net/MqttLoopTask.h"
 #include "net/MqttPublishTask.h"
 #include "net/NetworkTestTask.h"
-#include "net/SmartLivingPublishTask.h"
+//#include "net/SmartLivingPublishTask.h"
 #include "net/WifiWatchdogTask.h"
 #include "ProgramSettings.h"
 #include "sensors/AirPressureMeasureTask.h"
@@ -124,7 +124,9 @@ private:
     TimeSyncTask timeSyncTask;
     MqttLoopTask mqttLoopTask;
     MqttPublishTask mqttPublishTask;
-    SmartLivingPublishTask dataUploadTask;
+
+    // Disable data upload to smart living
+    // SmartLivingPublishTask dataUploadTask;
     WifiWatchdogTask wifiWatchDogTask;
 
     void setStateRef();
@@ -200,9 +202,9 @@ public:
         return sensorValues;
     }
 
-    SmartLivingPublishTask& getDataUploadTask() {
-        return dataUploadTask;
-    }
+//    SmartLivingPublishTask& getDataUploadTask() {
+//        return dataUploadTask;
+//    }
 
     WifiWatchdogTask& getWifiWatchDogTask() {
         return wifiWatchDogTask;
@@ -267,9 +269,9 @@ private:
             mqttPublishTask(
                     settings.getDataUploadMinutesFreq()
                             * ProgramSettings::USEC_RESOLUTION_DATA_UPLOAD_MIN_FREQ),
-            dataUploadTask(
-                    settings.getDataUploadMinutesFreq()
-                            * ProgramSettings::USEC_RESOLUTION_DATA_UPLOAD_MIN_FREQ),
+//            dataUploadTask(
+//                    settings.getDataUploadMinutesFreq()
+//                            * ProgramSettings::USEC_RESOLUTION_DATA_UPLOAD_MIN_FREQ),
             wifiWatchDogTask(
                     settings.getWifiWatchdogMinutesFreq()
                             * ProgramSettings::USEC_RESOLUTION_WIFI_WATCHDOG_MIN_FREQ) {
@@ -314,7 +316,7 @@ private:
         timeSyncTask.setThreadPool(&networkThread);
         //mqttLoopTask.setThreadPool(&networkThread);
         mqttPublishTask.setThreadPool(&networkThread);
-        dataUploadTask.setThreadPool(&networkThread);
+//        dataUploadTask.setThreadPool(&networkThread);
         wifiWatchDogTask.setThreadPool(&networkThread);
         SoftTimer.add(&wifiWatchDogTask);
         SoftTimer.add(&networkTestTask);
@@ -322,7 +324,7 @@ private:
         // do manually from publish task for now
         //SoftTimer.add(&mqttLoopTask);
         SoftTimer.add(&mqttPublishTask);
-        SoftTimer.add(&dataUploadTask);
+//        SoftTimer.add(&dataUploadTask);
 
         PciManager.setEnabled(true);
 
