@@ -18,6 +18,9 @@ void Display::doSetup() {
     delay(250);
 
     lcd.backlight();
+    delay(250);
+
+    lcd.noBacklight();
     notInited = false;
 }
 

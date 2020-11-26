@@ -264,7 +264,7 @@ private:
             serialVirtButtonsTask(100),
 
             currentScreen(settings.getStartupScreen()),
-            backLight(true),
+            backLight(false),
             timeSyncTask(settings.getSyncTimeHourFreq()),
             mqttPublishTask(
                     settings.getDataUploadMinutesFreq()
