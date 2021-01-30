@@ -34,7 +34,9 @@ public:
     static const unsigned int MIN_ALTITUDE = 0;
     static const unsigned int MIN_MEASURE_TEMP_FREQ = 2;
     static const unsigned int MIN_MEASURE_PRESSURE_FREQ = 1;
+#ifdef ENABLE_LIGHT_SENSOR
     static const unsigned int MIN_MEASURE_LIGHT_FREQ = 1;
+#endif
     static const unsigned int MIN_DISPLAY_DRAW_FREQ = 1;
     static const unsigned int MIN_SYNC_TIME_FREQ = 1;
     static const int MIN_TIME_ZONE = -12;
@@ -46,7 +48,9 @@ public:
     static const unsigned int MAX_ALTITUDE = 10000;
     static const unsigned int MAX_MEASURE_TEMP_FREQ = SEC_IN_HOUR;
     static const unsigned int MAX_MEASURE_PRESSURE_FREQ = SEC_IN_HOUR;
+#ifdef ENABLE_LIGHT_SENSOR
     static const unsigned int MAX_MEASURE_LIGHT_FREQ = SEC_IN_HOUR;
+#endif
     static const unsigned int MAX_DISPLAY_DRAW_FREQ = SEC_IN_HOUR;
     static const unsigned int MAX_SYNC_TIME_FREQ = 9999;
     static const int MAX_TIME_ZONE = 12;
@@ -58,7 +62,9 @@ public:
 
     static const unsigned long SECOND_RESOLUTION_MEASURE_TEMP_FREQ = 1;
     static const unsigned long SECOND_RESOLUTION_MEASURE_PRESSURE_FREQ = 1;
+#ifdef ENABLE_LIGHT_SENSOR
     static const unsigned long SECOND_RESOLUTION_MEASURE_LIGHT_FREQ = 1;
+#endif
     static const unsigned long SECOND_RESOLUTION_DISPLAY_DRAW_FREQ = 1;
     static const unsigned long SECOND_RESOLUTION_DATA_UPLOAD_MIN_FREQ =
             ONE_MIN_IN_SEC;
@@ -69,8 +75,10 @@ public:
             SECOND_RESOLUTION_MEASURE_TEMP_FREQ * ONE_SEC_IN_US;
     static const unsigned long USEC_RESOLUTION_MEASURE_PRESSURE_FREQ =
             SECOND_RESOLUTION_MEASURE_PRESSURE_FREQ * ONE_SEC_IN_US;
+#ifdef ENABLE_LIGHT_SENSOR
     static const unsigned long USEC_RESOLUTION_MEASURE_LIGHT_FREQ =
             SECOND_RESOLUTION_MEASURE_LIGHT_FREQ * ONE_SEC_IN_US;
+#endif
     static const unsigned long USEC_RESOLUTION_DISPLAY_DRAW_FREQ =
             SECOND_RESOLUTION_DISPLAY_DRAW_FREQ * ONE_SEC_IN_US;
     static const unsigned long USEC_RESOLUTION_DATA_UPLOAD_MIN_FREQ =

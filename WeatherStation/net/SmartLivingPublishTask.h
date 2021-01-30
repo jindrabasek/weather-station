@@ -5,6 +5,8 @@
  *      Author: jindra
  */
 
+#ifdef ENABLE_SMART_LIVING
+
 #ifndef SMARTLIVINGPUBLISHTASK_H_
 #define SMARTLIVINGPUBLISHTASK_H_
 
@@ -29,3 +31,5 @@ private:
 
 
 #endif /* SMARTLIVINGPUBLISHTASK_H_ */
+
+#endif

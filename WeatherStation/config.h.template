@@ -12,8 +12,11 @@
 #define DEFAULT_WIFI_PASSWORD ""
 #define DEFAULT_WIFI_SSID ""
 
-#define MQTT_LOCAL_ADDRESS 0, 0, 0, 0
+#define MQTT_LOCAL_ADDRESS "192.168.0.1"
 #define MQTT_LOCAL_PORT 1883
+// #define MQTT_LOCAL_SSL false
+#define MQTT_LOCAL_USER "user"
+#define MQTT_LOCAL_PASSWORD "password"
 
 // take these values from your SmartLiving account
 #define SMART_LIVING_CLIENT_ID ""

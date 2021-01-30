@@ -24,6 +24,8 @@
 static const char WS_NAME[] PROGMEM = "WeatherStation";
 static const char WS_TIMESTAMP[] PROGMEM = "dev/weatherSt/timestamp";
 static const char MQTT_ADDRESS[] PROGMEM = MQTT_LOCAL_ADDRESS;
+static const char MQTT_USER[] PROGMEM = MQTT_LOCAL_USER;
+static const char MQTT_PASSWORD[] PROGMEM = MQTT_LOCAL_PASSWORD;
 
 MqttLoopTask::MqttLoopTask() :
         Task(2000000, true, MqttLoop_Task),
@@ -82,12 +84,23 @@ bool MqttLoopTask::publishWsPing() {
 bool MqttLoopTask::reconnect() {
     LOG_INFO(F("Attempting to connect to MQTT"));
 
+// doesn't work
+//    wifiClient.setUseSsl(MQTT_LOCAL_SSL);
+
     char address[sizeof(MQTT_ADDRESS)];
     strcpy_P(address, MQTT_ADDRESS);
 
+    char username[sizeof(MQTT_USER)];
+    strcpy_P(username, MQTT_USER);
+
+
+    char password[sizeof(MQTT_PASSWORD)];
+    strcpy_P(password, MQTT_PASSWORD);
+
+
     char wsName[sizeof(WS_NAME)];
     strcpy_P(wsName, WS_NAME);
-    if (client.connect(address, MQTT_LOCAL_PORT, wsName)) {
+    if (client.connect(address, MQTT_LOCAL_PORT, wsName, username, password)) {
         LOG_INFO(F("Connected to MQTT"));
         return publishWsPing();
     }

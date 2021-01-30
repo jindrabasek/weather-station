@@ -5,6 +5,8 @@
  *      Author: jindra
  */
 
+#ifdef ENABLE_LIGHT_SENSOR
+
 #ifndef LIGHTINTENSITYMEASURETASK_H_
 #define LIGHTINTENSITYMEASURETASK_H_
 
@@ -32,3 +34,5 @@ public:
 };
 
 #endif /* LIGHTINTENSITYMEASURETASK_H_ */
+
+#endif

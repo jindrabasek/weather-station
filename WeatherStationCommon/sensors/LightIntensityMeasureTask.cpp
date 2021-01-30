@@ -5,6 +5,8 @@
  *      Author: jindra
  */
 
+#ifdef ENABLE_LIGHT_SENSOR
+
 #include "LightIntensityMeasureTask.h"
 
 #include <BH1750FVI.h>
@@ -69,3 +71,4 @@ void LightIntensityMeasureTask::run() {
 #endif
 }
 
+#endif

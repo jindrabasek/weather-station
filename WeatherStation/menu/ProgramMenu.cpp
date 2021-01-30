@@ -17,7 +17,9 @@
 
 static MenuValueHolder<MenuAction> measureTempFreqCallbackHolder;
 static MenuValueHolder<MenuAction> measurePressureFreqCallbackHolder;
+#ifdef ENABLE_LIGHT_SENSOR
 static MenuValueHolder<MenuAction> measureLightFreqCallbackHolder;
+#endif
 static MenuValueHolder<MenuAction> displayDrawFreqCallbackHolder;
 static MenuValueHolder<MenuAction> syncTimeFreqCallbackHolder;
 static MenuValueHolder<MenuAction> dataUploadFreqCallbackHolder;
@@ -28,13 +30,23 @@ static MenuValueHolder<MenuAction> wifiRestartCallbackHolder;
 static MENU_SELECT_ITEM  selTimeScreen = { ProgramState::TIME_SCREEN_NUMBER, {"Time and Date"} };
 static MENU_SELECT_ITEM  selTempScreen = { ProgramState::TEMP_SCREEN_NUMBER, {"Thermometer"} };
 static MENU_SELECT_ITEM  selPressureScreen = { ProgramState::PRESSURE_SCREEN_NUMBER, {"Barometer"} };
+#ifdef ENABLE_LIGHT_SENSOR
 static MENU_SELECT_ITEM  selLightScreen = { ProgramState::LIGHT_SCREEN_NUMBER, {"Light Intensity"} };
+#endif
+#ifdef ENABLE_W433_SENSORS
 static MENU_SELECT_ITEM  selTempOutdoorScreen = { ProgramState::TEMP_SCREEN_OUTDOOR_NUMBER, {"Thermo Outdoor"} };
 static MENU_SELECT_ITEM  selLightOutdoorScreen = { ProgramState::LIGHT_SCREEN_OUTDOOR_NUMBER, {"Light Outdoor"} };
 static MENU_SELECT_ITEM  selSencorWirelessScreen = { ProgramState::SENCOR_WIRELESS_SCREEN_NUMBER, {"Sencor Wireless"} };
+#endif
 
-static MENU_SELECT_LIST  selScreenslist[] = { &selTimeScreen, &selTempScreen, &selPressureScreen, &selLightScreen,
-        &selTempOutdoorScreen, &selLightOutdoorScreen, &selSencorWirelessScreen };
+static MENU_SELECT_LIST  selScreenslist[] = { &selTimeScreen, &selTempScreen, &selPressureScreen
+#ifdef ENABLE_LIGHT_SENSOR
+		, &selLightScreen
+#endif
+#ifdef ENABLE_W433_SENSORS
+		, &selTempOutdoorScreen, &selLightOutdoorScreen, &selSencorWirelessScreen
+#endif
+};
 
 static MENU_SELECT startupScreenSelect = { NULL,  MENU_SELECT_SIZE(selScreenslist),   MENU_TARGET(&selScreenslist) };
 
@@ -63,6 +75,7 @@ static MENU_VALUE measurePressureFreqValue = {
 		ProgramSettings::MEASURE_PRESSURE_FREQ_EPROM_ADDR };
 static MENU_ITEM measurePressureFreq    = { {"Barometer (s)"}, ITEM_VALUE_WITH_CALLBACK, 0, MENU_TARGET(&measurePressureFreqValue) };
 
+#ifdef ENABLE_LIGHT_SENSOR
 static MENU_VALUE_AND_ACTION measureLightFreqValueAction = {
         NULL,
 		MENU_TARGET(&measureLightFreqCallbackHolder)};
@@ -73,8 +86,13 @@ static MENU_VALUE measureLightFreqValue = {
 		MENU_TARGET(&measureLightFreqValueAction),
 		ProgramSettings::MEASURE_LIGHT_FREQ_EPROM_ADDR };
 static MENU_ITEM measureLightFreq    = { {"Light Intensity (s)"}, ITEM_VALUE_WITH_CALLBACK, 0, MENU_TARGET(&measureLightFreqValue) };
+#endif
 
-static MENU_LIST measureFreqencyList[]   = { &measureTempFreq, &measurePressureFreq, &measureLightFreq };
+static MENU_LIST measureFreqencyList[]   = { &measureTempFreq, &measurePressureFreq
+#ifdef ENABLE_LIGHT_SENSOR
+		, &measureLightFreq
+#endif
+};
 static MENU_ITEM measureFreqency     = { {"Measure Frequency"}, ITEM_MENU, MENU_SIZE(measureFreqencyList), MENU_TARGET(&measureFreqencyList) };
 
 static MENU_VALUE_AND_ACTION displayDrawFreqValueAction = {
@@ -171,17 +189,21 @@ ProgramMenu::ProgramMenu(LCD & lcd, ProgramState * state) :
         setPressureMeasureFreqAction(state->getMeasureAirPressureTask(),
                 &ProgramSettings::getMeasurePressureSecondFreq,
                 ProgramSettings::SECOND_RESOLUTION_MEASURE_PRESSURE_FREQ),
+#ifdef ENABLE_LIGHT_SENSOR
         setLightMeasureFreqAction(state->getMeasureLightIntensityTask(),
                 &ProgramSettings::getMeasureLightSecondFreq,
                 ProgramSettings::SECOND_RESOLUTION_MEASURE_LIGHT_FREQ),
+#endif
         setDisplayRedrawFreqAction(state->getDrawOnDisplayTask(),
                 &ProgramSettings::getDisplayDrawSecondFreq,
                 ProgramSettings::SECOND_RESOLUTION_DISPLAY_DRAW_FREQ),
         setTimeSyncFreqAction(state->getTimeSyncTask(),
                 &ProgramSettings::getSyncTimeHourFreq),
-//        setDataUploadFreqAction(state->getDataUploadTask(),
-//                &ProgramSettings::getDataUploadMinutesFreq,
-//                ProgramSettings::SECOND_RESOLUTION_DATA_UPLOAD_MIN_FREQ),
+#ifdef ENABLE_SMART_LIVING
+        setDataUploadFreqAction(state->getDataUploadTask(),
+                &ProgramSettings::getDataUploadMinutesFreq,
+                ProgramSettings::SECOND_RESOLUTION_DATA_UPLOAD_MIN_FREQ),
+#endif
         setWifiWatchdogFreqAction(state->getWifiWatchDogTask(),
                 &ProgramSettings::getWifiWatchdogMinutesFreq,
                 ProgramSettings::SECOND_RESOLUTION_WIFI_WATCHDOG_MIN_FREQ),
@@ -189,10 +211,13 @@ ProgramMenu::ProgramMenu(LCD & lcd, ProgramState * state) :
 
 	measureTempFreqCallbackHolder.setValuePtr(&setTempMeasureFreqAction);
 	measurePressureFreqCallbackHolder.setValuePtr(&setPressureMeasureFreqAction);
+#ifdef ENABLE_LIGHT_SENSOR
 	measureLightFreqCallbackHolder.setValuePtr(&setLightMeasureFreqAction);
+#endif
     displayDrawFreqCallbackHolder.setValuePtr(&setDisplayRedrawFreqAction);
     syncTimeFreqCallbackHolder.setValuePtr(&setTimeSyncFreqAction);
-//    dataUploadFreqCallbackHolder.setValuePtr(&setDataUploadFreqAction);
-//    dataUploadFreqCallbackHolder.setValuePtr(&setDataUploadFreqAction);
+#ifdef ENABLE_SMART_LIVING
+    dataUploadFreqCallbackHolder.setValuePtr(&setDataUploadFreqAction);
+#endif
     wifiRestartCallbackHolder.setValuePtr(&restartWifiAction);
 }

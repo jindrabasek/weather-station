@@ -37,10 +37,14 @@ private:
 
     SetTaskFrequencyAction setTempMeasureFreqAction;
     SetTaskFrequencyAction setPressureMeasureFreqAction;
+#ifdef ENABLE_LIGHT_SENSOR
     SetTaskFrequencyAction setLightMeasureFreqAction;
+#endif
     SetTaskFrequencyAction setDisplayRedrawFreqAction;
     SetLongTaskFrequencyAction setTimeSyncFreqAction;
-//    SetTaskFrequencyAction setDataUploadFreqAction;
+#ifdef ENABLE_SMART_LIVING
+    SetTaskFrequencyAction setDataUploadFreqAction;
+#endif
     SetTaskFrequencyAction setWifiWatchdogFreqAction;
     RestartWifiAction restartWifiAction;
 

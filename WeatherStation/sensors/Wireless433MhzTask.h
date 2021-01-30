@@ -5,6 +5,8 @@
  *      Author: jindra
  */
 
+#ifdef ENABLE_W433_SENSORS
+
 #ifndef WIRELESS433MHZTASK_H_
 #define WIRELESS433MHZTASK_H_
 
@@ -94,3 +96,5 @@ private:
 };
 
 #endif /* WIRELESS433MHZTASK_H_ */
+
+#endif

@@ -5,6 +5,8 @@
  *      Author: jindra
  */
 
+#ifdef ENABLE_W433_SENSORS
+
 #include "Wireless433MhzTask.h"
 
 #include <Arduino.h>
@@ -224,3 +226,5 @@ void Wireless433MhzTask::PinChangeISR0() { // Pin 2 (Interrupt 0) service routin
     }
 
 }
+
+#endif
