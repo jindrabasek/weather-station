@@ -33,20 +33,6 @@ void ProgramSettings::loadSettings() {
         OMEEPROM::writeConst(DISPLAY_DRAW_FREQ_EPROM_ADDR,
                 DEFAULT_DISPLAY_DRAW_FREQ);
 
-#ifndef WIFI_KEEP_PASSWD
-
-        char wifiSsid[WIFI_SSID_ARRAY_LENGTH] = DEFAULT_WIFI_SSID;
-        for (uint8_t i = 0; i < WIFI_SSID_ARRAY_LENGTH; i++) {
-            EEPROM.update(WIFI_SSID_EPROM_ADDR + i, wifiSsid[i]);
-        }
-
-        char wifiPasswd[WIFI_PASSWD_ARRAY_LENGTH] = DEFAULT_WIFI_PASSWORD;
-        for (uint8_t i = 0; i < WIFI_PASSWD_ARRAY_LENGTH; i++) {
-            EEPROM.update(WIFI_PASSWORD_EPROM_ADDR + i, wifiPasswd[i]);
-        }
-
-#endif
-
         OMEEPROM::writeConst(TIME_ZONE_EPROM_ADDR, DEFAULT_TIME_ZONE);
         OMEEPROM::writeConst(SYNC_TIME_FREQ_EPROM_ADDR, DEFAULT_SYNC_TIME_FREQ);
         OMEEPROM::writeConst(DATA_UPLOAD_MIN_EPROM_ADDR,

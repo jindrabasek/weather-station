@@ -20,18 +20,17 @@
 
 #include "../ProgramSettings.h"
 #include "WifiWatchdogTask.h"
+#include "../config.h"
 
 uint8_t Network::espStatus = WL_IDLE_STATUS;
 SerialHolderT<HardwareSerial> Network::serial(&Serial2);
 
-void Network::connect(ProgramSettings& settings, bool force) {
+void Network::connect(bool force) {
     initNetwork(force);
 
     if (networkInitialized() && (force || !networkConnected())) {
-        char wifiPasswd[ProgramSettings::WIFI_PASSWD_ARRAY_LENGTH];
-        char wifiSsid[ProgramSettings::WIFI_SSID_ARRAY_LENGTH];
-        settings.loadWifiPasswd(wifiPasswd);
-        settings.loadWifiSsid(wifiSsid);
+        char wifiPasswd[] = WIFI_PASSWORD;
+        char wifiSsid[] = WIFI_SSID;
 
         // attempt to connect to WiFi network
         LOG_INFO1(F("Attempting to connect to SSID:"), wifiSsid);

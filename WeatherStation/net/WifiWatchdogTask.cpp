@@ -48,7 +48,7 @@ void WifiWatchdogTask::run() {
         } else {
             LOG_INFO(F("HW reset not performed, doing SW and connecting..."));
         }
-        Network::connect(state->getSettings(), true);
+        Network::connect(true);
     }
 }
 

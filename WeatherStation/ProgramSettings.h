@@ -18,8 +18,8 @@ public:
 
     static const int WIFI_MAX_PASSWD_LENGTH = 63;
     static const int WIFI_MAX_SSID_LENGTH = 32;
-    static const int WIFI_PASSWD_ARRAY_LENGTH = WIFI_MAX_PASSWD_LENGTH + 1;
-    static const int WIFI_SSID_ARRAY_LENGTH = WIFI_MAX_SSID_LENGTH + 1;
+    static const int DEPRECATED_WIFI_PASSWD_ARRAY_LENGTH = WIFI_MAX_PASSWD_LENGTH + 1;
+    static const int DEPRECATED_WIFI_SSID_ARRAY_LENGTH = WIFI_MAX_SSID_LENGTH + 1;
     static const float DEFAULT_ALTITUDE;
     static const uint8_t DEFAULT_STARTUP_SCREEN = 0;
     static const unsigned int DEFAULT_MEASURE_TEMP_FREQ = 2;
@@ -97,12 +97,12 @@ public:
             MEASURE_PRESSURE_FREQ_EPROM_ADDR + sizeof(unsigned int);
     static const int DISPLAY_DRAW_FREQ_EPROM_ADDR =
             MEASURE_LIGHT_FREQ_EPROM_ADDR + sizeof(unsigned int);
-    static const int WIFI_PASSWORD_EPROM_ADDR = 8 + DISPLAY_DRAW_FREQ_EPROM_ADDR
+    static const int DEPRECATED_WIFI_PASSWORD_EPROM_ADDR = 8 + DISPLAY_DRAW_FREQ_EPROM_ADDR
             + sizeof(unsigned int);
-    static const int WIFI_SSID_EPROM_ADDR = WIFI_PASSWORD_EPROM_ADDR
-            + WIFI_PASSWD_ARRAY_LENGTH;
-    static const int TIME_ZONE_EPROM_ADDR = 8 + WIFI_SSID_EPROM_ADDR
-            + WIFI_SSID_ARRAY_LENGTH;
+    static const int DEPRECATED_WIFI_SSID_EPROM_ADDR = DEPRECATED_WIFI_PASSWORD_EPROM_ADDR
+            + DEPRECATED_WIFI_PASSWD_ARRAY_LENGTH;
+    static const int TIME_ZONE_EPROM_ADDR = 8 + DEPRECATED_WIFI_SSID_EPROM_ADDR
+            + DEPRECATED_WIFI_SSID_ARRAY_LENGTH;
     static const int SYNC_TIME_FREQ_EPROM_ADDR = 1 + TIME_ZONE_EPROM_ADDR
             + sizeof(int);
     static const int DATA_UPLOAD_MIN_EPROM_ADDR = SYNC_TIME_FREQ_EPROM_ADDR
@@ -139,18 +139,6 @@ public:
 
     uint8_t getStartupScreen() const {
         return OMEEPROM::read<uint8_t>(STARTUP_SCREEN_EPROM_ADDR);
-    }
-
-    const void loadWifiPasswd(char result[]) const {
-        for (uint8_t i = 0; i < WIFI_PASSWD_ARRAY_LENGTH; i++) {
-            result[i] = EEPROM.read(WIFI_PASSWORD_EPROM_ADDR + i);
-        }
-    }
-
-    const void loadWifiSsid(char result[]) const {
-        for (uint8_t i = 0; i < WIFI_SSID_ARRAY_LENGTH; i++) {
-            result[i] = EEPROM.read(WIFI_SSID_EPROM_ADDR + i);
-        }
     }
 
     unsigned int getSyncTimeHourFreq() const {

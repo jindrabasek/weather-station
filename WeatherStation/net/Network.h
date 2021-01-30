@@ -14,15 +14,13 @@
 #include <utility/EspDrv.h>
 #include <utility/SerialHolder.h>
 
-#include "../ProgramSettings.h"
-
 class Network {
 private:
     static uint8_t espStatus;
     static SerialHolderT<HardwareSerial> serial;
 
 public:
-    static void connect(ProgramSettings& settings, bool force = false);
+    static void connect(bool force = false);
 
     static bool networkInitialized() {
         return !(espStatus == WL_IDLE_STATUS || espStatus == WL_NO_SHIELD);
